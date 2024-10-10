@@ -1,16 +1,14 @@
 <script>
-	import { page } from '$app/stores';
 	import Attribute from '$lib/components/Attribute.svelte';
 	import { icons } from '$lib/icons';
 
-	const dummyData = {
-		name: 'Maco Köck',
-		mail: 'koeck.maco@johak.at'
-	};
+	//muss definiert werden:
+	export let data;
 </script>
 
-<h1>Kunde {$page.params.kunde}</h1>
-
-{#each Object.entries(dummyData) as [key, value]}
+<!-- die Attribute werden in ein Array nach dem Muster [key, value] umgewandelt und dann gefiltert, damit nicht alle Attribute angezeigt werden: -->
+{#each Object.entries(data).filter((item) => item[0] === 'EMail' || item[0] === 'Name' || item[0] === 'Nachname') as [key, value]}
 	<Attribute {key} {value} icon={icons[key]}></Attribute>
 {/each}
+
+<div>{JSON.stringify(data)}</div>
