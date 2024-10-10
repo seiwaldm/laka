@@ -1,10 +1,14 @@
 <script>
-	import { Button } from '$lib/components/ui/button';
-	function sayHello() {
-		alert('Hello World!');
-	}
+	export let data;
 </script>
 
-<Button variant="outline" on:click={sayHello}>Say Hello</Button>
-<Button>Button</Button>
-<Button variant="destructive">Destructive</Button>
+<h1>Kunden</h1>
+{#each data.kunden as kunde}
+	<a href="/{kunde.id}" class="flex items-center gap-2">
+		<iconify-icon icon="lucide-user" class="text-4xl"></iconify-icon>
+		{kunde.Name}
+		{kunde.Nachname}
+	</a>
+{/each}
+<hr />
+{JSON.stringify(data)}
