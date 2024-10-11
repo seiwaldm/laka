@@ -5,5 +5,7 @@ export const icons = {
     EMail: "lucide-mail",
     Nachname: "lucide-user",
     Telefonnr: "lucide-phone",
+    Straße: "lucide-map",
+    Ort: "lucide-map-pin"
 
 }
