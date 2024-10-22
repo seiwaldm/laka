@@ -10,7 +10,7 @@
 <!-- {JSON.stringify(data)} -->
 
 <!-- die Attribute werden in ein Array nach dem Muster [[key1, value1], [key2, value2], ...] umgewandelt und dann gefiltert, damit nicht alle Attribute angezeigt werden: -->
-{#each Object.entries(data).filter((item) => item[0] === 'EMail' || item[0] === 'Name' || item[0] === 'Nachname' || item[0] === 'Telefonnr') as [key, value]}
+{#each Object.entries(data).filter((item) => item[0] === 'EMail' || item[0] === 'Vorname' || item[0] === 'Nachname' || item[0] === 'Telefonnr') as [key, value]}
 	<Attribute {key} {value} icon={icons[key]}></Attribute>
 {/each}
 
