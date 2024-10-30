@@ -13,3 +13,5 @@
 {#each Object.entries(data).filter((item) => item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Rechnung') as [key, value]}
 	<Attribute {key} {value} icon={icons[key]}></Attribute>
 {/each}
+
+{JSON.stringify(data)}
