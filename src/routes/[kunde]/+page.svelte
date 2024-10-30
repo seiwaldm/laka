@@ -36,7 +36,7 @@
 
 	{#if data.fahrzeuge.items.length > 0}
 		{#each data.fahrzeuge.items as fahrzeug (fahrzeug.id)}
-			<a href="/{$page.params.kunde}/{fahrzeug.id}}" class="flex items-center gap-2 leading-tight">
+			<a href="/{$page.params.kunde}/{fahrzeug.id}" class="flex items-center gap-2 leading-tight">
 				<iconify-icon icon="lucide-car" class="text-4xl"></iconify-icon>
 				{fahrzeug.Marke}
 				{fahrzeug.Modell} <br />EZ: {fahrzeug.Erstzulassung}</a
