@@ -8,7 +8,7 @@
 		<iconify-icon icon="lucide-user" class="text-4xl"></iconify-icon>
 
 		{kunde.Nachname}
-		{kunde.Name}
+		{kunde.Vorname}
 	</a>
 {/each}
 <hr />
