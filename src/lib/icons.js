@@ -6,7 +6,7 @@ export const icons = {
 	Telefonnr: 'lucide-phone',
 	Strasse: 'lucide-map-pin-house',
 	Ort: 'lucide-house',
-	Kennzeichen: 'lucide-check-big',
+	Kennzeichen: 'lucide-check-circle',
 	Marke: 'lucide-car-front',
 	Modell: 'lucide-car-front',
 	Erstzulassung: 'lucide-calendar',
