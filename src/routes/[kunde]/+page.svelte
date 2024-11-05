@@ -14,11 +14,11 @@
 	{data.Vorname}
 </h1> -->
 
-<h1 style="font-size: 2rem; padding-left: 2.5rem; margin-top: 1rem; margin-bottom: 1rem;">Kunde</h1>
+<h1>Kunde</h1>
 
 <!-- die Attribute werden in ein Array nach dem Muster [[key1, value1], [key2, value2], ...] umgewandelt und dann gefiltert, damit nicht alle Attribute angezeigt werden: -->
 
-<div style="padding-left: 2.5rem;">
+<div>
 	{#each Object.entries(data).filter((item) => item[0] === 'Vorname' || item[0] === 'Nachname' || item[0] === 'EMail' || item[0] === 'Telefonnr' || item[0] === 'Strasse' || item[0] === 'Ort') as [key, value]}
 		<div style="margin-bottom: 1rem;">
 			<Attribute {key} {value} icon={icons[key]} />
