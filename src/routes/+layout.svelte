@@ -4,15 +4,15 @@
 
 <!-- sidebar menu -->
 <div class="grid grid-cols-[16rem_1fr]">
-	<nav
+	<!-- <nav
 		id="default-sidebar"
 		class="w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
 		aria-label="Sidebar"
 	>
 		<div class="h-full px-6 py-12 overflow-y-auto bg-gray-700 dark:bg-gray-800">
-			<!-- scr und alt schreiben -->
+			< scr und alt schreiben -->
 
-			<img
+	<!-- <img
 				class="w-10 h-10 rounded-full flex items-center p-2 text-gray-100 dark:text-white hover:bg-grey-950 dark:hover:bg-gray-700 group"
 				scr=""
 				alt="LOGO"
@@ -25,9 +25,9 @@
 					<a
 						href="#"
 						class="flex items-center p-2 text-gray-100 rounded-lg dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700 group"
-					>
-						<!-- Icon -->
-						<svg
+					>  -->
+	<!-- Icon -->
+	<!-- <svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"
 							height="24"
@@ -119,7 +119,7 @@
 				</li>
 			</ul>
 		</div>
-	</nav>
+	</nav> -->
 
 	<slot />
 </div>
