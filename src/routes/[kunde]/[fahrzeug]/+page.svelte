@@ -11,15 +11,13 @@
 <h1>Kunde {$page.params.kunde} > Fahrzeug {$page.params.fahrzeug}</h1>
 <hr />
 
-
-	{#each Object.entries(data).filter((item) => item[0] === 'Vorname' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung') as [key, value]}
-		<Attribute {key} {value} icon={icons[key]}></Attribute>
-	{/each}
+{#each Object.entries(data).filter((item) => item[0] === 'Vorname' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung') as [key, value]}
+	<Attribute {key} {value} icon={icons[key]}></Attribute>
+{/each}
 
 <h1 style="font-size: 2rem; padding-left: 2.5rem; margin-top: 1rem; margin-bottom: 1rem;">
 	Fahrzeug
 </h1>
-
 
 <div style="padding-left: 2.5rem;">
 	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung') as [key, value]}
