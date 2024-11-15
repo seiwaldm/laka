@@ -7,6 +7,36 @@
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
+
+	let vorname = '';
+	let nachname = '';
+	let email = '';
+	let telefonnummer = '';
+	let strasse = '';
+	let ort = '';
+
+	async function createKunde() {
+		const kundenDaten = {
+			vorname,
+			nachname,
+			email,
+			telefonnummer,
+			strasse,
+			ort
+		};
+
+		try {
+			const response = await fetch('./api/create', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(kundenDaten)
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	}
 </script>
 
 <main>
@@ -27,27 +57,47 @@
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
 								<Label for="vorname">Vorname</Label>
-								<Input type="vorname" placeholder="Max" class="max-w-xs" />
+								<Input type="vorname" bind:value={vorname} placeholder="Max" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="<nachname>">Nachname</Label>
-								<Input type="nachname" placeholder="Mustermann" class="max-w-xs" />
+								<Input
+									type="nachname"
+									bind:value={nachname}
+									placeholder="Mustermann"
+									class="max-w-xs"
+								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="email">E-Mail</Label>
-								<Input type="email" placeholder="maxmustermann@gmail.com" class="max-w-xs" />
+								<Input
+									type="email"
+									bind:value={email}
+									placeholder="maxmustermann@gmail.com"
+									class="max-w-xs"
+								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="telefonnummer">Telefonnummer</Label>
-								<Input type="telefonnummer" placeholder="0664 123456" class="max-w-xs" />
+								<Input
+									type="telefonnummer"
+									bind:value={telefonnummer}
+									placeholder="0664 123456"
+									class="max-w-xs"
+								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="strasse">Straße</Label>
-								<Input type="strasse" placeholder="Musterstraße 1" class="max-w-xs" />
+								<Input
+									type="strasse"
+									bind:value={strasse}
+									placeholder="Musterstraße 1"
+									class="max-w-xs"
+								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="ort">Ort</Label>
-								<Input type="ort" placeholder="Musterort" class="max-w-xs" />
+								<Input type="ort" bind:value={ort} placeholder="Musterort" class="max-w-xs" />
 							</div>
 						</div>
 					</form>
@@ -60,7 +110,10 @@
 					>
 						Abbrechen
 					</button>
-					<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2">
+					<button
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={createKunde}
+					>
 						Speichern
 					</button>
 				</Card.Footer>

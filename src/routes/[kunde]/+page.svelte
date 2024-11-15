@@ -12,6 +12,8 @@
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
+
+	
 </script>
 
 <div>
@@ -40,7 +42,7 @@
 					<form>
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
-								<Label for="kennzeichen">Kennezeichen</Label>
+								<Label for="kennzeichen">Kennzeichen</Label>
 								<Input type="kennzeichen" placeholder="JO-123AB" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
