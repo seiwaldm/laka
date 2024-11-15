@@ -10,6 +10,7 @@ export const icons = {
 	Marke: 'lucide-car-front',
 	Modell: 'lucide-car-front',
 	Erstzulassung: 'lucide-calendar',
+	Zulassungsschein: 'lucide-check-circle',
 	Arbeiten: 'lucide-wrench',
 	BildSchaden: 'lucide-image',
 	BildFertig: 'lucide-image',

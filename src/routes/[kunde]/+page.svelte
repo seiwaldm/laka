@@ -53,27 +53,31 @@
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="erstzulassung">Erstzulassung</Label>
-								<Input type="erstzulassung" placeholder="2015-09-05" class="max-w-xs" />
+								<Input type="date" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="zulassungschein">Zulassungschein</Label>
-								<Input type="zulassungschein" placeholder="Foto" class="max-w-xs" />
+								<Input id="zulassungschein" type="file" class="max-w-xs" />
 							</div>
 						</div>
-					</form></Card.Content
-				>
+					</form>
+				</Card.Content>
 
 				<Card.Footer class="flex justify-between">
-					<button class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2">
-						Abrechen</button
+					<button
+						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={() => (showCard = false)}
 					>
-					<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-						>Speichern</button
-					>
+						Abbrechen
+					</button>
+					<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2">
+						Speichern
+					</button>
 				</Card.Footer>
 			</Card.Root>
 		{/if}
 	</div>
+
 	{#if data.fahrzeuge.items.length > 0}
 		{#each data.fahrzeuge.items as fahrzeug (fahrzeug.id)}
 			<a href="/{$page.params.kunde}/{fahrzeug.id}" class="flex items-center gap-2 leading-tight">
