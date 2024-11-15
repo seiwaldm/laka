@@ -3,7 +3,7 @@
 </script>
 
 <!-- sidebar menu -->
-<div class="grid grid-cols-[16rem_1fr]">
+<div class="">
 	<!-- <nav
 		id="default-sidebar"
 		class="w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"

@@ -29,7 +29,7 @@
 		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2 mb-"
 		on:click={() => (showCard = true)}>Fahrzeuganlegung</button
 	>
-	<div class="">
+	<div class="flex flex-col items-center">
 		<!-- Fahrzeuganlegung -->
 		{#if showCard}
 			<Card.Root class="w-[700px]  ">
