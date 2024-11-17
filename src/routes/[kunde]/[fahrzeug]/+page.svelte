@@ -12,27 +12,49 @@
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
+
+	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
+	let showEditForm = false;
 </script>
 
-<h1>Kunde {$page.params.kunde} > Fahrzeug {$page.params.fahrzeug}</h1>
-<hr />
+<!-- Link zu den Seiten -->
+<!-- <h1 class="text-lg mb-2">
+	<a href="/kunden/{$page.params.kunde}" class="text-blue-500 underline">
+		{data.kundeName}
+	</a>
+	<a href="/fahrzeuge/{$page.params.fahrzeug}" class="text-blue-500 underline">
+		{data.fahrzeugName}
+	</a>
+</h1> -->
+<!-- <hr /> -->
 
-<div>
-	<h1>Fahrzeug</h1>
+<div class="pl-5">
+	<h1 class=" pt-10 pb-5 text-2xl font-bold">Fahrzeuginformationen</h1>
 	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung' || item[0] === 'Zulassungsschein') as [key, value]}
 		<div style="margin-bottom: 1rem;">
 			<Attribute {key} {value} icon={icons[key]}></Attribute>
 		</div>
 	{/each}
 
+	<!-- Bearbeiten -->
+	<div class="absolute top-5 right-5">
+		<button
+			class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+			on:click={() => (showEditForm = true)}
+		>
+			Bearbeiten
+		</button>
+	</div>
+
 	<hr />
+
+	<!-- Auftraganlegung -->
 	<button
 		type="button"
 		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2 mb-"
 		on:click={() => (showCard = true)}>Auftraganlegung</button
 	>
 	<div class="flex flex-col items-center">
-		<!-- Auftraganlegung -->
 		{#if showCard}
 			<Card.Root class="w-[700px]  ">
 				<Card.Header>

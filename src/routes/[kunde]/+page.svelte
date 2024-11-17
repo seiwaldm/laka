@@ -12,12 +12,10 @@
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
-
-	
 </script>
 
-<div>
-	<h1>Kunde</h1>
+<div class="pl-5">
+	<h1 class=" pt-10 pb-5 text-2xl font-bold">Kundeninformationen</h1>
 	{#each Object.entries(data).filter((item) => item[0] === 'Vorname' || item[0] === 'Nachname' || item[0] === 'EMail' || item[0] === 'Telefonnr' || item[0] === 'Strasse' || item[0] === 'Ort') as [key, value]}
 		<div style="margin-bottom: 1rem;">
 			<Attribute {key} {value} icon={icons[key]} />
