@@ -26,16 +26,19 @@
 		};
 
 		try {
-			const response = await fetch('./api/create', {
+			const response = await fetch('$api/create/+server', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(kundenDaten)
 			});
+
+			const result = await response.json();
 		} catch (error) {
 			console.error(error);
 		}
+		console.log(kundenDaten);
 	}
 </script>
 

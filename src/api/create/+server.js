@@ -1,12 +1,18 @@
-import PocketBase from 'pocketbase';
+import { pb } from '$lib/pocketbase';
 
-const pb = new PocketBase('https://laka.seiwald.club/');
+export async function POST({ request }) {
+	try {
+		const kundenDaten = await request.json();
 
-export async function POST({ request, cookies }) {
-	const kundenDaten = await request.json();
-	const vorname = cookies.get('vorname');
+		if (!kundenDaten.vorname) {
+			return new Response('Vorname fehlt', { status: 400 });
+		}
 
-	const response = await pb.collection('Kunden').create({
-		Vorname: kundenDaten.vorname
-	});
+		const response = await pb.collection('Kunde').create({
+			Vorname: kundenDaten.vorname
+		});
+		return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
+	} catch (error) {
+		return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
+	}
 }
