@@ -26,7 +26,7 @@
 		};
 
 		try {
-			const response = await fetch('$api/create/+server', {
+			const response = await fetch('/create-client', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
