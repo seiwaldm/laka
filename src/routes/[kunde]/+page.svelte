@@ -12,6 +12,8 @@
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
+	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
+	let showEditForm = false;
 </script>
 
 <div class="pl-5">
@@ -21,6 +23,16 @@
 			<Attribute {key} {value} icon={icons[key]} />
 		</div>
 	{/each}
+
+	<!-- Bearbeiten -->
+	<div class="absolute top-5 right-5">
+		<button
+			class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+			on:click={() => (showEditForm = true)}
+		>
+			Bearbeiten
+		</button>
+	</div>
 
 	<hr />
 
@@ -67,6 +79,58 @@
 					<button
 						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
 						on:click={() => (showCard = false)}
+					>
+						Abbrechen
+					</button>
+					<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2">
+						Speichern
+					</button>
+				</Card.Footer>
+			</Card.Root>
+		{/if}
+	</div>
+
+	<!-- Bearbeitungsfeld -->
+
+	<div class="flex flex-col items-center">
+		{#if showEditForm}
+			<Card.Root class="w-[700px]  ">
+				<Card.Header>
+					<Card.Title>Neues Fahrzeug anlegen</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					<form>
+						{#each data.kunden as kunde (kunde.id)}
+							<div class="grid w-full items-center gap-4">
+								<div class="flex flex-col space-y-1.5">
+									<Label for="vorname">Vorname</Label>
+									<Input type="vorname" placeholder={kunde.Vorname} class="max-w-xs" />
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="marke">Marke</Label>
+									<Input type="marke" placeholder="VW" class="max-w-xs" />
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="modell">Modell</Label>
+									<Input type="modell" placeholder="Golf 7" class="max-w-xs" />
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="erstzulassung">Erstzulassung</Label>
+									<Input type="date" class="max-w-xs" />
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="zulassungschein">Zulassungschein</Label>
+									<Input id="zulassungschein" type="file" class="max-w-xs" />
+								</div>
+							</div>
+						{/each}
+					</form>
+				</Card.Content>
+
+				<Card.Footer class="flex justify-between">
+					<button
+						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={() => (showEditForm = false)}
 					>
 						Abbrechen
 					</button>
