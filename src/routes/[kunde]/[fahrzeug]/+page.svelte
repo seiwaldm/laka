@@ -98,37 +98,37 @@
 		{/if}
 	</div>
 
-	<!-- Bearbeitungsfeld -->
-
+	<!-- Auftragbearbeitung -->
 	<div class="flex flex-col items-center">
 		{#if showEditForm}
 			<Card.Root class="w-[700px]  ">
 				<Card.Header>
-					<Card.Title>Daten bearbeiten</Card.Title>
+					<Card.Title>Fahrzeugdaten bearbeiten</Card.Title>
 				</Card.Header>
 				<Card.Content>
 					<form>
-						{#each data.auftrag.items as Auftrag (Auftrag.id)}
-							<div class="grid w-full items-center gap-4">
-								<div class="flex flex-col space-y-1.5">
-									<Label for="arbeiten">Arbeiten</Label>
-
-									<Input type="arbeiten" placeholder={Auftrag.Arbeiten} class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="bildSchaden">Bild vom Schaden</Label>
-									<Input id="bildSchaden" type="file" class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="bildFertig">Bild vom reparierten Schaden</Label>
-									<Input id="bildFertig" type="file" class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="rechnung">Rechnung</Label>
-									<Input type="rechnung" placeholder="Rechnung erstellen" class="max-w-xs" />
-								</div>
+						<div class="grid w-full items-center gap-4">
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kennzeichen">Kennezeichen</Label>
+								<Input type="kennzeichen" placeholder="." class="max-w-xs" />
 							</div>
-						{/each}
+							<div class="flex flex-col space-y-1.5">
+								<Label for="marke">Marke</Label>
+								<Input id="marke" placeholder="." class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="modell">Modell</Label>
+								<Input id="modell" placeholder="." class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="erstzulassung">Erstzulassung</Label>
+								<Input type="erstzulassung" placeholder="." class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="zulassungschein">Zulassungsschein</Label>
+								<Input type="zulassungschein" placeholder="." class="max-w-xs" />
+							</div>
+						</div>
 					</form>
 				</Card.Content>
 

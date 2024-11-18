@@ -6,6 +6,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+	import AccordionContent from '$lib/components/ui/accordion/accordion-content.svelte';
 
 	//muss definiert werden:
 	export let data;
@@ -138,31 +139,35 @@
 		{#if showEditForm}
 			<Card.Root class="w-[700px]  ">
 				<Card.Header>
-					<Card.Title>Neues Fahrzeug anlegen</Card.Title>
+					<Card.Title>Kundendaten bearbeiten</Card.Title>
 				</Card.Header>
 				<Card.Content>
 					<form>
-						<!-- {#each data.kunde.items as Kunde (Kunde.id)} -->
+						<!-- {#each data.items as Kunde (Kunde.id)} -->
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
 								<Label for="vorname">Vorname</Label>
-								<Input type="vorname" placeholder="" class="max-w-xs" />
+								<Input type="vorname" placeholder={Kunde.Vorname} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
-								<Label for="marke">Marke</Label>
-								<Input type="marke" placeholder="VW" class="max-w-xs" />
+								<Label for="nachname">Nachname</Label>
+								<Input id="nachname" placeholder="." class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
-								<Label for="modell">Modell</Label>
-								<Input type="modell" placeholder="Golf 7" class="max-w-xs" />
+								<Label for="email">E-Mail</Label>
+								<Input id="email" placeholder="." class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
-								<Label for="erstzulassung">Erstzulassung</Label>
-								<Input type="date" class="max-w-xs" />
+								<Label for="telefonnr">Telefonnummer</Label>
+								<Input type="telefonnr" placeholder="." class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
-								<Label for="zulassungschein">Zulassungschein</Label>
-								<Input id="zulassungschein" type="file" class="max-w-xs" />
+								<Label for="strasse">Straße</Label>
+								<Input type="strasse" placeholder="." class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="ort">Ort</Label>
+								<Input type="ort" placeholder="." class="max-w-xs" />
 							</div>
 						</div>
 						<!-- {/each} -->

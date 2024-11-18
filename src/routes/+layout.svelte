@@ -13,7 +13,6 @@
 			<li class="text-lg p-2 hover:bg-slate-900 rounded-lg">Alle Kunden</li>
 			<li class="text-lg p-2 hover:bg-slate-900 rounded-lg">Zuletzt verwendet</li>
 			<li class="text-lg p-2 hover:bg-slate-900 rounded-lg mb-6">Neue anlegen</li>
-
 			<hr />
 			<li class="text-lg p-2 hover:bg-slate-900 rounded-lg mt-6">Filtern</li>
 		</ul>
