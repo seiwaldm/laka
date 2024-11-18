@@ -6,7 +6,7 @@
 <!-- sidebar menu -->
 <div class="flex">
 	<nav class="w-64 h-screen bg-slate-800 text-white flex flex-col items-center py-2">
-		<img src={logo} class="w-32 rounded-full pt-10" alt="foto" />
+		<img src={logo} class="w-32 rounded-full mt-10" alt="foto" />
 		<p class="pt-4 pb-20 text-2xl">LaKa Radstadt</p>
 
 		<ul class="">
