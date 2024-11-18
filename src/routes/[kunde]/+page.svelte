@@ -13,7 +13,36 @@
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
+
 	let showEditForm = false;
+
+	let kennzeichen = '';
+	let marke = '';
+	let modell = '';
+	let erstzulassung = '';
+	let zulassungschein = '';
+
+	async function createFahrzeug() {
+		const fahrzeugDaten = {
+			kennzeichen,
+			marke,
+			modell,
+			erstzulassung,
+			zulassungschein
+		};
+		try {
+			const response = await fetch('/create-client', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(fahrzeugDaten)
+			});
+			const result = await response.json();
+		} catch (error) {
+			console.error(error);
+		}
+	}
 </script>
 
 <div class="pl-5">
@@ -53,7 +82,71 @@
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
 								<Label for="kennzeichen">Kennzeichen</Label>
-								<Input type="kennzeichen" placeholder="JO-123AB" class="max-w-xs" />
+								<Input
+									type="kennzeichen"
+									bind:value={kennzeichen}
+									placeholder="JO-123AB"
+									class="max-w-xs"
+								/>
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="marke">Marke</Label>
+								<Input type="marke" bind:value={marke} placeholder="VW" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="modell">Modell</Label>
+								<Input type="modell" bind:value={modell} placeholder="Golf 7" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="erstzulassung">Erstzulassung</Label>
+								<Input type="date" bind:value={erstzulassung} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="zulassungschein">Zulassungschein</Label>
+								<Input
+									id="zulassungschein"
+									bind:value={zulassungschein}
+									type="file"
+									class="max-w-xs"
+								/>
+							</div>
+						</div>
+					</form>
+				</Card.Content>
+
+				<Card.Footer class="flex justify-between">
+					<button
+						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={() => (showCard = false)}
+					>
+						Abbrechen
+					</button>
+					<button
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={createFahrzeug}
+					>
+						Speichern
+					</button>
+				</Card.Footer>
+			</Card.Root>
+		{/if}
+	</div>
+
+	<!-- Bearbeitungsfeld -->
+
+	<div class="flex flex-col items-center">
+		{#if showEditForm}
+			<Card.Root class="w-[700px]  ">
+				<Card.Header>
+					<Card.Title>Neues Fahrzeug anlegen</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					<form>
+						<!-- {#each data.kunde.items as Kunde (Kunde.id)} -->
+						<div class="grid w-full items-center gap-4">
+							<div class="flex flex-col space-y-1.5">
+								<Label for="vorname">Vorname</Label>
+								<Input type="vorname" placeholder="" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="marke">Marke</Label>
@@ -72,58 +165,7 @@
 								<Input id="zulassungschein" type="file" class="max-w-xs" />
 							</div>
 						</div>
-					</form>
-				</Card.Content>
-
-				<Card.Footer class="flex justify-between">
-					<button
-						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={() => (showCard = false)}
-					>
-						Abbrechen
-					</button>
-					<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2">
-						Speichern
-					</button>
-				</Card.Footer>
-			</Card.Root>
-		{/if}
-	</div>
-
-	<!-- Bearbeitungsfeld -->
-
-	<div class="flex flex-col items-center">
-		{#if showEditForm}
-			<Card.Root class="w-[700px]  ">
-				<Card.Header>
-					<Card.Title>Neues Fahrzeug anlegen</Card.Title>
-				</Card.Header>
-				<Card.Content>
-					<form>
-						{#each data.kunden as kunde (kunde.id)}
-							<div class="grid w-full items-center gap-4">
-								<div class="flex flex-col space-y-1.5">
-									<Label for="vorname">Vorname</Label>
-									<Input type="vorname" placeholder={kunde.Vorname} class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="marke">Marke</Label>
-									<Input type="marke" placeholder="VW" class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="modell">Modell</Label>
-									<Input type="modell" placeholder="Golf 7" class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="erstzulassung">Erstzulassung</Label>
-									<Input type="date" class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="zulassungschein">Zulassungschein</Label>
-									<Input id="zulassungschein" type="file" class="max-w-xs" />
-								</div>
-							</div>
-						{/each}
+						<!-- {/each} -->
 					</form>
 				</Card.Content>
 
