@@ -150,7 +150,7 @@
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="nachname">Nachname</Label>
-								<Input id="nachname" placeholder="." class="max-w-xs" />
+								<Input id="nachname" placeholder={data.Nachname} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="email">E-Mail</Label>
