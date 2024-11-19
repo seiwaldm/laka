@@ -143,11 +143,10 @@
 				</Card.Header>
 				<Card.Content>
 					<form>
-						<!-- {#each data.items as Kunde (Kunde.id)} -->
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
 								<Label for="vorname">Vorname</Label>
-								<Input type="vorname" placeholder={Kunde.Vorname} class="max-w-xs" />
+								<Input type="vorname" placeholder={data.Vorname} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="nachname">Nachname</Label>
@@ -170,7 +169,6 @@
 								<Input type="ort" placeholder="." class="max-w-xs" />
 							</div>
 						</div>
-						<!-- {/each} -->
 					</form>
 				</Card.Content>
 
