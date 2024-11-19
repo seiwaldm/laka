@@ -21,9 +21,9 @@
 </h1> -->
 
 <!-- Bearbeiten Button -->
-<div class="absolute top-5 right-5">
+<div class="relative sm:static sm:mt-0 sm:mb-4">
 	<button
-		class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+		class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 absolute sm:top-16 sm:right-5 top-20 right-5"
 		on:click={() => (showEditForm = true)}
 	>
 		Bearbeiten
