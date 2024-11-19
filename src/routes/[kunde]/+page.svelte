@@ -154,19 +154,19 @@
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="email">E-Mail</Label>
-								<Input id="email" placeholder="." class="max-w-xs" />
+								<Input id="email" placeholder={data.EMail} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="telefonnr">Telefonnummer</Label>
-								<Input type="telefonnr" placeholder="." class="max-w-xs" />
+								<Input type="telefonnr" placeholder={data.Telefonnr} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="strasse">Straße</Label>
-								<Input type="strasse" placeholder="." class="max-w-xs" />
+								<Input type="strasse" placeholder={data.Strasse} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="ort">Ort</Label>
-								<Input type="ort" placeholder="." class="max-w-xs" />
+								<Input type="ort" placeholder={data.Ort} class="max-w-xs" />
 							</div>
 						</div>
 					</form>

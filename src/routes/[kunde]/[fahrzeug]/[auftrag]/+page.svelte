@@ -50,27 +50,25 @@
 			</Card.Header>
 			<Card.Content>
 				<form>
-					{#each data.auftrag.items as Auftrag (Auftrag.id)}
-						<div class="grid w-full items-center gap-4">
-							<div class="flex flex-col space-y-1.5">
-								<Label for="arbeiten">Arbeiten</Label>
+					<div class="grid w-full items-center gap-4">
+						<div class="flex flex-col space-y-1.5">
+							<Label for="arbeiten">Arbeiten</Label>
 
-								<Input type="arbeiten" placeholder={Auftrag.Arbeiten} class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="bildSchaden">Bild vom Schaden</Label>
-								<Input id="bildSchaden" type="file" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="bildFertig">Bild vom reparierten Schaden</Label>
-								<Input id="bildFertig" type="file" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="rechnung">Rechnung</Label>
-								<Input type="rechnung" placeholder="Rechnung erstellen" class="max-w-xs" />
-							</div>
+							<Input type="arbeiten" placeholder="." class="max-w-xs" />
 						</div>
-					{/each}
+						<div class="flex flex-col space-y-1.5">
+							<Label for="bildSchaden">Bild vom Schaden</Label>
+							<Input id="bildSchaden" type="file" class="max-w-xs" />
+						</div>
+						<div class="flex flex-col space-y-1.5">
+							<Label for="bildFertig">Bild vom reparierten Schaden</Label>
+							<Input id="bildFertig" type="file" class="max-w-xs" />
+						</div>
+						<div class="flex flex-col space-y-1.5">
+							<Label for="rechnung">Rechnung</Label>
+							<Input type="rechnung" placeholder="Rechnung erstellen" class="max-w-xs" />
+						</div>
+					</div>
 				</form>
 			</Card.Content>
 
