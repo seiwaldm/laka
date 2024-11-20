@@ -85,7 +85,7 @@
 	>
 	<div class="flex flex-col items-center">
 		{#if showCard}
-			<Card.Root class="w-[700px]  ">
+			<Card.Root class="lg:w-[700px]">
 				<Card.Header>
 					<Card.Title>Neuen Auftrag anlegen</Card.Title>
 				</Card.Header>
@@ -143,7 +143,7 @@
 	<!-- Auftragbearbeitung -->
 	<div class="flex flex-col items-center">
 		{#if showEditForm}
-			<Card.Root class="w-[700px]  ">
+			<Card.Root class="lg:w-[700px]">
 				<Card.Header>
 					<Card.Title>Fahrzeugdaten bearbeiten</Card.Title>
 				</Card.Header>

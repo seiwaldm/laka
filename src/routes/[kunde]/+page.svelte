@@ -78,7 +78,7 @@
 	<div class="flex flex-col items-center">
 		<!-- Fahrzeuganlegung -->
 		{#if showCard}
-			<Card.Root class="w-[700px]  ">
+			<Card.Root class="lg:w-[700px]">
 				<Card.Header>
 					<Card.Title>Neues Fahrzeug anlegen</Card.Title>
 				</Card.Header>
@@ -141,7 +141,7 @@
 
 	<div class="flex flex-col items-center">
 		{#if showEditForm}
-			<Card.Root class="w-[700px]  ">
+			<Card.Root class="lg:w-[700px]">
 				<Card.Header>
 					<Card.Title>Kundendaten bearbeiten</Card.Title>
 				</Card.Header>

@@ -44,7 +44,7 @@
 
 <div class="flex flex-col items-center">
 	{#if showEditForm}
-		<Card.Root class="w-[700px]  ">
+		<Card.Root class="lg:w-[700px]">
 			<Card.Header>
 				<Card.Title>Auftragsdaten bearbeiten</Card.Title>
 			</Card.Header>

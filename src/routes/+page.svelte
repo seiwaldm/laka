@@ -51,7 +51,7 @@
 	<div class="flex flex-col items-center">
 		<!-- Kundenanlegung -->
 		{#if showCard}
-			<Card.Root class="w-[700px]">
+			<Card.Root class="lg:w-[700px]">
 				<Card.Header>
 					<Card.Title>Neuen Kunden anlegen</Card.Title>
 				</Card.Header>
