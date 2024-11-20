@@ -54,7 +54,7 @@
 						<div class="flex flex-col space-y-1.5">
 							<Label for="arbeiten">Arbeiten</Label>
 
-							<Input type="arbeiten" placeholder="." class="max-w-xs" />
+							<Input type="arbeiten" placeholder={data.auftrag.Arbeiten} class="max-w-xs" />
 						</div>
 						<div class="flex flex-col space-y-1.5">
 							<Label for="bildSchaden">Bild vom Schaden</Label>
@@ -66,7 +66,7 @@
 						</div>
 						<div class="flex flex-col space-y-1.5">
 							<Label for="rechnung">Rechnung</Label>
-							<Input type="rechnung" placeholder="Rechnung erstellen" class="max-w-xs" />
+							<Input type="rechnung" placeholder={data.auftrag.Rechnung} class="max-w-xs" />
 						</div>
 					</div>
 				</form>

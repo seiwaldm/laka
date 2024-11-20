@@ -110,25 +110,33 @@
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
 								<Label for="kennzeichen">Kennzeichen</Label>
-								<Input type="kennzeichen" placeholder={data.Kennzeichen} class="max-w-xs" />
+								<Input
+									type="kennzeichen"
+									placeholder={data.fahrzeuge.Kennzeichen}
+									class="max-w-xs"
+								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="marke">Marke</Label>
-								<Input id="marke" placeholder={data.Marke} class="max-w-xs" />
+								<Input id="marke" placeholder={data.fahrzeuge.Marke} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="modell">Modell</Label>
-								<Input id="modell" placeholder={data.Modell} class="max-w-xs" />
+								<Input id="modell" placeholder={data.fahrzeuge.Modell} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="erstzulassung">Erstzulassung</Label>
-								<Input type="erstzulassung" placeholder={data.Erstzulassung} class="max-w-xs" />
+								<Input
+									type="erstzulassung"
+									placeholder={data.fahrzeuge.Erstzulassung}
+									class="max-w-xs"
+								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="zulassungschein">Zulassungsschein</Label>
 								<Input
 									type="zulassungschein"
-									placeholder={data.Zulassungsschein}
+									placeholder={data.fahrzeuge.Zulassungsschein}
 									class="max-w-xs"
 								/>
 							</div>
