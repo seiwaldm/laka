@@ -17,6 +17,7 @@
 
 	async function createKunde() {
 		const kundenDaten = {
+			action: 'createKunde',
 			vorname,
 			nachname,
 			email,
@@ -33,7 +34,6 @@
 				},
 				body: JSON.stringify(kundenDaten)
 			});
-
 			const result = await response.json();
 		} catch (error) {
 			console.error(error);

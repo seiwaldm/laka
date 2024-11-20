@@ -15,6 +15,35 @@
 
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
 	let showEditForm = false;
+
+	let arbeiten = '';
+	let bildSchaden = '';
+	let bildFertig = '';
+	let rechnung = '';
+	let fahrzeugid = $page.params.fahrzeug;
+
+	async function createAuftrag() {
+		const auftragDaten = {
+			action: 'createAuftrag',
+			arbeiten,
+			bildSchaden,
+			bildFertig,
+			rechnung,
+			fahrzeugid
+		};
+		try {
+			const response = await fetch('/create-client', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(auftragDaten)
+			});
+		} catch (error) {
+			console.error(error);
+		}
+		console.log(auftragDaten);
+	}
 </script>
 
 <!-- Link zu den Seiten -->
@@ -65,19 +94,29 @@
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
 								<Label for="arbeiten">Arbeiten</Label>
-								<Input type="arbeiten" placeholder="Arbeiten an..." class="max-w-xs" />
+								<Input
+									type="arbeiten"
+									bind:value={arbeiten}
+									placeholder="Arbeiten an..."
+									class="max-w-xs"
+								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="bildSchaden">Bild vom Schaden</Label>
-								<Input id="bildSchaden" type="file" class="max-w-xs" />
+								<Input id="bildSchaden" bind:value={bildSchaden} type="file" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="bildFertig">Bild vom reparierten Schaden</Label>
-								<Input id="bildFertig" type="file" class="max-w-xs" />
+								<Input id="bildFertig" bind:value={bildFertig} type="file" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="rechnung">Rechnung</Label>
-								<Input type="rechnung" placeholder="Rechnung erstellen" class="max-w-xs" />
+								<Input
+									type="rechnung"
+									bind:value={rechnung}
+									placeholder="Rechnung erstellen"
+									class="max-w-xs"
+								/>
 							</div>
 						</div>
 					</form>
@@ -90,7 +129,10 @@
 					>
 						Abbrechen
 					</button>
-					<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2">
+					<button
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={createAuftrag}
+					>
 						Speichern
 					</button>
 				</Card.Footer>

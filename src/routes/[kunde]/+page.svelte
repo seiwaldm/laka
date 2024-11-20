@@ -22,14 +22,17 @@
 	let modell = '';
 	let erstzulassung = '';
 	let zulassungschein = '';
+	let kundenid = $page.params.kunde;
 
 	async function createFahrzeug() {
 		const fahrzeugDaten = {
+			action: 'createFahrzeug',
 			kennzeichen,
 			marke,
 			modell,
 			erstzulassung,
-			zulassungschein
+			zulassungschein,
+			kundenid
 		};
 		try {
 			const response = await fetch('/create-client', {
@@ -43,6 +46,7 @@
 		} catch (error) {
 			console.error(error);
 		}
+		console.log(fahrzeugDaten);
 	}
 </script>
 
