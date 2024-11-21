@@ -2,23 +2,54 @@
 	import { page } from '$app/stores';
 	import Attribute from '$lib/components/Attribute.svelte';
 	import { icons } from '$lib/icons';
-
+	import { browser } from '$app/environment';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 
+	import 'iconify-icon';
+	import { onMount } from 'svelte';
+
 	export let data;
+
+	let cloudinaryWidget = null;
+	function openCloudinaryWidget() {
+		if (cloudinaryWidget) cloudinaryWidget.open();
+	}
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
 
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
 	let showEditForm = false;
+
+	onMount(() => {
+		cloudinaryWidget = cloudinary.createUploadWidget(
+			{
+				cloudName: 'seiwaldm',
+				uploadPreset: 'zqnhbbpy'
+			},
+			(error, result) => {
+				if (!error && result && result.event === 'success') {
+					console.log('Done! Here is the image info: ', result.info);
+				}
+			}
+		);
+	});
 </script>
+
+<svelte:head>
+	<script
+		src="https://upload-widget.cloudinary.com/latest/global/all.js"
+		type="text/javascript"
+	></script>
+</svelte:head>
 
 <!-- <h1>
 	Kunde {$page.params.kunde} > Fahrzeug {$page.params.fahrzeug} > Auftrag {$page.params.auftrag}
 </h1> -->
+
+<button on:click={openCloudinaryWidget}><iconify-icon icon="lucide:camera"></iconify-icon></button>
 
 <!-- Bearbeiten Button -->
 <div class="relative sm:static sm:mt-0 sm:mb-4">
