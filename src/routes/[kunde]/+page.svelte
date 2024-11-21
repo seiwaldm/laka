@@ -10,6 +10,7 @@
 
 	//muss definiert werden:
 	export let data;
+	let datenfelder = ['Vorname', 'Nachname', 'EMail', 'Telefonnr', 'Strasse', 'Ort'];
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
@@ -52,7 +53,9 @@
 
 <div class="pl-5">
 	<h1 class=" pt-10 pb-5 text-2xl font-bold">Kundeninformationen</h1>
-	{#each Object.entries(data).filter((item) => item[0] === 'Vorname' || item[0] === 'Nachname' || item[0] === 'EMail' || item[0] === 'Telefonnr' || item[0] === 'Strasse' || item[0] === 'Ort') as [key, value]}
+	{#each Object.entries(data)
+		.filter((item) => datenfelder.includes(item[0]))
+		.sort((a, b) => datenfelder.indexOf(a[0]) - datenfelder.indexOf(b[0])) as [key, value]}
 		<div style="margin-bottom: 1rem;">
 			<Attribute {key} {value} icon={icons[key]} />
 		</div>
