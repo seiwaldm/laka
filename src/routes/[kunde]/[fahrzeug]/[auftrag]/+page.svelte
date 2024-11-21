@@ -1,8 +1,7 @@
 <script>
-	import { page } from '$app/stores';
 	import Attribute from '$lib/components/Attribute.svelte';
 	import { icons } from '$lib/icons';
-	import { browser } from '$app/environment';
+
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -12,19 +11,8 @@
 
 	export let data;
 
-	let cloudinaryWidget = null;
 	function openCloudinaryWidget() {
-		if (cloudinaryWidget) cloudinaryWidget.open();
-	}
-
-	// Zustand für die Sichbarkeit der Card definieren
-	let showCard = false;
-
-	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
-	let showEditForm = false;
-
-	onMount(() => {
-		cloudinaryWidget = cloudinary.createUploadWidget(
+		let cloudinaryWidget = cloudinary.createUploadWidget(
 			{
 				cloudName: 'seiwaldm',
 				uploadPreset: 'zqnhbbpy'
@@ -35,7 +23,15 @@
 				}
 			}
 		);
-	});
+
+		cloudinaryWidget.open();
+	}
+
+	// Zustand für die Sichbarkeit der Card definieren
+	let showCard = false;
+
+	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
+	let showEditForm = false;
 </script>
 
 <svelte:head>
