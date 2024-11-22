@@ -14,5 +14,17 @@ export const icons = {
 	Arbeiten: 'lucide-wrench',
 	BildSchaden: 'lucide-image',
 	BildFertig: 'lucide-image',
-	Rechnung: 'lucide-euro'
+	Rechnung: 'lucide-euro',
+	Kundennr: 'lucide-hash',
+	Firma: 'lucide-building-2',
+	PLZ: 'lucide-house',
+	FIN: 'lucide-hash',
+	KMStand: 'lucide-hash',
+	Hubraum: 'lucide-car-front',
+	Nat_Code: 'lucide-hash',
+	Pickerl: 'lucide-check-circle',
+	PS: 'lucide-car-front',
+	KW: 'lucide-car-front',
+	Motorcode: 'lucide-hash',
+	Kraftstoff: 'lucide-fuel'
 };

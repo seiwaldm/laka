@@ -10,7 +10,17 @@
 
 	//muss definiert werden:
 	export let data;
-	let datenfelder = ['Vorname', 'Nachname', 'EMail', 'Telefonnr', 'Strasse', 'Ort'];
+	let datenfelder = [
+		'Kundennr',
+		'Firma',
+		'Vorname',
+		'Nachname',
+		'EMail',
+		'Telefonnr',
+		'Strasse',
+		'PLZ',
+		'Ort'
+	];
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
@@ -23,6 +33,13 @@
 	let modell = '';
 	let erstzulassung = '';
 	let zulassungschein = '';
+	let fin = '';
+	let natcode = '';
+	let kmstand = '';
+	let hubraum = '';
+	let kw = '';
+	let ps = '';
+	let pickerl = '';
 	let kundenid = $page.params.kunde;
 
 	async function createFahrzeug() {
@@ -51,7 +68,7 @@
 	}
 </script>
 
-<!-- Link zu den Seiten -->
+<!-- Link zu den verschiedenen Seiten -->
 <h1 class="text-base pl-5 flex items-center my-5">
 	<!-- Mobile und Tablet Design -->
 	<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block lg:hidden"></iconify-icon>
@@ -68,7 +85,7 @@
 <hr />
 
 <div class="pl-5">
-	<h1 class=" pt-10 pb-5 text-2xl font-bold">Kundeninformationen</h1>
+	<h1 class=" my-5 text-2xl font-bold">Kundeninformationen</h1>
 	{#each Object.entries(data)
 		.filter((item) => datenfelder.includes(item[0]))
 		.sort((a, b) => datenfelder.indexOf(a[0]) - datenfelder.indexOf(b[0])) as [key, value]}
@@ -88,14 +105,14 @@
 	</div>
 
 	<hr />
-
+	<!-- Fahrzeuganlegung Button -->
 	<button
 		type="button"
 		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2 mb-"
 		on:click={() => (showCard = true)}>Fahrzeuganlegung</button
 	>
+	<!-- Fahrzeuganlegung -->
 	<div class="flex flex-col items-center">
-		<!-- Fahrzeuganlegung -->
 		{#if showCard}
 			<Card.Root class="lg:w-[700px]">
 				<Card.Header>
@@ -114,6 +131,14 @@
 								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
+								<Label for="fin">Fahrzeugidentennummer</Label>
+								<Input type="fin" bind:value={fin} placeholder="J123456789P" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="natcode">Nationaler Code</Label>
+								<Input type="natcode" bind:value={natcode} placeholder="J189P" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
 								<Label for="marke">Marke</Label>
 								<Input type="marke" bind:value={marke} placeholder="VW" class="max-w-xs" />
 							</div>
@@ -124,6 +149,28 @@
 							<div class="flex flex-col space-y-1.5">
 								<Label for="erstzulassung">Erstzulassung</Label>
 								<Input type="date" bind:value={erstzulassung} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kmstand">Kilometer Stand</Label>
+								<Input type="kmstand" bind:value={kmstand} placeholder="100000" class="max-w-xs" />
+							</div>
+
+							<div class="flex flex-col space-y-1.5">
+								<Label for="hubraum">Hubraum</Label>
+								<Input type="hubraum" bind:value={hubraum} placeholder="80" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kw">KW</Label>
+								<Input type="kw" bind:value={kw} placeholder="70" class="max-w-xs" />
+							</div>
+
+							<div class="flex flex-col space-y-1.5">
+								<Label for="ps">PS</Label>
+								<Input type="ps" bind:value={ps} placeholder="95" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="pickerl">Pickerl</Label>
+								<Input type="date" bind:value={pickerl} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="zulassungschein">Zulassungschein</Label>
@@ -157,7 +204,6 @@
 	</div>
 
 	<!-- Bearbeitungsfeld -->
-
 	<div class="flex flex-col items-center">
 		{#if showEditForm}
 			<Card.Root class="lg:w-[700px]">

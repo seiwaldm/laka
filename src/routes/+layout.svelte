@@ -35,7 +35,9 @@
 	</div>
 
 	<!-- Sidebar für Desktop -->
-	<div class="hidden lg:flex flex-col w-64 text-white bg-slate-800 p-2 items-center">
+	<div
+		class="hidden lg:flex flex-col w-64 text-white bg-slate-800 top-0 fixed left-0 h-full p-2 items-center"
+	>
 		<img src={logo} class="w-32 rounded-full mt-10" alt="foto" />
 		<p class="pt-4 pb-20 text-2xl">LaKa Radstadt</p>
 		<div class="flex flex-col">
@@ -50,7 +52,7 @@
 	</div>
 
 	<!-- Daten -->
-	<div class="flex-1 bg-white p-4">
+	<div class="flex-1 lg:ml-64 bg-white p-4">
 		<slot />
 	</div>
 </nav>

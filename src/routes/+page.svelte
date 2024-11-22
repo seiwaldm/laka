@@ -14,6 +14,9 @@
 	let telefonnummer = '';
 	let strasse = '';
 	let ort = '';
+	let plz = '';
+	let kundenr = '';
+	let firma = '';
 
 	async function createKunde() {
 		const kundenDaten = {
@@ -43,11 +46,19 @@
 </script>
 
 <main>
-	<button
-		type="button"
-		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2 mb-"
-		on:click={() => (showCard = true)}>Kundenanlegung</button
-	>
+	<h1 class="text-base pl-5 flex items-center my-5">
+		<!-- Mobile und Desktop Design -->
+		Startseite
+	</h1>
+	<hr />
+	<h1 class=" my-5 pl-5 text-2xl font-bold">Alle Kunden</h1>
+	<div class="pl-5">
+		<button
+			type="button"
+			class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2"
+			on:click={() => (showCard = true)}>Kundenanlegung</button
+		>
+	</div>
 	<div class="flex flex-col items-center">
 		<!-- Kundenanlegung -->
 		{#if showCard}
@@ -58,6 +69,14 @@
 				<Card.Content>
 					<form>
 						<div class="grid w-full items-center gap-4">
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kundennr">Kundennummer</Label>
+								<Input type="kundennr" bind:value={kundenr} placeholder="1000" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="firma">Firma</Label>
+								<Input type="firma" bind:value={firma} placeholder="Musterfirma" class="max-w-xs" />
+							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="vorname">Vorname</Label>
 								<Input type="vorname" bind:value={vorname} placeholder="Max" class="max-w-xs" />
@@ -99,6 +118,10 @@
 								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
+								<Label for="plz">Postleitzahl</Label>
+								<Input type="plz" bind:value={plz} placeholder="Musterplz" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
 								<Label for="ort">Ort</Label>
 								<Input type="ort" bind:value={ort} placeholder="Musterort" class="max-w-xs" />
 							</div>
@@ -125,7 +148,7 @@
 	</div>
 
 	{#each data.kunden as kunde (kunde.id)}
-		<a href="/{kunde.id}" class="flex items-center gap-2">
+		<a href="/{kunde.id}" class="flex items-center gap-2 pl-5">
 			<iconify-icon icon="lucide-user" class="text-4xl"></iconify-icon>
 
 			{kunde.Nachname}

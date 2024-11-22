@@ -66,8 +66,8 @@
 <hr />
 
 <div class="pl-5">
-	<h1 class=" pt-10 pb-5 text-2xl font-bold">Fahrzeuginformationen</h1>
-	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung' || item[0] === 'Zulassungsschein') as [key, value]}
+	<h1 class=" my-5 text-2xl font-bold">Fahrzeuginformationen</h1>
+	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'FIN' || item[0] === 'Nat_Code' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung' || item[0] === 'KMStand' || item[0] === 'Hubraum' || item[0] === 'PS' || item[0] === 'KW' || item[0] === 'Pickerl' || item[0] === 'Motorcode' || item[0] === 'Kraftstoff' || item[0] === 'Zulassungsschein') as [key, value]}
 		<div style="margin-bottom: 1rem;">
 			<Attribute {key} {value} icon={icons[key]}></Attribute>
 		</div>
