@@ -1,4 +1,5 @@
 <script>
+	import { page } from '$app/stores';
 	import Attribute from '$lib/components/Attribute.svelte';
 	import { icons } from '$lib/icons';
 
@@ -41,9 +42,29 @@
 	></script>
 </svelte:head>
 
-<!-- <h1>
-	Kunde {$page.params.kunde} > Fahrzeug {$page.params.fahrzeug} > Auftrag {$page.params.auftrag}
-</h1> -->
+<h1 class="text-base pl-5 flex items-center my-5">
+	<!-- Mobile und Tablet Design -->
+	<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block lg:hidden"></iconify-icon>
+	<a href="/{$page.params.kunde}/{$page.params.fahrzeug}" class="hover:underline block lg:hidden">
+		Zurück
+	</a>
+
+	<!-- Desktop Design ) -->
+	<div class="hidden lg:flex items-center">
+		<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
+		<a href="/" class="hover:underline">Startseite </a>
+		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
+		<a href="/{$page.params.kunde}" class="hover:underline">Kunde {data.Nachname}</a>
+		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
+		<a href="/{$page.params.kunde}/{$page.params.fahrzeug}" class="hover:underline">
+			Fahrzeug {data.fahrzeuge.Marke}
+		</a>
+		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
+		Auftrag {data.auftrag.Arbeiten}
+	</div>
+</h1>
+
+<hr />
 
 <button on:click={openCloudinaryWidget}><iconify-icon icon="lucide:camera"></iconify-icon></button>
 

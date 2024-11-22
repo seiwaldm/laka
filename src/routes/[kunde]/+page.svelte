@@ -51,6 +51,22 @@
 	}
 </script>
 
+<!-- Link zu den Seiten -->
+<h1 class="text-base pl-5 flex items-center my-5">
+	<!-- Mobile und Tablet Design -->
+	<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block lg:hidden"></iconify-icon>
+	<a href="/" class="hover:underline block lg:hidden"> Zurück </a>
+
+	<!-- Desktop Design (ab 1024px / lg-Breakpoint) -->
+	<div class="hidden lg:flex items-center">
+		<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
+		<a href="/" class="hover:underline">Startseite </a>
+		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
+		Kunde {data.Nachname}
+	</div>
+</h1>
+<hr />
+
 <div class="pl-5">
 	<h1 class=" pt-10 pb-5 text-2xl font-bold">Kundeninformationen</h1>
 	{#each Object.entries(data)
