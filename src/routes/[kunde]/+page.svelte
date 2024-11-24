@@ -29,28 +29,45 @@
 	let showEditForm = false;
 
 	let kennzeichen = '';
+	let fin = '';
+	let natCode = '';
 	let marke = '';
 	let modell = '';
 	let erstzulassung = '';
-	let zulassungschein = '';
-	let fin = '';
-	let natcode = '';
 	let kmstand = '';
 	let hubraum = '';
 	let kw = '';
 	let ps = '';
 	let pickerl = '';
+	let zulassungschein = '';
 	let kundenid = $page.params.kunde;
+	let motorcode = '';
+	let kraftstoff = '';
+	let tachostand = '';
+	let tatKilometer = '';
+	let farbcode = '';
 
 	async function createFahrzeug() {
 		const fahrzeugDaten = {
 			action: 'createFahrzeug',
 			kennzeichen,
+			fin,
+			natCode,
 			marke,
 			modell,
 			erstzulassung,
+			kmstand,
+			hubraum,
+			kw,
+			ps,
+			pickerl,
 			zulassungschein,
-			kundenid
+			kundenid,
+			motorcode,
+			kraftstoff,
+			tachostand,
+			tatKilometer,
+			farbcode
 		};
 		try {
 			const response = await fetch('/create-client', {
@@ -136,7 +153,7 @@
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="natcode">Nationaler Code</Label>
-								<Input type="natcode" bind:value={natcode} placeholder="J189P" class="max-w-xs" />
+								<Input type="natcode" bind:value={natCode} placeholder="J189P" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="marke">Marke</Label>
@@ -180,6 +197,26 @@
 									type="file"
 									class="max-w-xs"
 								/>
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="motorcode">Motorcode</Label>
+								<Input type="motorcode" bind:value={motorcode} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kraftstoff">Kraftstoff</Label>
+								<Input type="kraftstoff" bind:value={kraftstoff} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="tachostand">Tachostand</Label>
+								<Input type="tachostand" bind:value={tachostand} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="tatKilometer">Tatsächliche Kilometer</Label>
+								<Input type="tatKilometer" bind:value={tatKilometer} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="farbcode">Farbcode</Label>
+								<Input type="farbcode" bind:value={farbcode} class="max-w-xs" />
 							</div>
 						</div>
 					</form>

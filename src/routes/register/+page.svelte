@@ -3,33 +3,40 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { pb } from '$lib/pocketbase';
-	import { error } from '@sveltejs/kit';
 
+	let username = '';
 	let email = '';
-	let passwort = '';
-	let passwortBestätigen = '';
-	let vornamen = '';
-	let nachnamen = '';
+	let password = '';
+	let passwordConfirm = '';
+	let vorname = '';
+	let nachname = '';
+	let telefonnr = '';
 	let errorMessage = '';
 
 	async function registerUser() {
 		errorMessage = '';
-		if (passwort !== passwortBestätigen) {
+		if (password !== passwordConfirm) {
 			errorMessage = 'Passwörter stimmen nicht überein';
 			return;
 		}
 
 		try {
 			const user = await pb.collection('users').create({
+				username,
 				email,
-				passwort,
-				passwortBestätigen,
-				vornamen,
-				nachnamen,
-				isAdmin: false
+				emailVisibility: true,
+				password,
+				passwordConfirm,
+				Vorname: vorname,
+				Nachname: nachname,
+				Telefonnr: telefonnr
 			});
-		} catch (error) {
-			console.error(error);
+			const record = await pb.collection('users').create(data);
+			await pb.collection('users').requestVerification(email);
+			console.log('Benutzer erfolgreich registiert!', user);
+		} catch (err) {
+			errorMessage = err.message || 'Ein Fehler ist aufgetreten';
+			console.error('Fehler bei der Registrierung:', err);
 		}
 	}
 </script>
@@ -44,20 +51,18 @@
 				<div class="grid w-full items-center gap-4">
 					<div class="flex flex-col space-y-1.5">
 						<Label for="email">E-Mail</Label>
-
-						<Input type="email" bind:value={email} placeholder="" class="max-w-xs" />
+						<Input type="email" id="email" bind:value={email} placeholder="" class="max-w-xs" />
 					</div>
 					<div class="flex flex-col space-y-1.5">
-						<Label for="<passwort>">Passwort</Label>
-
-						<Input type="password" id="passwort" bind:value={passwort} class="max-w-xs" />
+						<Label for="<password>">Passwort</Label>
+						<Input type="password" id="password" bind:value={password} class="max-w-xs" />
 					</div>
 					<div class="flex flex-col space-y-1.5">
-						<Label for="passwortBestätigen">Passwort wiederholen</Label>
+						<Label for="passwortBestaetigen">Passwort wiederholen</Label>
 						<Input
 							type="password"
-							id="passwortBestätigung"
-							bind:value={passwortBestätigen}
+							id="passwordConfirm"
+							bind:value={passwordConfirm}
 							class="max-w-xs"
 						/>
 					</div>

@@ -13,16 +13,16 @@ export async function POST({ request }) {
 			if (!data.nachname) {
 				return new Response('Nachname fehlt', { status: 400 });
 			}
-			if (!data.telefonnummer) {
-				return new Response('Telefonnummer fehlt', { status: 400 });
-			}
 
 			const response = await pb.collection('Kunde').create({
+				Kundennr: data.kundennr,
+				Firma: data.firma,
 				Vorname: data.vorname,
 				Nachname: data.nachname,
 				EMail: data.email,
 				Telefonnr: data.telefonnummer,
 				Strasse: data.strasse,
+				PLZ: data.plz,
 				Ort: data.ort
 			});
 
@@ -46,11 +46,23 @@ export async function POST({ request }) {
 
 			const response = await pb.collection('Fahrzeug').create({
 				Kennzeichen: data.kennzeichen,
+				FIN: data.fin,
+				Nat_Code: data.natCode,
 				Marke: data.marke,
 				Modell: data.modell,
 				Erstzulassung: data.erstzulassung,
+				KMStand: data.kmstand,
+				Hubraum: data.hubraum,
+				KW: data.kw,
+				PS: data.ps,
+				Pickerl: data.pickerl,
 				Zulassungsschein: data.zulassungsschein,
-				KundenID: data.kundenid
+				KundenID: data.kundenid,
+				Motorcode: data.motorcode,
+				Kraftstoff: data.kraftstoff,
+				Tachostand: data.tachostand,
+				tatsaechl_Kilometerstand: data.tatKilometer,
+				Farbcode: data.farbcode
 			});
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
@@ -65,6 +77,7 @@ export async function POST({ request }) {
 				BildSchaden: data.bildSchaden,
 				BildFertig: data.bildFertig,
 				Rechnung: data.rechnung,
+				Auftragnummer: data.auftragnummer,
 				FahrzeugID: data.fahrzeugid
 			});
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });

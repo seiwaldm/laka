@@ -8,24 +8,30 @@
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
 
+	let kundennr = '';
+	let firma = '';
 	let vorname = '';
 	let nachname = '';
 	let email = '';
 	let telefonnummer = '';
 	let strasse = '';
-	let ort = '';
 	let plz = '';
-	let kundenr = '';
-	let firma = '';
+	let ort = '';
+
+	
+
 
 	async function createKunde() {
 		const kundenDaten = {
 			action: 'createKunde',
+			kundennr,
+			firma,
 			vorname,
 			nachname,
 			email,
 			telefonnummer,
 			strasse,
+			plz,
 			ort
 		};
 
@@ -71,7 +77,7 @@
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
 								<Label for="kundennr">Kundennummer</Label>
-								<Input type="kundennr" bind:value={kundenr} placeholder="1000" class="max-w-xs" />
+								<Input type="kundennr" bind:value={kundennr} placeholder="1000" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="firma">Firma</Label>

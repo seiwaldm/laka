@@ -20,6 +20,7 @@
 	let bildSchaden = '';
 	let bildFertig = '';
 	let rechnung = '';
+	let auftragnr = '';
 	let fahrzeugid = $page.params.fahrzeug;
 
 	async function createAuftrag() {
@@ -29,6 +30,7 @@
 			bildSchaden,
 			bildFertig,
 			rechnung,
+			auftragnr,
 			fahrzeugid
 		};
 		try {
@@ -101,30 +103,36 @@
 					<form>
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
-								<Label for="arbeiten">Arbeiten</Label>
-								<Input
-									type="arbeiten"
-									bind:value={arbeiten}
-									placeholder="Arbeiten an..."
-									class="max-w-xs"
-								/>
+								<Label for="arbeiten">Auftragnummer</Label>
+								<Input type="auftragnr" bind:value={auftragnr} placeholder="100" class="max-w-xs" />
 							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="bildSchaden">Bild vom Schaden</Label>
-								<Input id="bildSchaden" bind:value={bildSchaden} type="file" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="bildFertig">Bild vom reparierten Schaden</Label>
-								<Input id="bildFertig" bind:value={bildFertig} type="file" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="rechnung">Rechnung</Label>
-								<Input
-									type="rechnung"
-									bind:value={rechnung}
-									placeholder="Rechnung erstellen"
-									class="max-w-xs"
-								/>
+							<div class="grid w-full items-center gap-4">
+								<div class="flex flex-col space-y-1.5">
+									<Label for="arbeiten">Arbeiten</Label>
+									<Input
+										type="arbeiten"
+										bind:value={arbeiten}
+										placeholder="Arbeiten an..."
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="bildSchaden">Bild vom Schaden</Label>
+									<Input id="bildSchaden" bind:value={bildSchaden} type="file" class="max-w-xs" />
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="bildFertig">Bild vom reparierten Schaden</Label>
+									<Input id="bildFertig" bind:value={bildFertig} type="file" class="max-w-xs" />
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="rechnung">Rechnung</Label>
+									<Input
+										type="rechnung"
+										bind:value={rechnung}
+										placeholder="Rechnung erstellen"
+										class="max-w-xs"
+									/>
+								</div>
 							</div>
 						</div>
 					</form>
