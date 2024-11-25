@@ -69,8 +69,20 @@
 
 <div class="pl-5">
 	<h1 class="my-5 text-2xl font-bold">Fahrzeuginformationen</h1>
-	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'FIN' || item[0] === 'Nat_Code' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung' || item[0] === 'KMStand' || item[0] === 'Hubraum' || item[0] === 'PS' || item[0] === 'KW' || item[0] === 'Pickerl' || item[0] === 'Motorcode' || item[0] === 'Kraftstoff' || item[0] === 'Farbcode' || item[0] === 'Zulassungsschein') as [key, value]}
-		<div class="mb-4 flex items-center relative">
+	<!-- Unterüberschrift 1 -->
+	<h2 class="text-lg font-bold mb-4">Basisdaten</h2>
+	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'FIN' || item[0] === 'Nat_Code' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung' || item[0] === 'Pickerl') as [key, value]}
+		<div class="mb-4 flex items-center relative ml-6">
+			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
+			<span class="font-bold">{key}:</span>
+			<span class="absolute left-48">{value}</span>
+		</div>
+	{/each}
+
+	<!-- Unterüberschrift 2 -->
+	<h2 class="text-lg font-bold mt-6 mb-4">Technik</h2>
+	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'KMStand' || item[0] === 'Hubraum' || item[0] === 'KW' || item[0] === 'Farbcode' || item[0] === 'Motorcode' || item[0] === 'Kraftstoff') as [key, value]}
+		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
 			<span class="font-bold">{key}:</span>
 			<span class="absolute left-48">{value}</span>

@@ -2,6 +2,11 @@
 	import '../app.css';
 	import logo from '../lib/logo.jpg';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+
+	import NewCustomer from '$lib/components/NewCustomer.svelte';
+
+	// Zustand für die Sichbarkeit der Card definieren
+	let showCard = false;
 </script>
 
 <nav class="flex flex-col lg:flex-row lg:w-full lg:h-screen bg-neutral-300">
@@ -25,12 +30,15 @@
 						Zuletzt verwendet
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
-					<DropdownMenu.Label class="px-4 py-2 text-gray-700 hover:bg-gray-100 ">
+					<DropdownMenu.Label
+						class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+						on:click={() => (showCard = true)}
+					>
 						Neue Kunden
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
 				</DropdownMenu.Group>
-			</DropdownMenu.Content>
+			</DropdownMenu.Content>y
 		</DropdownMenu.Root>
 	</div>
 
@@ -56,3 +64,4 @@
 		<slot />
 	</div>
 </nav>
+<NewCustomer></NewCustomer>
