@@ -20,8 +20,8 @@
 	let bildSchaden = '';
 	let bildFertig = '';
 	let rechnung = '';
-	let auftragnr = '';
 	let fahrzeugid = $page.params.fahrzeug;
+	let auftragnr = '';
 
 	async function createAuftrag() {
 		const auftragDaten = {
@@ -45,6 +45,60 @@
 			console.error(error);
 		}
 		console.log(auftragDaten);
+	}
+
+	let updateFahrzeugid = $page.params.fahrzeug;
+	let updateKennzeichen = '';
+	let updateFin = '';
+	let updateNatCode = '';
+	let updateMarke = '';
+	let updateModell = '';
+	let updateErstzulassung = '';
+	let updateKmstand = '';
+	let updateHubraum = '';
+	let updateKw = '';
+	let updatePs = '';
+	let updatePickerl = '';
+	let updateZulassungschein = '';
+	let updateKundenid = $page.params.kunde;
+	let updateFarbcode = '';
+	let updateMotorcode = '';
+	let updateKraftstoff = '';
+
+	async function updateFahrzeug() {
+		const fahrzeugDaten = {
+			action: 'updateFahrzeug',
+			updateFahrzeugid,
+			updateKennzeichen,
+			updateFin,
+			updateNatCode,
+			updateMarke,
+			updateModell,
+			updateErstzulassung,
+			updateKmstand,
+			updateHubraum,
+			updateKw,
+			updatePs,
+			updatePickerl,
+			updateZulassungschein,
+			updateKundenid,
+			updateFarbcode,
+			updateMotorcode,
+			updateKraftstoff
+		};
+		try {
+			const response = await fetch('/update-client', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(fahrzeugDaten)
+			});
+			const result = await response.json();
+		} catch (error) {
+			console.error(error);
+		}
+		console.log(fahrzeugDaten);
 	}
 </script>
 
@@ -184,22 +238,34 @@
 								<Label for="kennzeichen">Kennzeichen</Label>
 								<Input
 									type="kennzeichen"
+									bind:value={updateKennzeichen}
 									placeholder={data.fahrzeuge.Kennzeichen}
 									class="max-w-xs"
 								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="marke">Marke</Label>
-								<Input id="marke" placeholder={data.fahrzeuge.Marke} class="max-w-xs" />
+								<Input
+									id="marke"
+									bind:value={updateMarke}
+									placeholder={data.fahrzeuge.Marke}
+									class="max-w-xs"
+								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="modell">Modell</Label>
-								<Input id="modell" placeholder={data.fahrzeuge.Modell} class="max-w-xs" />
+								<Input
+									id="modell"
+									bind:value={updateModell}
+									placeholder={data.fahrzeuge.Modell}
+									class="max-w-xs"
+								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="erstzulassung">Erstzulassung</Label>
 								<Input
 									type="erstzulassung"
+									bind:value={updateErstzulassung}
 									placeholder={data.fahrzeuge.Erstzulassung}
 									class="max-w-xs"
 								/>
@@ -208,6 +274,7 @@
 								<Label for="zulassungschein">Zulassungsschein</Label>
 								<Input
 									type="zulassungschein"
+									bind:value={updateZulassungschein}
 									placeholder={data.fahrzeuge.Zulassungsschein}
 									class="max-w-xs"
 								/>
@@ -223,7 +290,10 @@
 					>
 						Abbrechen
 					</button>
-					<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2">
+					<button
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={updateFahrzeug}
+					>
 						Speichern
 					</button>
 				</Card.Footer>

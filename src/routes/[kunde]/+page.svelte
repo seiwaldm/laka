@@ -83,6 +83,46 @@
 		}
 		console.log(fahrzeugDaten);
 	}
+
+	let updateKundenid = $page.params.kunde;
+	let updateKundennr = '';
+	let updateFirma = '';
+	let updateVorname = '';
+	let updateNachname = '';
+	let updateEmail = '';
+	let updateTelefonnr = '';
+	let updateStrasse = '';
+	let updatePlz = '';
+	let updateOrt = '';
+
+	async function updateKunde() {
+		const kundeDaten = {
+			action: 'updateKunde',
+			updateKundenid,
+			updateKundennr,
+			updateFirma,
+			updateVorname,
+			updateNachname,
+			updateEmail,
+			updateTelefonnr,
+			updateStrasse,
+			updatePlz,
+			updateOrt
+		};
+		try {
+			const response = await fetch('/update-client', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(kundeDaten)
+			});
+			const result = await response.json();
+		} catch (error) {
+			console.error(error);
+		}
+		console.log(kundeDaten);
+	}
 </script>
 
 <!-- Link zu den verschiedenen Seiten -->
@@ -251,28 +291,69 @@
 					<form>
 						<div class="grid w-full items-center gap-4">
 							<div class="flex flex-col space-y-1.5">
-								<Label for="vorname">Vorname</Label>
-								<Input type="vorname" placeholder={data.Vorname} class="max-w-xs" />
+								<Label for="kundennr">Kundennummer</Label>
+								<Input
+									type="kundennr"
+									bind:value={updateKundennr}
+									placeholder={data.Kundennr}
+									class="max-w-xs"
+								/>
 							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="nachname">Nachname</Label>
-								<Input id="nachname" placeholder={data.Nachname} class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="email">E-Mail</Label>
-								<Input id="email" placeholder={data.EMail} class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="telefonnr">Telefonnummer</Label>
-								<Input type="telefonnr" placeholder={data.Telefonnr} class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="strasse">Straße</Label>
-								<Input type="strasse" placeholder={data.Strasse} class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="ort">Ort</Label>
-								<Input type="ort" placeholder={data.Ort} class="max-w-xs" />
+							<div class="grid w-full items-center gap-4">
+								<div class="flex flex-col space-y-1.5">
+									<Label for="vorname">Vorname</Label>
+									<Input
+										type="vorname"
+										bind:value={updateVorname}
+										placeholder={data.Vorname}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="nachname">Nachname</Label>
+									<Input
+										id="nachname"
+										bind:value={updateNachname}
+										placeholder={data.Nachname}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="email">E-Mail</Label>
+									<Input
+										id="email"
+										bind:value={updateEmail}
+										placeholder={data.EMail}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="telefonnr">Telefonnummer</Label>
+									<Input
+										type="telefonnr"
+										bind:value={updateTelefonnr}
+										placeholder={data.Telefonnr}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="strasse">Straße</Label>
+									<Input
+										type="strasse"
+										bind:value={updateStrasse}
+										placeholder={data.Strasse}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="ort">Ort</Label>
+									<Input
+										type="ort"
+										bind:value={updateOrt}
+										placeholder={data.Ort}
+										class="max-w-xs"
+									/>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -285,7 +366,10 @@
 					>
 						Abbrechen
 					</button>
-					<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2">
+					<button
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={updateKunde}
+					>
 						Speichern
 					</button>
 				</Card.Footer>

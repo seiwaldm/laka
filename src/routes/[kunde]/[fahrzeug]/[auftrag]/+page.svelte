@@ -33,6 +33,40 @@
 
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
 	let showEditForm = false;
+
+	let updateAuftragid = $page.params.auftrag;
+	let updateArbeiten = '';
+	let updateBildSchaden = '';
+	let updateBildFertig = '';
+	let updateRechnung = '';
+	let updateFahrzeugid = $page.params.fahrzeug;
+	let updateAuftragnr = '';
+
+	async function updateAuftrag() {
+		const auftragDaten = {
+			action: 'updateAuftrag',
+			updateAuftragid,
+			updateArbeiten,
+			updateBildSchaden,
+			updateBildFertig,
+			updateRechnung,
+			updateAuftragnr,
+			updateFahrzeugid
+		};
+		try {
+			const response = await fetch('/update-client', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(auftragDaten)
+			});
+			const result = await response.json();
+		} catch (error) {
+			console.error(error);
+		}
+		console.log(auftragDaten);
+	}
 </script>
 
 <svelte:head>
@@ -98,23 +132,41 @@
 			</Card.Header>
 			<Card.Content>
 				<form>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="auftragnr">Auftragnummer</Label>
+						<Input
+							type="auftragnr"
+							bind:value={updateAuftragnr}
+							placeholder={data.auftrag.Auftragnummer}
+							class="max-w-xs"
+						/>
+					</div>
 					<div class="grid w-full items-center gap-4">
 						<div class="flex flex-col space-y-1.5">
 							<Label for="arbeiten">Arbeiten</Label>
-
-							<Input type="arbeiten" placeholder={data.auftrag.Arbeiten} class="max-w-xs" />
+							<Input
+								type="arbeiten"
+								bind:value={updateArbeiten}
+								placeholder={data.auftrag.Arbeiten}
+								class="max-w-xs"
+							/>
 						</div>
 						<div class="flex flex-col space-y-1.5">
 							<Label for="bildSchaden">Bild vom Schaden</Label>
-							<Input id="bildSchaden" type="file" class="max-w-xs" />
+							<Input id="bildSchaden" type="file" bind:value={updateBildSchaden} class="max-w-xs" />
 						</div>
 						<div class="flex flex-col space-y-1.5">
 							<Label for="bildFertig">Bild vom reparierten Schaden</Label>
-							<Input id="bildFertig" type="file" class="max-w-xs" />
+							<Input id="bildFertig" type="file" bind:value={updateBildFertig} class="max-w-xs" />
 						</div>
 						<div class="flex flex-col space-y-1.5">
 							<Label for="rechnung">Rechnung</Label>
-							<Input type="rechnung" placeholder={data.auftrag.Rechnung} class="max-w-xs" />
+							<Input
+								type="rechnung"
+								bind:value={updateRechnung}
+								placeholder={data.auftrag.Rechnung}
+								class="max-w-xs"
+							/>
 						</div>
 					</div>
 				</form>
@@ -127,7 +179,7 @@
 				>
 					Abbrechen
 				</button>
-				<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2">
+				<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2" on:click={updateAuftrag}>
 					Speichern
 				</button>
 			</Card.Footer>
