@@ -50,7 +50,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="absolute top-0 left-0 w-screen min-h-screen grid place-items-center bg-black bg-opacity-70"
+	class="absolute top-0 left-0 w-screen min-h-screen h-max grid place-items-center bg-black bg-opacity-70"
 	on:click={() => emit('hide')}
 >
 	<Card.Root class="lg:w-[700px]">
