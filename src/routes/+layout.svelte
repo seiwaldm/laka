@@ -52,6 +52,8 @@
 			<ul>
 				<li class="text-lg p-2 hover:bg-slate-900 rounded-lg">Alle Kunden</li>
 				<li class="text-lg p-2 hover:bg-slate-900 rounded-lg">Zuletzt verwendet</li>
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<li
 					class="text-lg p-2 hover:bg-slate-900 rounded-lg mb-4"
 					on:click={() => (showCard = true)}
