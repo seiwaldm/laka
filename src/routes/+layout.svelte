@@ -52,7 +52,12 @@
 			<ul>
 				<li class="text-lg p-2 hover:bg-slate-900 rounded-lg">Alle Kunden</li>
 				<li class="text-lg p-2 hover:bg-slate-900 rounded-lg">Zuletzt verwendet</li>
-				<li class="text-lg p-2 hover:bg-slate-900 rounded-lg mb-4">Neue Kunden</li>
+				<li
+					class="text-lg p-2 hover:bg-slate-900 rounded-lg mb-4"
+					on:click={() => (showCard = true)}
+				>
+					Neue Kunden
+				</li>
 				<hr />
 				<li class="text-lg p-2 hover:bg-slate-900 rounded-lg mt-4">Filtern</li>
 			</ul>
@@ -64,4 +69,7 @@
 		<slot />
 	</div>
 </nav>
-<NewCustomer></NewCustomer>
+
+{#if showCard}
+	<NewCustomer on:hide={() => (showCard = false)}></NewCustomer>
+{/if}
