@@ -4,19 +4,19 @@
 	import { Label } from '$lib/components/ui/label';
 	import { pb } from '$lib/pocketbase';
 
-    let email = '';
-    let passwort = '';
+	let email = '';
+	let passwort = '';
 
-    async function login() {
-        const authData = await pb.collection('users').authWithPassword(email, passwort);
-        console.log(authData);
-    }
+	async function login() {
+		const authData = await pb.collection('users').authWithPassword(email, passwort);
+		console.log(authData);
+	}
 </script>
 
 <div class="flex flex-col items-center">
 	<Card.Root class="lg:w-[700px]">
 		<Card.Header>
-			<Card.Title>Anmelden</Card.Title>
+			<Card.Title>Anmeldung</Card.Title>
 		</Card.Header>
 		<Card.Content>
 			<form>
