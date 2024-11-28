@@ -18,8 +18,36 @@
 	let plz = '';
 	let ort = '';
 
-	
+	// Zustand für die Suche
+	let searchQuery = '';
+	let filteredData = [];
 
+	// Funktion zum Abrufen der Daten aus PocketBase
+	async function fetchData() {
+		try {
+			const response = await fetch('https://deine-pocketbase-url/api/collections/kunden/records');
+			const result = await response.json();
+			if (result && result.items) {
+				// Alle Kunden-Daten werden in filteredData gespeichert
+				filteredData = result.items;
+			}
+		} catch (error) {
+			console.error('Fehler beim Abrufen der Daten:', error);
+		}
+	}
+
+	// Filtert die Kunden basierend auf dem Suchbegriff
+	$: filteredData = data.kunden.filter((kunde) => {
+		const searchLowerCase = searchQuery.toLowerCase();
+
+		// Alle Felder durchsuchen (Vorname, Nachname, Firma, E-Mail, etc.)
+		const fullName = `${kunde.Vorname} ${kunde.Nachname}`.toLowerCase();
+		const fullDetails =
+			`${fullName} ${kunde.Firma} ${kunde.Email} ${kunde.Telefonnummer} ${kunde.Strasse} ${kunde.Plz} ${kunde.Ort}`.toLowerCase();
+
+		// Prüfen, ob der Suchbegriff irgendwo im Text enthalten ist
+		return fullDetails.includes(searchLowerCase);
+	});
 
 	async function createKunde() {
 		const kundenDaten = {
@@ -52,120 +80,46 @@
 </script>
 
 <main>
-	<h1 class="text-base pl-5 flex items-center my-5">
-		<!-- Mobile und Desktop Design -->
-		Startseite
-	</h1>
+	<!-- Mobile und Desktop Design -->
+
+	<!-- Suchfeld -->
+	<div class="pl-4 mb-6 w-full">
+		<input
+			type="text"
+			placeholder="Suchen..."
+			class="w-full bg-gray-200 text-gray-400 p-1 rounded-lg ring-1 ring-gray-300"
+			bind:value={searchQuery}
+		/>
+	</div>
 	<hr />
-	<h1 class=" my-5 pl-5 text-2xl font-bold">Alle Kunden</h1>
-	<div class="pl-5">
-		<button
-			type="button"
-			class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2"
-			on:click={() => (showCard = true)}>Kundenanlegung</button
-		>
-	</div>
-	<div class="flex flex-col items-center">
-		<!-- Kundenanlegung -->
-		{#if showCard}
-			<Card.Root class="lg:w-[700px]">
-				<Card.Header>
-					<Card.Title>Neuen Kunden anlegen</Card.Title>
-				</Card.Header>
-				<Card.Content>
-					<form>
-						<div class="grid w-full items-center gap-4">
-							<div class="flex flex-col space-y-1.5">
-								<Label for="kundennr">Kundennummer</Label>
-								<Input type="kundennr" bind:value={kundennr} placeholder="1000" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="firma">Firma</Label>
-								<Input type="firma" bind:value={firma} placeholder="Musterfirma" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="vorname">Vorname</Label>
-								<Input type="vorname" bind:value={vorname} placeholder="Max" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="<nachname>">Nachname</Label>
-								<Input
-									type="nachname"
-									bind:value={nachname}
-									placeholder="Mustermann"
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="email">E-Mail</Label>
-								<Input
-									type="email"
-									bind:value={email}
-									placeholder="maxmustermann@gmail.com"
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="telefonnummer">Telefonnummer</Label>
-								<Input
-									type="telefonnummer"
-									bind:value={telefonnummer}
-									placeholder="0664 123456"
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="strasse">Straße</Label>
-								<Input
-									type="strasse"
-									bind:value={strasse}
-									placeholder="Musterstraße 1"
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="plz">Postleitzahl</Label>
-								<Input type="plz" bind:value={plz} placeholder="Musterplz" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="ort">Ort</Label>
-								<Input type="ort" bind:value={ort} placeholder="Musterort" class="max-w-xs" />
-							</div>
-						</div>
-					</form>
-				</Card.Content>
 
-				<Card.Footer class="flex justify-between">
-					<button
-						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={() => (showCard = false)}
-					>
-						Abbrechen
-					</button>
-					<button
-						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={createKunde}
-					>
-						Speichern
-					</button>
-				</Card.Footer>
-			</Card.Root>
-		{/if}
-	</div>
+	<h1 class=" my-5 pl-2 text-2xl font-bold">Alle Kunden</h1>
 
-	{#each data.kunden as kunde (kunde.id)}
-		<a href="/{kunde.id}" class="flex items-center gap-2 pl-5">
+	<!-- Kundenliste -->
+	{#each filteredData as kunde (kunde.id)}
+		<a href="/{kunde.id}" class="flex items-center gap-4 pl-4">
 			<iconify-icon icon="lucide-user" class="text-4xl"></iconify-icon>
-
-			{kunde.Nachname}
-			{kunde.Vorname}
+			<span
+				class={searchQuery &&
+					`${
+						// Highlight Kunden, die mit dem Suchbegriff übereinstimmen
+						`${kunde.Vorname} ${kunde.Nachname}`
+							.toLowerCase()
+							.includes(searchQuery.toLowerCase()) ||
+						`${kunde.Firma}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.Email}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.Telefonnummer}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.Strasse}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.Plz}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.Ort}`.toLowerCase().includes(searchQuery.toLowerCase())
+							? 'bg-yellow-200'
+							: ''
+					}`}
+			>
+				{kunde.Nachname}
+				{kunde.Vorname}
+			</span>
 		</a>
 	{/each}
 	<hr />
 </main>
-
-<!-- <style>
-	* {
-		outline: 1px solid red;
-	}
-</style> -->

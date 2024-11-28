@@ -126,7 +126,7 @@
 </script>
 
 <!-- Link zu den verschiedenen Seiten -->
-<h1 class="text-base pl-5 flex items-center my-5">
+<h1 class="text-lg pl-5 flex items-center my-5">
 	<!-- Mobile und Tablet Design -->
 	<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block lg:hidden"></iconify-icon>
 	<a href="/" class="hover:underline block lg:hidden"> Zurück </a>
@@ -142,12 +142,14 @@
 <hr />
 
 <div class="pl-5">
-	<h1 class=" my-5 text-2xl font-bold">Kundeninformationen</h1>
+	<h1 class=" my-5 pl-2 text-2xl font-bold">Kundeninformationen</h1>
 	{#each Object.entries(data)
 		.filter((item) => datenfelder.includes(item[0]))
 		.sort((a, b) => datenfelder.indexOf(a[0]) - datenfelder.indexOf(b[0])) as [key, value]}
-		<div style="margin-bottom: 1rem;">
-			<Attribute {key} {value} icon={icons[key]} />
+		<div class="mb-4 flex items-center relative ml-6">
+			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
+			<span class="font-bold">{key}:</span>
+			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
 

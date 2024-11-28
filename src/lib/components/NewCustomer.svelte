@@ -48,18 +48,20 @@
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="fixed top-0 left-0 w-screen min-h-screen grid place-items-center bg-black bg-opacity-70"
-	role="dialog"
+	class="absolute top-0 left-0 w-screen min-h-screen h-max grid justify-center items-start bg-black bg-opacity-70 py-10"
 	on:click={() => emit('hide')}
 >
-	<Card.Root class="lg:w-[700px]">
+	<Card.Root
+		class="w-[95%] sm:w-[600px] md:w-[700px] lg:w-[800px] bg-white rounded-lg shadow-lg p-6"
+	>
 		<Card.Header>
-			<Card.Title>Neuen Kunden anlegen</Card.Title>
+			<Card.Title class="text-xl font-semibold">Neuen Kunden anlegen</Card.Title>
 		</Card.Header>
 		<Card.Content>
 			<form>
-				<div class="grid w-full items-center gap-4">
+				<div class="grid w-full items-center gap-6">
 					<div class="flex flex-col space-y-1.5">
 						<Label for="kundennr">Kundennummer</Label>
 						<Input type="kundennr" bind:value={kundennr} placeholder="1000" class="max-w-xs" />
