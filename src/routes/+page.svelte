@@ -118,8 +118,24 @@
 						`${kunde.Telefonnummer}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
 						`${kunde.Strasse}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
 						`${kunde.Plz}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${kunde.Ort}`.toLowerCase().includes(searchQuery.toLowerCase())
-							? 'bg-yellow-200'
+						`${kunde.Ort}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Kennzeichen}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.FIN}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Nat_Code}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Marke}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Modell}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Erstzulassung}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.KmStand}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Hubraum}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.PS}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.KW}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Pickerl}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Farbcode}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Motorcode}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${fahrzeug.Kraftstott}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${auftrag.Autragnummer}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${auftrag.Arbeiten}`.toLowerCase().includes(searchQuery.toLowerCase())
+							? 'bg-gray-200'
 							: ''
 					}`}
 			>

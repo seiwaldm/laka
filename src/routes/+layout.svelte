@@ -46,12 +46,11 @@
 			<ul>
 				<li class="text-xl p-4 hover:bg-slate-900 cursor-pointer rounded-lg">Alle Kunden</li>
 				<li class="text-xl p-4 hover:bg-slate-900 cursor-pointer rounded-lg mb-4">
-					Zuletzt verwendet
+					<a href="/zuletzt" class="block w-full h-full">Zuletzt verwendet</a>
 				</li>
 				<hr />
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-
 				<li
 					class="text-xl p-4 hover:bg-slate-900 rounded-lg cursor-pointer mt-4"
 					on:click={() => (showCard = true)}
