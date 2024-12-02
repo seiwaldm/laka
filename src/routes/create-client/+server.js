@@ -65,6 +65,7 @@ export async function POST({ request }) {
 				Farbcode: data.farbcode
 			});
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
+			
 		}
 
 		if (action === 'createAuftrag') {

@@ -1,4 +1,5 @@
 <script>
+	import { pb } from '$lib/pocketbase.js';
 	import { page } from '$app/stores';
 	import Attribute from '$lib/components/Attribute.svelte';
 	import { icons } from '$lib/icons';
@@ -62,10 +63,15 @@
 				body: JSON.stringify(auftragDaten)
 			});
 			const result = await response.json();
+			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
 		console.log(auftragDaten);
+	}
+
+	async function deleteAuftrag() {
+		await pb.collection('Auftrag').delete($page.params.auftrag);
 	}
 </script>
 
@@ -109,6 +115,15 @@
 >
 	Bearbeiten
 </button>
+
+<div class="relative sm:static sm:mt-0 sm:mb-4">
+	<button
+		class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 absolute sm:top-16 sm:right-5 top-20 right-5"
+		on:click={deleteAuftrag}
+	>
+		Auftrag löschen
+	</button>
+</div>
 
 <!-- Auftraginformationen  -->
 <div class="pl-5">
@@ -186,7 +201,10 @@
 				>
 					Abbrechen
 				</button>
-				<button class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2" on:click={updateAuftrag}>
+				<button
+					class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+					on:click={updateAuftrag}
+				>
 					Speichern
 				</button>
 			</Card.Footer>

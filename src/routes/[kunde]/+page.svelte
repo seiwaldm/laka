@@ -7,6 +7,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import AccordionContent from '$lib/components/ui/accordion/accordion-content.svelte';
+	import { pb } from '$lib/pocketbase.js';
 
 	//muss definiert werden:
 	export let data;
@@ -78,6 +79,7 @@
 				body: JSON.stringify(fahrzeugDaten)
 			});
 			const result = await response.json();
+			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
@@ -118,10 +120,15 @@
 				body: JSON.stringify(kundeDaten)
 			});
 			const result = await response.json();
+			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
 		console.log(kundeDaten);
+	}
+
+	async function deleteKunde() {
+		await pb.collection('Kunde').delete($page.params.kunde);
 	}
 </script>
 
@@ -160,6 +167,14 @@
 			on:click={() => (showEditForm = true)}
 		>
 			Bearbeiten
+		</button>
+	</div>
+	<div class="relative sm:static sm:mt-0 sm:mb-4">
+		<button
+			class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 absolute sm:top-16 sm:right-5 top-20 right-5 mt-20"
+			on:click={deleteKunde}
+		>
+			Kundelöschen
 		</button>
 	</div>
 

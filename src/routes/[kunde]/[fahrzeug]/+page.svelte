@@ -1,4 +1,5 @@
 <script>
+	import { pb } from '$lib/pocketbase.js';
 	import { page } from '$app/stores';
 	import Attribute from '$lib/components/Attribute.svelte';
 	import { icons } from '$lib/icons';
@@ -41,6 +42,7 @@
 				},
 				body: JSON.stringify(auftragDaten)
 			});
+			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
@@ -95,10 +97,14 @@
 				body: JSON.stringify(fahrzeugDaten)
 			});
 			const result = await response.json();
+			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
 		console.log(fahrzeugDaten);
+	}
+	async function deleteFahrzeug() {
+		await pb.collection('Fahrzeug').delete($page.params.fahrzeug);
 	}
 </script>
 
@@ -150,6 +156,15 @@
 			on:click={() => (showEditForm = true)}
 		>
 			Bearbeiten
+		</button>
+	</div>
+
+	<div class="relative sm:static sm:mt-0 sm:mb-4">
+		<button
+			class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 absolute sm:top-16 sm:right-5 top-20 right-5 mt-20"
+			on:click={deleteFahrzeug}
+		>
+			Fahrzeug löschen
 		</button>
 	</div>
 

@@ -1,6 +1,6 @@
 <script>
 	export let data;
-
+	import { pb } from '$lib/pocketbase.js';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -77,6 +77,13 @@
 		}
 		console.log(kundenDaten);
 	}
+
+	async function deleteKunde(kundeId) {
+		if (confirm('Möchtest du das Fahrzeug wirklich löschen?')) {
+			await pb.collection('Kunde').delete(kundeId);
+			location.reload();
+		}
+	}
 </script>
 
 <main>
@@ -118,6 +125,10 @@
 			>
 				{kunde.Nachname}
 				{kunde.Vorname}
+				{kunde.id}
+				<button on:click|stopPropagation|preventDefault={() => deleteKunde(kunde.id)}
+					>Löschen</button
+				>
 			</span>
 		</a>
 	{/each}
