@@ -35,7 +35,7 @@ export async function PUT({ request }) {
 			if (data.updateErstzulassung) updateData.Erstzulassung = data.updateErstzulassung;
 			if (data.updateKmStand) updateData.KMStand = data.updateKMStand;
 			if (data.updateHubraum) updateData.Hubraum = data.updateHubraum;
-			if (data.updateKw) updateData.KW = data.updateKW;
+			if (data.updateKw) updateData.KW = data.updateKw;
 			if (data.updatePs) updateData.PS = data.updatePS;
 			if (data.updatePickerl) updateData.Pickerl = data.updatePickerl;
 			if (data.updateZulassungsschein) updateData.Zulassungsschein = data.updateZulassungsschein;
