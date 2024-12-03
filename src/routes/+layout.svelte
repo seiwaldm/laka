@@ -25,8 +25,8 @@
 						Alle Daten
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
-					<DropdownMenu.Label class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
-						Zuletzt verwendet
+					<DropdownMenu.Label class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+						><a href="/zuletzt" class="block w-full h-full"> Zuletzt verwendet</a>
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
 					<DropdownMenu.Label class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
@@ -44,7 +44,9 @@
 		<p class="pt-6 pb-24 text-3xl font-semibold">LaKa Radstadt</p>
 		<div class="flex flex-col space-y-4">
 			<ul>
-				<li class="text-xl p-4 hover:bg-slate-900 cursor-pointer rounded-lg">Alle Kunden</li>
+				<li class="text-xl p-4 hover:bg-slate-900 cursor-pointer rounded-lg">
+					<a href="/" class="block w-full h-full">Alle Kunden</a>
+				</li>
 				<li class="text-xl p-4 hover:bg-slate-900 cursor-pointer rounded-lg mb-4">
 					<a href="/zuletzt" class="block w-full h-full">Zuletzt verwendet</a>
 				</li>

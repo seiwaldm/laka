@@ -26,7 +26,6 @@
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
-
 	let showEditForm = false;
 
 	let kennzeichen = '';
@@ -160,10 +159,15 @@
 		</div>
 	{/each}
 
-	<!-- Bearbeiten Button -->
-	<div class="relative sm:static sm:mt-0 sm:mb-4">
+	<div class="relative">
+		<!-- Bearbeiten Button -->
 		<button
-			class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 absolute sm:top-16 sm:right-5 top-20 right-5"
+			class="
+				bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2
+				absolute top-10 right-5
+				sm:static sm:mt-4 sm:ml-auto
+				md:absolute md:top-10 md:right-5
+			"
 			on:click={() => (showEditForm = true)}
 		>
 			Bearbeiten
@@ -178,7 +182,7 @@
 		</button>
 	</div>
 
-	<hr />
+	<div class="my-5"><hr /></div>
 	<!-- Fahrzeuganlegung Button -->
 	<button
 		type="button"
@@ -186,7 +190,7 @@
 		on:click={() => (showCard = true)}>Fahrzeuganlegung</button
 	>
 	<!-- Fahrzeuganlegung -->
-	<div class="flex flex-col items-center">
+	<div class="flex flex-col items-center mb-5">
 		{#if showCard}
 			<Card.Root class="lg:w-[700px]">
 				<Card.Header>
@@ -195,6 +199,10 @@
 				<Card.Content>
 					<form>
 						<div class="grid w-full items-center gap-4">
+							<div class="flex flex-col space-y-1.5">
+								<Label for="erstzulassung">Erstzulassung</Label>
+								<Input type="date" bind:value={erstzulassung} class="max-w-xs" />
+							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="kennzeichen">Kennzeichen</Label>
 								<Input
@@ -205,12 +213,8 @@
 								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
-								<Label for="fin">Fahrzeugidentennummer</Label>
+								<Label for="fin">Fahrzeugidendifizierungsnummer</Label>
 								<Input type="fin" bind:value={fin} placeholder="J123456789P" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="natcode">Nationaler Code</Label>
-								<Input type="natcode" bind:value={natCode} placeholder="J189P" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="marke">Marke</Label>
@@ -221,8 +225,20 @@
 								<Input type="modell" bind:value={modell} placeholder="Golf 7" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
-								<Label for="erstzulassung">Erstzulassung</Label>
-								<Input type="date" bind:value={erstzulassung} class="max-w-xs" />
+								<Label for="natcode">Nationaler Code</Label>
+								<Input type="natcode" bind:value={natCode} placeholder="J189P" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="pickerl">Pickerl</Label>
+								<Input type="date" bind:value={pickerl} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="farbcode">Farbcode</Label>
+								<Input type="farbcode" bind:value={farbcode} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="hubraum">Hubraum</Label>
+								<Input type="hubraum" bind:value={hubraum} placeholder="80" class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="kmstand">Kilometer Stand</Label>
@@ -230,50 +246,18 @@
 							</div>
 
 							<div class="flex flex-col space-y-1.5">
-								<Label for="hubraum">Hubraum</Label>
-								<Input type="hubraum" bind:value={hubraum} placeholder="80" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
 								<Label for="kw">KW</Label>
 								<Input type="kw" bind:value={kw} placeholder="70" class="max-w-xs" />
 							</div>
 
 							<div class="flex flex-col space-y-1.5">
-								<Label for="ps">PS</Label>
-								<Input type="ps" bind:value={ps} placeholder="95" class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="pickerl">Pickerl</Label>
-								<Input type="date" bind:value={pickerl} class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="zulassungschein">Zulassungschein</Label>
-								<Input
-									id="zulassungschein"
-									bind:value={zulassungschein}
-									type="file"
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="motorcode">Motorcode</Label>
-								<Input type="motorcode" bind:value={motorcode} class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
 								<Label for="kraftstoff">Kraftstoff</Label>
 								<Input type="kraftstoff" bind:value={kraftstoff} class="max-w-xs" />
 							</div>
+
 							<div class="flex flex-col space-y-1.5">
-								<Label for="tachostand">Tachostand</Label>
-								<Input type="tachostand" bind:value={tachostand} class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="tatKilometer">Tatsächliche Kilometer</Label>
-								<Input type="tatKilometer" bind:value={tatKilometer} class="max-w-xs" />
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="farbcode">Farbcode</Label>
-								<Input type="farbcode" bind:value={farbcode} class="max-w-xs" />
+								<Label for="motorcode">Motorcode</Label>
+								<Input type="motorcode" bind:value={motorcode} class="max-w-xs" />
 							</div>
 						</div>
 					</form>
@@ -359,6 +343,15 @@
 										type="strasse"
 										bind:value={updateStrasse}
 										placeholder={data.Strasse}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="plz">PLZ</Label>
+									<Input
+										type="plz"
+										bind:value={updatePlz}
+										placeholder={data.PLZ}
 										class="max-w-xs"
 									/>
 								</div>

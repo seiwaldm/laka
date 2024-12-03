@@ -11,6 +11,11 @@
 	//muss definiert werden:
 	export let data;
 
+	// Funktion zur Hubraum-Berechnung
+	function berechneHubraum(kw) {
+		return Math.ceil(kw * 1.36);
+	}
+
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
 
@@ -141,7 +146,7 @@
 
 	<!-- Unterüberschrift 2 -->
 	<h2 class="text-lg font-bold mt-6 mb-4">Technik</h2>
-	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'KMStand' || item[0] === 'Hubraum' || item[0] === 'KW' || item[0] === 'Farbcode' || item[0] === 'Motorcode' || item[0] === 'Kraftstoff') as [key, value]}
+	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'KMStand' || item[0] === 'Hubraum' || item[0] === 'KW' || item[0] === 'Farbcode' || item[0] === 'Motorcode' || item[0] === 'Kraftstoff' || item[0] === ' PS') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
 			<span class="font-bold">{key}:</span>
@@ -149,10 +154,15 @@
 		</div>
 	{/each}
 
-	<!-- Bearbeiten Button -->
-	<div class="relative sm:static sm:mt-0 sm:mb-4">
+	<div class="relative">
+		<!-- Bearbeiten Button -->
 		<button
-			class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 absolute sm:top-16 sm:right-5 top-20 right-5"
+			class="
+				bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2
+				absolute top-10 right-5
+				sm:static sm:mt-4 sm:ml-auto
+				md:absolute md:top-10 md:right-5
+			"
 			on:click={() => (showEditForm = true)}
 		>
 			Bearbeiten
@@ -167,8 +177,7 @@
 			Fahrzeug löschen
 		</button>
 	</div>
-
-	<hr />
+	<div class="my-5"><hr /></div>
 
 	<!-- Auftraganlegung -->
 	<button
@@ -239,8 +248,8 @@
 		{/if}
 	</div>
 
-	<!-- Auftragbearbeitung -->
-	<div class="flex flex-col items-center">
+	<!-- Fahrzeugbearbeitung -->
+	<div class="flex flex-col items-center mb-5">
 		{#if showEditForm}
 			<Card.Root class="lg:w-[700px]">
 				<Card.Header>
@@ -249,6 +258,24 @@
 				<Card.Content>
 					<form>
 						<div class="grid w-full items-center gap-4">
+							<div class="flex flex-col space-y-1.5">
+								<Label for="erstzulassung">Erstzulassung</Label>
+								<Input
+									type="erstzulassung"
+									bind:value={updateErstzulassung}
+									placeholder={data.fahrzeuge.Erstzulassung}
+									class="max-w-xs"
+								/>
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="fin">Fahrzeugientifikationsnummer</Label>
+								<Input
+									type="fin"
+									bind:value={updateFin}
+									placeholder={data.fahrzeuge.FIN}
+									class="max-w-xs"
+								/>
+							</div>
 							<div class="flex flex-col space-y-1.5">
 								<Label for="kennzeichen">Kennzeichen</Label>
 								<Input
@@ -277,20 +304,75 @@
 								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
-								<Label for="erstzulassung">Erstzulassung</Label>
+								<Label for="natcode">Nationaler Code</Label>
 								<Input
-									type="erstzulassung"
-									bind:value={updateErstzulassung}
-									placeholder={data.fahrzeuge.Erstzulassung}
+									id="natcode"
+									bind:value={updateNatCode}
+									placeholder={data.fahrzeuge.Nat_Code}
 									class="max-w-xs"
 								/>
 							</div>
 							<div class="flex flex-col space-y-1.5">
-								<Label for="zulassungschein">Zulassungsschein</Label>
+								<Label for="picerkl">Pickerl</Label>
 								<Input
-									type="zulassungschein"
-									bind:value={updateZulassungschein}
-									placeholder={data.fahrzeuge.Zulassungsschein}
+									type="pickerl"
+									bind:value={updatePickerl}
+									placeholder={data.fahrzeuge.Pickerl}
+									class="max-w-xs"
+								/>
+							</div>
+
+							<div class="flex flex-col space-y-1.5">
+								<Label for="farbcode">Farbcode</Label>
+								<Input
+									type="farbcode"
+									bind:value={updateFarbcode}
+									placeholder={data.fahrzeuge.Farbcode}
+									class="max-w-xs"
+								/>
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="hubraum">Hubraum</Label>
+								<Input
+									type="hubraum"
+									bind:value={updateHubraum}
+									placeholder={data.fahrzeuge.Hubraum}
+									class="max-w-xs"
+								/>
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kmstand">Kilometerstand</Label>
+								<Input
+									type="kmstand"
+									bind:value={updateKmstand}
+									placeholder={data.fahrzeuge.KMStand}
+									class="max-w-xs"
+								/>
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kw">KW</Label>
+								<Input
+									type="kw"
+									bind:value={updateKw}
+									placeholder={data.fahrzeuge.KW}
+									class="max-w-xs"
+								/>
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kraftstoff">Kraftstoff</Label>
+								<Input
+									type="kraftstoff"
+									bind:value={updateKraftstoff}
+									placeholder={data.fahrzeuge.Kraftstoff}
+									class="max-w-xs"
+								/>
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="motorcode">Motorcode</Label>
+								<Input
+									type="motorcode"
+									bind:value={updateMotorcode}
+									placeholder={data.fahrzeuge.Motorcode}
 									class="max-w-xs"
 								/>
 							</div>

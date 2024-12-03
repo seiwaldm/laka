@@ -82,21 +82,18 @@
 			location.reload();
 		}
 	}
-	
+
 	async function updateLastOpened(kundeId) {
 		const jetzt = new Date();
 		try {
-		await pb.collection('Kunde').update(kundeId, { last_opend: jetzt });
-		}
-		catch (error) {
+			await pb.collection('Kunde').update(kundeId, { last_opend: jetzt });
+		} catch (error) {
 			console.error('Fehler beim Aktualisieren des letzten Öffnungsdatums:', error);
 		}
 	}
 </script>
 
 <main>
-	<!-- Mobile und Desktop Design -->
-
 	<!-- Suchfeld -->
 	<div class="pl-4 mb-6 w-full">
 		<input
@@ -108,7 +105,7 @@
 	</div>
 	<hr />
 
-	<h1 class="my-5 pl-2 text-2xl font-bold">Alle Kunden</h1>
+	<h1 class="my-5 pl-2 text-2xl font-bold">Zuletzt verwendet</h1>
 
 	<!-- Kundenliste -->
 	{#each filteredData as kunde (kunde.id)}
