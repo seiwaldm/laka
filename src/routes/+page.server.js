@@ -5,7 +5,13 @@ export async function load() {
 		sort: 'Nachname'
 	});
 
-	return {
-		kunden
-	};
+	for (let kunde of kunden) {
+		const fahrzeuge = await pb.collection('Fahrzeug').getFullList({});
+
+		const auftrag = await pb.collection('Auftrag').getFullList({});
+
+		kunde.fahrzeuge = fahrzeuge;
+		kunde.auftrag = auftrag;
+		return kunde;
+	}
 }

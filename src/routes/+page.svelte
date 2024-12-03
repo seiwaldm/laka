@@ -84,6 +84,15 @@
 			location.reload();
 		}
 	}
+
+	async function updateLastOpened(kundeId) {
+		const jetzt = new Date();
+		try {
+			await pb.collection('Kunde').update(kundeId, { last_opend: jetzt });
+		} catch (error) {
+			console.error('Fehler beim Aktualisieren des letzten Öffnungsdatums:', error);
+		}
+	}
 </script>
 
 <main>
@@ -104,7 +113,12 @@
 
 	<!-- Kundenliste -->
 	{#each filteredData as kunde (kunde.id)}
-		<a href="/{kunde.id}" class="flex items-center gap-4 pl-4">
+		<a href="/{kunde.id}" class="flex items-center gap-4 pl-4">Kunde Details</a>
+		<a
+			href="/{kunde.id}"
+			class="flex items-center gap-4 pl-4"
+			on:click={() => updateLastOpened(kunde.id)}
+		>
 			<iconify-icon icon="lucide-user" class="text-4xl"></iconify-icon>
 			<span
 				class={searchQuery &&
@@ -119,22 +133,22 @@
 						`${kunde.Strasse}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
 						`${kunde.Plz}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
 						`${kunde.Ort}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Kennzeichen}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.FIN}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Nat_Code}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Marke}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Modell}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Erstzulassung}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.KmStand}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Hubraum}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.PS}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.KW}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Pickerl}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Farbcode}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Motorcode}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${fahrzeug.Kraftstott}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${auftrag.Autragnummer}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						`${auftrag.Arbeiten}`.toLowerCase().includes(searchQuery.toLowerCase())
+						`${kunde.fahrzeug.Kennzeichen}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.FIN}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.Nat_Code}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.Marke}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.Modell}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.Erstzulassung}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.KmStand}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.Hubraum}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.PS}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.KW}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.Pickerl}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.Farbcode}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.Motorcode}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.fahrzeug.Kraftstott}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.auftrag.Autragnummer}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						`${kunde.auftrag.Arbeiten}`.toLowerCase().includes(searchQuery.toLowerCase())
 							? 'bg-gray-200'
 							: ''
 					}`}
