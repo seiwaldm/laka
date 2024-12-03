@@ -23,6 +23,18 @@
 		'Ort'
 	];
 
+	const kundendaten = {
+		Kundennr: 'Kundennummer',
+		Firma: 'Firma',
+		Vorname: 'Vorname',
+		Nachname: 'Nachname',
+		EMail: 'E-Mail',
+		Telefonnr: 'Telefonnummer',
+		Strasse: 'Strasse',
+		PLZ: 'PLZ',
+		Ort: 'Ort'
+	};
+
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
@@ -154,7 +166,7 @@
 		.sort((a, b) => datenfelder.indexOf(a[0]) - datenfelder.indexOf(b[0])) as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
-			<span class="font-bold">{key}:</span>
+			<span class="font-bold">{kundendaten[key]}:</span>
 			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}

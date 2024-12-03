@@ -134,7 +134,7 @@
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
-	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Autragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Rechnung') as [key, value]}
+	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Rechnung') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
 			<span class="font-bold">{key}:</span>

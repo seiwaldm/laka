@@ -12,7 +12,7 @@
 	export let data;
 
 	// Funktion zur Hubraum-Berechnung
-	function berechneHubraum(kw) {
+	function berechnePS(kw) {
 		return Math.ceil(kw * 1.36);
 	}
 
@@ -146,7 +146,7 @@
 
 	<!-- Unterüberschrift 2 -->
 	<h2 class="text-lg font-bold mt-6 mb-4">Technik</h2>
-	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'KMStand' || item[0] === 'Hubraum' || item[0] === 'KW' || item[0] === 'Farbcode' || item[0] === 'Motorcode' || item[0] === 'Kraftstoff' || item[0] === ' PS') as [key, value]}
+	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'KMStand' || item[0] === 'Hubraum' || item[0] === 'KW' || item[0] === 'Farbcode' || item[0] === 'Motorcode' || item[0] === 'Kraftstoff' || item[0] === 'PS') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
 			<span class="font-bold">{key}:</span>
