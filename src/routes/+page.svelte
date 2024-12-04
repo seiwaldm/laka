@@ -164,3 +164,5 @@
 	{/each}
 	<hr />
 </main>
+
+{JSON.stringify(filteredData)}
