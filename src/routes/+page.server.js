@@ -12,6 +12,7 @@ export async function load() {
 
 		kunde.fahrzeuge = fahrzeuge;
 		kunde.auftrag = auftrag;
-		return kunde;
+
 	}
+	return { kunden };
 }
