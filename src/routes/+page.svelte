@@ -44,7 +44,7 @@
 		const fullName = `${kunde.Vorname} ${kunde.Nachname}`.toLowerCase();
 		const fullDetails =
 			`${fullName} ${kunde.Firma} ${kunde.Email} ${kunde.Telefonnummer} ${kunde.Strasse} ${kunde.Plz} ${kunde.Ort}`.toLowerCase();
-
+		console.log(JSON.stringify(kunde));
 		// Prüfen, ob der Suchbegriff irgendwo im Text enthalten ist
 		return fullDetails.includes(searchLowerCase);
 	});
