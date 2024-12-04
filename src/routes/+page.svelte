@@ -49,34 +49,34 @@
 		return fullDetails.includes(searchLowerCase);
 	});
 
-	async function createKunde() {
-		const kundenDaten = {
-			action: 'createKunde',
-			kundennr,
-			firma,
-			vorname,
-			nachname,
-			email,
-			telefonnummer,
-			strasse,
-			plz,
-			ort
-		};
+	// async function createKunde() {
+	// 	const kundenDaten = {
+	// 		action: 'createKunde',
+	// 		kundennr,
+	// 		firma,
+	// 		vorname,
+	// 		nachname,
+	// 		email,
+	// 		telefonnummer,
+	// 		strasse,
+	// 		plz,
+	// 		ort
+	// 	};
 
-		try {
-			const response = await fetch('/create-client', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(kundenDaten)
-			});
-			const result = await response.json();
-		} catch (error) {
-			console.error(error);
-		}
-		console.log(kundenDaten);
-	}
+	// 	try {
+	// 		const response = await fetch('/create-client', {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				'Content-Type': 'application/json'
+	// 			},
+	// 			body: JSON.stringify(kundenDaten)
+	// 		});
+	// 		const result = await response.json();
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// 	console.log(kundenDaten);
+	// }
 
 	async function deleteKunde(kundeId) {
 		if (confirm('Möchtest du das Fahrzeug wirklich löschen?')) {

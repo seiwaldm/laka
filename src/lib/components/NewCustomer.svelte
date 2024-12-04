@@ -51,7 +51,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	class="absolute top-0 left-0 w-screen min-h-screen h-max grid justify-center items-start bg-black bg-opacity-70 py-10"
-	on:click={() => emit('hide')}
+	
 >
 	<Card.Root
 		class="w-[95%] sm:w-[600px] md:w-[700px] lg:w-[800px] bg-white rounded-lg shadow-lg p-6"

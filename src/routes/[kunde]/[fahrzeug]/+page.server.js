@@ -7,7 +7,7 @@ export async function load({ params }) {
 	const fahrzeuge = await pb.collection('Fahrzeug').getOne(params.fahrzeug);
 
 	// Hubraum berechnen: KW * 1.36 (aufrunden bei ungeraden Zahlen)
-	fahrzeuge.Hubraum = Math.ceil(fahrzeuge.KW * 1.36);
+	fahrzeuge.PS = Math.ceil(fahrzeuge.KW * 1.36);
 
 	// Aufträge abrufen
 	const auftrag = await pb.collection('Auftrag').getList(1, 50, {

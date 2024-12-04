@@ -5,7 +5,7 @@ export async function POST({ request }) {
 		const { action, ...data } = await request.json();
 
 		if (action === 'createKunde') {
-			// const kundenDaten = await request.json();
+
 
 			if (!data.vorname) {
 				return new Response('Vorname fehlt', { status: 400 });
@@ -89,19 +89,3 @@ export async function POST({ request }) {
 		return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
 	}
 }
-
-// export async function POST({ request }) {
-// 	try {
-// 		const fahrzeugDaten = await request.json();
-
-// 		if (!fahrzeugDaten.marke) {
-// 			return new Response('Marke fehlt', { status: 400 });
-// 		}
-// 		const response = await pb.collection('Fahrzeug').create({
-// 			Marke: fahrzeugDaten.marke
-// 		});
-// 		return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
-// 	} catch (error) {
-// 		return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
-// 	}
-// }
