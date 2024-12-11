@@ -100,5 +100,3 @@
 	{/each}
 	<hr />
 </main>
-
-{JSON.stringify($page.url)}
