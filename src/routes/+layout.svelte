@@ -48,7 +48,7 @@
 					<a href="/" class="block w-full h-full">Alle Kunden</a>
 				</li>
 				<li class="text-xl p-4 hover:bg-slate-900 cursor-pointer rounded-lg mb-4">
-					<a href="/zuletzt" class="block w-full h-full">Zuletzt verwendet</a>
+					<a href="/?o=last" class="block w-full h-full">Zuletzt verwendet</a>
 				</li>
 				<hr />
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
