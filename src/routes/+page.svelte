@@ -55,15 +55,6 @@
 			console.error('Fehler beim Aktualisieren des letzten Öffnungsdatums:', error);
 		}
 	}
-
-	onMount(() => {
-		// Daten aus der Datenbank abrufen
-		if (JSON.stringify($page.url).includes('?o=last')) {
-			data.kunden = data.kunden.sort((a, b) => {
-				return new Date(b.last_opend) - new Date(a.last_opend);
-			});
-		}
-	});
 </script>
 
 <main>
