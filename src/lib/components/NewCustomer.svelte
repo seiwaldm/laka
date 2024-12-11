@@ -4,7 +4,6 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 
-	let kundennr = '';
 	let firma = '';
 	let vorname = '';
 	let nachname = '';
@@ -19,7 +18,6 @@
 	async function createKunde() {
 		const kundenDaten = {
 			action: 'createKunde',
-			kundennr,
 			firma,
 			vorname,
 			nachname,
@@ -62,10 +60,6 @@
 		<Card.Content>
 			<form>
 				<div class="grid w-full items-center gap-6">
-					<div class="flex flex-col space-y-1.5">
-						<Label for="kundennr">Kundennummer</Label>
-						<Input type="kundennr" bind:value={kundennr} placeholder="1000" class="max-w-xs" />
-					</div>
 					<div class="flex flex-col space-y-1.5">
 						<Label for="firma">Firma</Label>
 						<Input type="firma" bind:value={firma} placeholder="Musterfirma" class="max-w-xs" />

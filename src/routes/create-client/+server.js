@@ -5,17 +5,24 @@ export async function POST({ request }) {
 		const { action, ...data } = await request.json();
 
 		if (action === 'createKunde') {
-
-
 			if (!data.vorname) {
 				return new Response('Vorname fehlt', { status: 400 });
 			}
 			if (!data.nachname) {
 				return new Response('Nachname fehlt', { status: 400 });
 			}
+			const kunden = await pb.collection('Kunde').getFullList({ sort: '-Kundennr' });
+
+			const letzteKundennummer =
+				kunden
+					.map((kunde) => parseInt(kunde.Kundennr.split('-')[1], 10))
+					.filter((num) => !isNaN(num))
+					.sort((a, b) => b - a)[0] || 1000;
+
+			const neueKundennummer = `K-${letzteKundennummer + 1}`;
 
 			const response = await pb.collection('Kunde').create({
-				Kundennr: data.kundennr,
+				Kundennr: neueKundennummer,
 				Firma: data.firma,
 				Vorname: data.vorname,
 				Nachname: data.nachname,
@@ -65,7 +72,6 @@ export async function POST({ request }) {
 				Farbcode: data.farbcode
 			});
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
-			
 		}
 
 		if (action === 'createAuftrag') {
@@ -73,12 +79,22 @@ export async function POST({ request }) {
 				return new Response('Arbeiten fehlen', { status: 400 });
 			}
 
+			const auftrag = await pb.collection('Auftrag').getFullList({ sort: '-Auftragnummer' });
+
+			const letzteAuftragnummer =
+				auftrag
+					.map((auftrag) => parseInt(auftrag.Auftragnummer.split('-')[1], 10))
+					.filter((num) => !isNaN(num))
+					.sort((a, b) => b - a)[0] || 1000;
+
+			const neueAuftragnummer = `K-${letzteAuftragnummer + 1}`;
+
 			const response = await pb.collection('Auftrag').create({
 				Arbeiten: data.arbeiten,
 				BildSchaden: data.bildSchaden,
 				BildFertig: data.bildFertig,
 				Rechnung: data.rechnung,
-				Auftragnummer: data.auftragnummer,
+				Auftragnummer: neueAuftragnummer,
 				FahrzeugID: data.fahrzeugid
 			});
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });

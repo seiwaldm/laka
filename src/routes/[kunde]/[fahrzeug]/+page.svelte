@@ -27,7 +27,6 @@
 	let bildFertig = '';
 	let rechnung = '';
 	let fahrzeugid = $page.params.fahrzeug;
-	let auftragnr = '';
 
 	async function createAuftrag() {
 		const auftragDaten = {
@@ -36,7 +35,6 @@
 			bildSchaden,
 			bildFertig,
 			rechnung,
-			auftragnr,
 			fahrzeugid
 		};
 		try {
@@ -200,10 +198,6 @@
 				<Card.Content>
 					<form>
 						<div class="grid w-full items-center gap-4">
-							<div class="flex flex-col space-y-1.5">
-								<Label for="arbeiten">Auftragnummer</Label>
-								<Input type="auftragnr" bind:value={auftragnr} placeholder="100" class="max-w-xs" />
-							</div>
 							<div class="grid w-full items-center gap-4">
 								<div class="flex flex-col space-y-1.5">
 									<Label for="arbeiten">Arbeiten</Label>
