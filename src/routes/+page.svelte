@@ -39,10 +39,21 @@
 
 		// Alle Felder durchsuchen (Vorname, Nachname, Firma, E-Mail, etc.)
 		const fullName = `${kunde.Vorname} ${kunde.Nachname}`.toLowerCase();
-		const fullDetails =
-			`${fullName} ${kunde.Firma} ${kunde.Email} ${kunde.Telefonnummer} ${kunde.Strasse} ${kunde.Plz} ${kunde.Ort} ${kunde.fahrzeuge.Kennzeichen} ${kunde.fahrzeuge.FIN} ${kunde.fahrzeuge.Nat_Code}	${kunde.fahrzeuge.Marke}	${kunde.fahrzeuge.Modell} ${kunde.fahrzeuge.Erstzulassung} ${kunde.fahrzeuge.KmStand} 	${kunde.fahrzeuge.Hubraum} ${kunde.fahrzeuge.PS} 	${kunde.fahrzeuge.KW} ${kunde.fahrzeuge.Pickerl} 	${kunde.fahrzeuge.Farbcode} 	${kunde.fahrzeuge.Motorcode} ${kunde.fahrzeuge.Kraftstott} `.toLowerCase();
+		const kundenDetails =
+			`${fullName} ${kunde.Firma} ${kunde.Email} ${kunde.Telefonnummer} ${kunde.Strasse} ${kunde.Plz} ${kunde.Ort} `.toLowerCase();
+		const fahrzeugeDetails = (kunde.fahrzeuge || [])
+			.map((fahrzeug) =>
+				`${fahrzeug.Kennzeichen} ${fahrzeug.FIN} ${fahrzeug.Nat_Code} ${fahrzeug.Marke} ${fahrzeug.Modell} ${fahrzeug.Erstzulassung} ${fahrzeug.KMStand} ${fahrzeug.Hubraum} ${fahrzeug.PS} ${fahrzeug.KW} ${fahrzeug.Pickerl} ${fahrzeug.KundenID} ${fahrzeug.Farbcode} ${fahrzeug.Motorcode} ${fahrzeug.Kraftstoff} `.toLowerCase()
+			)
+			.join(' ');
+		const auftragDetails = (kunde.fahrzeuge.auftrag || [])
+			.map((auftrag) =>
+				`${auftrag.Auftragnummer} ${auftrag.Arbeiten} ${auftrag.FahrzeugID} `.toLowerCase()
+			)
+			.join(' ');
 		console.log(JSON.stringify(kunde));
 
+		const fullDetails = `${kundenDetails} ${fahrzeugeDetails} ${auftragDetails}`;
 		// Prüfen, ob der Suchbegriff irgendwo im Text enthalten ist
 		return fullDetails.includes(searchLowerCase);
 	});
