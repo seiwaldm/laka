@@ -8,6 +8,7 @@
 	import { Label } from '$lib/components/ui/label';
 	import AccordionContent from '$lib/components/ui/accordion/accordion-content.svelte';
 	import { pb } from '$lib/pocketbase.js';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 
 	//muss definiert werden:
 	export let data;
@@ -171,28 +172,56 @@
 		</div>
 	{/each}
 
-	<div class="relative">
-		<!-- Bearbeiten Button -->
+	<!-- <div class="relative">
+		Bearbeiten Button
 		<button
 			class="
-				bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2
-				absolute top-10 right-5
-				sm:static sm:mt-4 sm:ml-auto
-				md:absolute md:top-10 md:right-5
-			"
+    		absolute right-0 top-30 m-4
+   			bg-blue-500 text-white hover:bg-blue-600
+    		rounded-lg px-4 py-2"
 			on:click={() => (showEditForm = true)}
 		>
 			Bearbeiten
 		</button>
-	</div>
-	<div class="relative sm:static sm:mt-0 sm:mb-4">
+	</div> -->
+	<!-- <div class="relative sm:static sm:mt-0 sm:mb-4"> -->
+	<!-- Button zum Löschen
 		<button
 			class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 absolute sm:top-16 sm:right-5 top-20 right-5 mt-20"
 			on:click={deleteKunde}
 		>
 			Kundelöschen
-		</button>
-	</div>
+		</button> -->
+
+	<!-- Icon mit 3 Punkten -->
+
+	<DropdownMenu.Root>
+		<DropdownMenu.Trigger
+			><button
+				class="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+				aria-label="Options"
+			>
+				⋮</button
+			></DropdownMenu.Trigger
+		>
+		<DropdownMenu.Content>
+			<DropdownMenu.Group>
+				<DropdownMenu.Label
+					class="text-black hover:bg-blue-600 rounded-lg px-4 py-2"
+					on:click={deleteKunde}
+				>
+					Löschen
+				</DropdownMenu.Label>
+				<DropdownMenu.Separator />
+				<DropdownMenu.Label
+					class="text-black hover:bg-blue-600 rounded-lg px-4 py-2"
+					on:click={() => (showEditForm = true)}
+				>
+					Bearbeiten
+				</DropdownMenu.Label>
+			</DropdownMenu.Group>
+		</DropdownMenu.Content>
+	</DropdownMenu.Root>
 
 	<div class="my-5"><hr /></div>
 	<!-- Fahrzeuganlegung Button -->
