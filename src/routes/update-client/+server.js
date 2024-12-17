@@ -3,11 +3,13 @@ import { pb } from '$lib/pocketbase';
 export async function PUT({ request }) {
 	try {
 		const { action, ...data } = await request.json();
-
+		
+		// update Kunde
 		if (action === 'updateKunde') {
 			if (!data.updateKundenid) {
 				return new Response(JSON.stringify({ error: 'Kunden-ID fehlt' }), { status: 400 });
 			}
+			// updateData wird mit den Daten befüllt, die übergeben wurden
 			const updateData = {};
 			if (data.updateKundennr) updateData.Kundennr = data.updateKundennr;
 			if (data.updateFirma) updateData.Firma = data.updateFirma;
@@ -19,13 +21,16 @@ export async function PUT({ request }) {
 			if (data.updatePlz) updateData.PLZ = data.updatePlz;
 			if (data.updateOrt) updateData.Ort = data.updateOrt;
 
+			// update wird durchgeführt
 			const response = await pb.collection('Kunde').update(data.updateKundenid, updateData);
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
+		// update Fahrzeug
 		if (action === 'updateFahrzeug') {
 			if (!data.updateFahrzeugid) {
 				return new Response(JSON.stringify({ error: 'Fahrzeug-ID fehlt' }), { status: 400 });
 			}
+			// updateData wird mit den Daten befüllt, die übergeben wurden
 			const updateData = {};
 			if (data.updateKennzeichen) updateData.Kennzeichen = data.updateKennzeichen;
 			if (data.updateFIN) updateData.FIN = data.updateFIN;
@@ -43,21 +48,23 @@ export async function PUT({ request }) {
 			if (data.updateFarbcode) updateData.Farbcode = data.updateFarbcode;
 			if (data.updateMotorcode) updateData.Motorcode = data.updateMotorcode;
 			if (data.updateKraftstoff) updateData.Kraftstoff = data.updateKraftstoff;
-
+			// update wird durchgeführt
 			const response = await pb.collection('Fahrzeug').update(data.updateFahrzeugid, updateData);
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
+		// update Auftrag
 		if (action === 'updateAuftrag') {
 			if (!data.updateAuftragid) {
 				return new Response(JSON.stringify({ error: 'Kunden-ID fehlt' }), { status: 400 });
 			}
+			// updateData wird mit den Daten befüllt, die übergeben wurden
 			const updateData = {};
 			if (data.updateArbeiten) updateData.Arbeiten = data.updateArbeiten;
 			if (data.updateBildSchaden) updateData.BildSchaden = data.updateBildSchaden;
 			if (data.updateBildFertig) updateData.BildFertig = data.updateBildFertig;
 			if (data.updateFahrzeugid) updateData.FahrzeugID = data.updateFahrzeugid;
 			if (data.updateAuftragnr) updateData.Auftragnummer = data.updateAuftragnr;
-
+			// update wird durchgeführt
 			const response = await pb.collection('Auftrag').update(data.updateAuftragid, updateData);
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}

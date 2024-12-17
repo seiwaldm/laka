@@ -9,7 +9,6 @@
 	import { Label } from '$lib/components/ui/label';
 
 	import 'iconify-icon';
-	import { onMount } from 'svelte';
 
 	// laden der Daten
 	export let data;
@@ -48,7 +47,7 @@
 	let updateFahrzeugid = $page.params.fahrzeug;
 	let updateAuftragnr = '';
 
-	// Variablen für die Rechnung
+	// Variablen für die Rechnungerstellung
 	let bezeichnung = '';
 	let menge = '';
 	let einzelpreis = '';
@@ -106,6 +105,7 @@
 		console.log(auftragDaten);
 	}
 
+	// Funktion zum Löschen eines Auftrags
 	async function deleteAuftrag() {
 		await pb.collection('Auftrag').delete($page.params.auftrag);
 	}

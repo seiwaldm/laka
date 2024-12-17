@@ -12,6 +12,7 @@
 
 	//muss definiert werden:
 	export let data;
+	// Array mit den Feldern, die angezeigt werden sollen
 	let datenfelder = [
 		'Kundennr',
 		'Firma',
@@ -24,6 +25,7 @@
 		'Ort'
 	];
 
+	// Objekt mit den Feldern und den dazugehörigen Bezeichnungen, für die Anzeige
 	const kundendaten = {
 		Kundennr: 'Kundennummer',
 		Firma: 'Firma',
@@ -41,6 +43,7 @@
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
 	let showEditForm = false;
 
+	// Variablen für die Fahrzeuganlegung
 	let kennzeichen = '';
 	let fin = '';
 	let natCode = '';
@@ -60,6 +63,7 @@
 	let tatKilometer = '';
 	let farbcode = '';
 
+	// Funktion zum Erstellen eines Fahrzeugs
 	async function createFahrzeug() {
 		const fahrzeugDaten = {
 			action: 'createFahrzeug',
@@ -98,6 +102,7 @@
 		console.log(fahrzeugDaten);
 	}
 
+	// Variablen für die Bearbeitung eines Kunden
 	let updateKundenid = $page.params.kunde;
 	let updateKundennr = '';
 	let updateFirma = '';
@@ -109,6 +114,7 @@
 	let updatePlz = '';
 	let updateOrt = '';
 
+	// Funktion zum Aktualisieren eines Kunden
 	async function updateKunde() {
 		const kundeDaten = {
 			action: 'updateKunde',
@@ -139,6 +145,7 @@
 		console.log(kundeDaten);
 	}
 
+	// Funktion zum Löschen eines Kunden
 	async function deleteKunde() {
 		await pb.collection('Kunde').delete($page.params.kunde);
 	}
@@ -208,16 +215,12 @@
 			<DropdownMenu.Group>
 				<DropdownMenu.Label
 					class="text-black hover:bg-blue-600 rounded-lg px-4 py-2"
-					on:click={deleteKunde}
-				>
-					Löschen
+				><button on:click={deleteKunde}>Löschen</button>
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Label
 					class="text-black hover:bg-blue-600 rounded-lg px-4 py-2"
-					on:click={() => (showEditForm = true)}
-				>
-					Bearbeiten
+				><button on:click={() => (showEditForm = true)}>Bearbeiten</button>
 				</DropdownMenu.Label>
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>

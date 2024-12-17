@@ -2,20 +2,9 @@
 	export let data;
 	import { pb } from '$lib/pocketbase.js';
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
-
-	let kundennr = '';
-	let firma = '';
-	let vorname = '';
-	let nachname = '';
-	let email = '';
-	let telefonnummer = '';
-	let strasse = '';
-	let plz = '';
-	let ort = '';
 
 	// Zustand für die Suche
 	let searchQuery = '';
@@ -40,6 +29,7 @@
 		});
 	}
 
+	// Funktion zum Löschen eines Kunden
 	async function deleteKunde(kundeId) {
 		if (confirm('Möchtest du das Fahrzeug wirklich löschen?')) {
 			await pb.collection('Kunde').delete(kundeId);
@@ -47,6 +37,7 @@
 		}
 	}
 
+	// Funktion zum Aktualisieren des letzten Öffnungsdatums
 	async function updateLastOpened(kundeId) {
 		const jetzt = new Date();
 		try {

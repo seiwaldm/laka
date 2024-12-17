@@ -1,5 +1,6 @@
 import { pb } from '$lib/pocketbase';
 
+// laden aller wichtigen Daten; es werden alle Kunden, Fahrzeuge und Aufträge geladen, dabei werden die Fahrzeuge und Aufträge den Kunden zugeordnet und somit muss man nicht mehrere Anfragen machen sondern hat alles in einem
 export async function load() {
 	const kunden = await pb.collection('Kunde').getFullList({
 		sort: 'Nachname'

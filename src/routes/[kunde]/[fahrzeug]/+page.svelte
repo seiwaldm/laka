@@ -22,12 +22,14 @@
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
 	let showEditForm = false;
 
+	// Variablen für die Auftragserstellung
 	let arbeiten = '';
 	let bildSchaden = '';
 	let bildFertig = '';
 	let rechnung = '';
 	let fahrzeugid = $page.params.fahrzeug;
 
+	// Funktion zum Erstellen eines Auftrags
 	async function createAuftrag() {
 		const auftragDaten = {
 			action: 'createAuftrag',
@@ -52,6 +54,7 @@
 		console.log(auftragDaten);
 	}
 
+	// Variablen für die update Funktion
 	let updateFahrzeugid = $page.params.fahrzeug;
 	let updateKennzeichen = '';
 	let updateFin = '';
@@ -70,6 +73,7 @@
 	let updateMotorcode = '';
 	let updateKraftstoff = '';
 
+	// Funktion zum Aktualisieren des Fahrzeugs
 	async function updateFahrzeug() {
 		const fahrzeugDaten = {
 			action: 'updateFahrzeug',
@@ -106,6 +110,8 @@
 		}
 		console.log(fahrzeugDaten);
 	}
+
+	// Funktion zum Löschen eines Fahrzeugs
 	async function deleteFahrzeug() {
 		await pb.collection('Fahrzeug').delete($page.params.fahrzeug);
 	}
