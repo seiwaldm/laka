@@ -7,8 +7,12 @@ export async function load({ params }) {
 
 	const auftrag = await pb.collection('Auftrag').getOne(params.auftrag);
 
-	
+	const rechnung = await pb.collection('Rechnung').getList(1, 50, {
+		filter: `AuftragID~"${params.auftrag}"`
+	});
+
 	kunde.fahrzeuge = fahrzeuge;
 	kunde.auftrag = auftrag;
+	kunde.rechnung = rechnung;
 	return kunde;
 }

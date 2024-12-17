@@ -11,6 +11,7 @@
 	import 'iconify-icon';
 	import { onMount } from 'svelte';
 
+	// laden der Daten
 	export let data;
 
 	function openCloudinaryWidget() {
@@ -35,6 +36,10 @@
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
 	let showEditForm = false;
 
+	// Zustand für die Sichtbarkeit der Rechnung definieren
+	let showRechnung = false;
+
+	// Variablen für die update Funktion
 	let updateAuftragid = $page.params.auftrag;
 	let updateArbeiten = '';
 	let updateBildSchaden = '';
@@ -43,6 +48,37 @@
 	let updateFahrzeugid = $page.params.fahrzeug;
 	let updateAuftragnr = '';
 
+	// Variablen für die Rechnung
+	let bezeichnung = '';
+	let menge = '';
+	let einzelpreis = '';
+	let rabatt = '';
+
+	// Funktion zum erstellen einer Rechnung (Datensatz)
+	async function createRechnung() {
+		const auftragDaten = {
+			action: 'createAuftrag',
+			bezeichnung,
+			menge,
+			einzelpreis,
+			rabatt
+		};
+		try {
+			const response = await fetch('/create-client', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(auftragDaten)
+			});
+			location.reload();
+		} catch (error) {
+			console.error(error);
+		}
+		console.log(auftragDaten);
+	}
+
+	// funktion zum aktualisieren des Auftrags
 	async function updateAuftrag() {
 		const auftragDaten = {
 			action: 'updateAuftrag',
@@ -108,6 +144,17 @@
 
 <!-- <button on:click={openCloudinaryWidget}><iconify-icon icon="lucide:camera"></iconify-icon></button> -->
 
+<button
+	class="
+	bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2
+	absolute top-10 right-5
+	sm:static sm:mt-4 sm:ml-auto
+	md:absolute md:top-10 md:right-5
+"
+	on:cklick={() => (showRechnung = true)}
+>
+	Rechnung
+</button>
 <div class="relative">
 	<!-- Bearbeiten Button -->
 	<button
@@ -206,6 +253,49 @@
 				>
 					Speichern
 				</button>
+			</Card.Footer>
+		</Card.Root>
+	{/if}
+</div>
+
+<div class="flex flex-col items-center">
+	{#if showRechnung}
+		<Card.Root class="lg:w-[700px]">
+			<Card.Header>
+				<Card.Title>Rechnung</Card.Title>
+			</Card.Header>
+			<Card.Content>
+				<form>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="auftragnr">Bezeichnung</Label>
+						<Input type="auftragnr" bind:value={bezeichnung} class="max-w-xs" />
+					</div>
+					<div class="grid w-full items-center gap-4">
+						<div class="flex flex-col space-y-1.5">
+							<Label for="arbeiten">Menge</Label>
+							<Input type="arbeiten" bind:value={menge} class="max-w-xs" />
+						</div>
+					</div>
+				</form>
+			</Card.Content>
+
+			<Card.Footer class="flex justify-between">
+				<button
+					class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
+					on:click={() => (showEditForm = false)}
+				>
+					Abbrechen
+				</button>
+				<!-- <a
+					href="/{$page.params.kunde}/{$page.params.fahrzeug}/{$page.params.auftrag}/{data.rechnung
+						.id}>" -->
+				<button
+					class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+					on:click={createRechnung}
+				>
+					Speichern
+				</button>
+				<!-- </a> -->
 			</Card.Footer>
 		</Card.Root>
 	{/if}
