@@ -192,7 +192,7 @@
 	{/each}
 
 	<!-- Icon mit 3 Punkten für das Dropdown-Menü -->
-	<DropdownMenu.Root class="relative">
+	<DropdownMenu.Root>
 		<!-- Füge relative Positionierung hinzu -->
 		<DropdownMenu.Trigger>
 			<button
@@ -202,10 +202,11 @@
 				⋮
 			</button>
 		</DropdownMenu.Trigger>
-		<DropdownMenu.Content
-			class="absolute right-0 top-full mt-2 w-48 bg-white shadow-md rounded-md p-2"
-		>
-			<DropdownMenu.Group>
+		<DropdownMenu.Content class="p-0 border-none">
+			<DropdownMenu.Group
+				class="fixed top-20 right-8 mt-2 w-48 bg-white shadow-md rounded-md p-2"
+				s
+			>
 				<!-- Neu: Bestätigungsdialog -->
 				<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
 					<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
