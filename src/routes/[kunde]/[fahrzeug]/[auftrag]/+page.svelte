@@ -7,6 +7,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 
 	import 'iconify-icon';
 
@@ -37,6 +38,9 @@
 
 	// Zustand für die Sichtbarkeit der Rechnung definieren
 	let showRechnung = false;
+
+	// Zustand für die Sichtbarkeit des Bestätigungsdialogs definieren
+	let showDeleteConfirm = false;
 
 	// Variablen für die update Funktion
 	let updateAuftragid = $page.params.auftrag;
@@ -105,9 +109,19 @@
 		console.log(auftragDaten);
 	}
 
-	// Funktion zum Löschen eines Auftrags
-	async function deleteAuftrag() {
-		await pb.collection('Auftrag').delete($page.params.auftrag);
+	// Funktion zum Schließen des Bestätigungsdialogs
+	function cancelDelete() {
+		showDeleteConfirm = false;
+	}
+
+	// Funktion zum Löschen eines Kunden mit Bestätigung
+	async function confirmDelete() {
+		try {
+			await pb.collection('Kunde').delete($page.params.kunde);
+			location.reload();
+		} catch (error) {
+			console.error(error);
+		}
 	}
 </script>
 
@@ -139,7 +153,61 @@
 		Auftrag {data.auftrag.Arbeiten}
 	</div>
 </h1>
+<!-- Icon mit 3 Punkten für das Dropdown-Menü -->
+<DropdownMenu.Root class="relative">
+	<DropdownMenu.Trigger>
+		<button
+			class="absolute sm:mt-20 top-10 right-8 text-gray-600 hover:text-gray-800 text-2xl"
+			aria-label="Options"
+		>
+			⋮
+		</button>
+	</DropdownMenu.Trigger>
+	<DropdownMenu.Content
+		class="absolute right-0 top-full mt-2 w-48 bg-white shadow-md rounded-md p-2"
+	>
+		<DropdownMenu.Group>
+			<!-- Neu: Bestätigungsdialog -->
+			<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+				<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
+			</DropdownMenu.Label>
+			<DropdownMenu.Separator />
+			<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+				<button
+					on:click={() => {
+						showEditForm = true;
+					}}
+				>
+					Bearbeiten
+				</button>
+			</DropdownMenu.Label>
+		</DropdownMenu.Group>
+	</DropdownMenu.Content>
+</DropdownMenu.Root>
 
+<!-- Bestätigungsdialog für Löschen -->
+{#if showDeleteConfirm}
+	<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+		<div class="bg-white p-6 rounded-lg shadow-md">
+			<h2 class="text-lg font-bold">Sind Sie sicher?</h2>
+			<p>Möchten Sie diesen Auftrag wirklich löschen?</p>
+			<div class="mt-4 flex justify-end gap-4">
+				<button
+					class="text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-lg px-2 py-1"
+					on:click={cancelDelete}
+				>
+					Abbrechen
+				</button>
+				<button
+					class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+					on:click={confirmDelete}
+				>
+					Löschen
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}
 <div class="my-5"><hr /></div>
 
 <!-- <button on:click={openCloudinaryWidget}><iconify-icon icon="lucide:camera"></iconify-icon></button> -->
@@ -155,28 +223,6 @@
 >
 	Rechnung
 </button>
-<div class="relative">
-	<!-- Bearbeiten Button -->
-	<button
-		class="
-			bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2
-			absolute top-10 right-5
-			sm:static sm:mt-4 sm:ml-auto
-			md:absolute md:top-10 md:right-5
-		"
-		on:click={() => (showEditForm = true)}
-	>
-		Bearbeiten
-	</button>
-</div>
-<div class="relative sm:static sm:mt-0 sm:mb-4">
-	<button
-		class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 absolute sm:top-16 sm:right-5 top-20 right-5"
-		on:click={deleteAuftrag}
-	>
-		Auftrag löschen
-	</button>
-</div>
 
 <!-- Auftraginformationen  -->
 <div class="pl-5">
@@ -260,7 +306,7 @@
 
 <div class="flex flex-col items-center">
 	{#if showRechnung}
-		<Card.Root class="lg:w-[700px]">
+		<Card.Root class="top-12">
 			<Card.Header>
 				<Card.Title>Rechnung</Card.Title>
 			</Card.Header>

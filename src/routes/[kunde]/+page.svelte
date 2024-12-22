@@ -42,6 +42,8 @@
 	let showCard = false;
 	// Zustand für die Sichtbarkeit des Bearbeitungsformulars definieren
 	let showEditForm = false;
+	// Zustand für die Sichtbarkeit des Bestätigungsdialogs definieren
+	let showDeleteConfirm = false;
 
 	// Variablen für die Fahrzeuganlegung
 	let kennzeichen = '';
@@ -145,9 +147,19 @@
 		console.log(kundeDaten);
 	}
 
-	// Funktion zum Löschen eines Kunden
-	async function deleteKunde() {
-		await pb.collection('Kunde').delete($page.params.kunde);
+	// Funktion zum Schließen des Bestätigungsdialogs
+	function cancelDelete() {
+		showDeleteConfirm = false;
+	}
+
+	// Funktion zum Löschen eines Kunden mit Bestätigung
+	async function confirmDelete() {
+		try {
+			await pb.collection('Kunde').delete($page.params.kunde);
+			location.reload();
+		} catch (error) {
+			console.error(error);
+		}
 	}
 </script>
 
@@ -179,52 +191,63 @@
 		</div>
 	{/each}
 
-	<!-- <div class="relative">
-		Bearbeiten Button
-		<button
-			class="
-    		absolute right-0 top-30 m-4
-   			bg-blue-500 text-white hover:bg-blue-600
-    		rounded-lg px-4 py-2"
-			on:click={() => (showEditForm = true)}
-		>
-			Bearbeiten
-		</button>
-	</div> -->
-	<!-- <div class="relative sm:static sm:mt-0 sm:mb-4"> -->
-	<!-- Button zum Löschen
-		<button
-			class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 absolute sm:top-16 sm:right-5 top-20 right-5 mt-20"
-			on:click={deleteKunde}
-		>
-			Kundelöschen
-		</button> -->
-
-	<!-- Icon mit 3 Punkten -->
-
-	<DropdownMenu.Root>
-		<DropdownMenu.Trigger
-			><button
-				class="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+	<!-- Icon mit 3 Punkten für das Dropdown-Menü -->
+	<DropdownMenu.Root class="relative">
+		<!-- Füge relative Positionierung hinzu -->
+		<DropdownMenu.Trigger>
+			<button
+				class="absolute top-10 right-8 text-gray-600 hover:text-gray-800 text-2xl"
 				aria-label="Options"
 			>
-				⋮</button
-			></DropdownMenu.Trigger
+				⋮
+			</button>
+		</DropdownMenu.Trigger>
+		<DropdownMenu.Content
+			class="absolute right-0 top-full mt-2 w-48 bg-white shadow-md rounded-md p-2"
 		>
-		<DropdownMenu.Content>
 			<DropdownMenu.Group>
-				<DropdownMenu.Label
-					class="text-black hover:bg-blue-600 rounded-lg px-4 py-2"
-				><button on:click={deleteKunde}>Löschen</button>
+				<!-- Neu: Bestätigungsdialog -->
+				<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+					<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
-				<DropdownMenu.Label
-					class="text-black hover:bg-blue-600 rounded-lg px-4 py-2"
-				><button on:click={() => (showEditForm = true)}>Bearbeiten</button>
+				<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+					<button
+						on:click={() => {
+							showEditForm = true;
+							showDeleteConfirm = false; // Dropdown schließt sich
+						}}
+					>
+						Bearbeiten
+					</button>
 				</DropdownMenu.Label>
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
+
+	<!-- Bestätigungsdialog für Löschen -->
+	{#if showDeleteConfirm}
+		<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+			<div class="bg-white p-6 rounded-lg shadow-md">
+				<h2 class="text-lg font-bold">Sind Sie sicher?</h2>
+				<p>Möchten Sie diesen Kunden wirklich löschen?</p>
+				<div class="mt-4 flex justify-end gap-4">
+					<button
+						class="text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-lg px-2 py-1"
+						on:click={cancelDelete}
+					>
+						Abbrechen
+					</button>
+					<button
+						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+						on:click={confirmDelete}
+					>
+						Löschen
+					</button>
+				</div>
+			</div>
+		</div>
+	{/if}
 
 	<div class="my-5"><hr /></div>
 	<!-- Fahrzeuganlegung Button -->
