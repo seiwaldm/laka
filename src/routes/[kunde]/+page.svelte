@@ -192,39 +192,35 @@
 	{/each}
 
 	<!-- Icon mit 3 Punkten für das Dropdown-Menü -->
-	<DropdownMenu.Root>
-		<!-- Füge relative Positionierung hinzu -->
-		<DropdownMenu.Trigger>
-			<button
-				class="absolute top-10 right-8 text-gray-600 hover:text-gray-800 text-2xl"
-				aria-label="Options"
-			>
-				⋮
-			</button>
-		</DropdownMenu.Trigger>
-		<DropdownMenu.Content class="p-0 border-none">
-			<DropdownMenu.Group
-				class="fixed top-20 right-8 mt-2 w-48 bg-white shadow-md rounded-md p-2"
-				s
-			>
-				<!-- Neu: Bestätigungsdialog -->
-				<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
-					<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
-				</DropdownMenu.Label>
-				<DropdownMenu.Separator />
-				<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
-					<button
-						on:click={() => {
-							showEditForm = true;
-							showDeleteConfirm = false; // Dropdown schließt sich
-						}}
-					>
-						Bearbeiten
-					</button>
-				</DropdownMenu.Label>
-			</DropdownMenu.Group>
-		</DropdownMenu.Content>
-	</DropdownMenu.Root>
+	<div class="absolute top-32 lg:top-10 right-10">
+		<DropdownMenu.Root>
+			<!-- Füge relative Positionierung hinzu -->
+			<DropdownMenu.Trigger>
+				<button class=" text-gray-600 hover:text-gray-800 text-2xl" aria-label="Options">
+					⋮
+				</button>
+			</DropdownMenu.Trigger>
+			<DropdownMenu.Content>
+				<DropdownMenu.Group class="mt-2 w-48 bg-white shadow-md rounded-md p-2" s>
+					<!-- Neu: Bestätigungsdialog -->
+					<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+						<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
+					</DropdownMenu.Label>
+					<DropdownMenu.Separator />
+					<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+						<button
+							on:click={() => {
+								showEditForm = true;
+								showDeleteConfirm = false; // Dropdown schließt sich
+							}}
+						>
+							Bearbeiten
+						</button>
+					</DropdownMenu.Label>
+				</DropdownMenu.Group>
+			</DropdownMenu.Content>
+		</DropdownMenu.Root>
+	</div>
 
 	<!-- Bestätigungsdialog für Löschen -->
 	{#if showDeleteConfirm}
