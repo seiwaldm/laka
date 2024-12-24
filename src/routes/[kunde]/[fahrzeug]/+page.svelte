@@ -151,7 +151,7 @@
 <hr />
 
 <div class="pl-5">
-	<h1 class="my-5 text-2xl font-bold">Fahrzeuginformationen</h1>
+	<h1 class="my-5 pl-2 text-2xl font-bold">Fahrzeuginformationen</h1>
 	<!-- Unterüberschrift 1 -->
 	<h2 class="text-lg font-bold mb-4">Basisdaten</h2>
 	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'FIN' || item[0] === 'Nat_Code' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung' || item[0] === 'Pickerl') as [key, value]}
@@ -179,37 +179,35 @@
 	{/each}
 
 	<!-- Icon mit 3 Punkten für das Dropdown-Menü -->
-	<DropdownMenu.Root class="relative">
-		<!-- Füge relative Positionierung hinzu -->
-		<DropdownMenu.Trigger>
-			<button
-				class="absolute top-10 right-8 text-gray-600 hover:text-gray-800 text-2xl"
-				aria-label="Options"
-			>
-				⋮
-			</button>
-		</DropdownMenu.Trigger>
-		<DropdownMenu.Content
-			class="absolute right-0 top-full mt-2 w-48 bg-white shadow-md rounded-md p-2"
-		>
-			<DropdownMenu.Group>
-				<!-- Neu: Bestätigungsdialog -->
-				<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
-					<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
-				</DropdownMenu.Label>
-				<DropdownMenu.Separator />
-				<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
-					<button
-						on:click={() => {
-							showEditForm = true;
-						}}
-					>
-						Bearbeiten
-					</button>
-				</DropdownMenu.Label>
-			</DropdownMenu.Group>
-		</DropdownMenu.Content>
-	</DropdownMenu.Root>
+	<div class="absolute top-32 lg:top-10 right-10">
+		<DropdownMenu.Root>
+			<!-- Füge relative Positionierung hinzu -->
+			<DropdownMenu.Trigger>
+				<button class=" text-gray-600 hover:text-gray-800 text-2xl" aria-label="Options">
+					⋮
+				</button>
+			</DropdownMenu.Trigger>
+			<DropdownMenu.Content>
+				<DropdownMenu.Group class="mt-2 w-48 bg-white shadow-md rounded-md p-2" s>
+					<!-- Neu: Bestätigungsdialog -->
+					<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+						<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
+					</DropdownMenu.Label>
+					<DropdownMenu.Separator />
+					<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+						<button
+							on:click={() => {
+								showEditForm = true;
+								showDeleteConfirm = false; // Dropdown schließt sich
+							}}
+						>
+							Bearbeiten
+						</button>
+					</DropdownMenu.Label>
+				</DropdownMenu.Group>
+			</DropdownMenu.Content>
+		</DropdownMenu.Root>
+	</div>
 
 	<!-- Bestätigungsdialog für Löschen -->
 	{#if showDeleteConfirm}

@@ -164,7 +164,7 @@
 </script>
 
 <!-- Link zu den verschiedenen Seiten -->
-<h1 class="text-lg pl-5 flex items-center my-5">
+<h1 class="text-base pl-5 flex items-center my-5">
 	<!-- Mobile und Tablet Design -->
 	<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block lg:hidden"></iconify-icon>
 	<a href="/" class="hover:underline block lg:hidden"> Zurück </a>
@@ -346,7 +346,7 @@
 	</div>
 
 	<!-- Bearbeitungsfeld -->
-	<div class="flex flex-col items-center">
+	<div class="flex flex-col items-center mb-5">
 		{#if showEditForm}
 			<Card.Root class="lg:w-[700px]">
 				<Card.Header>
