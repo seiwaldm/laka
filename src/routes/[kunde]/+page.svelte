@@ -153,7 +153,7 @@
 	}
 
 	// Funktion zum Löschen eines Kunden mit Bestätigung
-	async function confirmDelete() {
+	async function deleteKunde() {
 		try {
 			await pb.collection('Kunde').delete($page.params.kunde);
 			location.reload();
@@ -237,7 +237,7 @@
 					</button>
 					<button
 						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-						on:click={confirmDelete}
+						on:click={deleteKunde}
 					>
 						Löschen
 					</button>

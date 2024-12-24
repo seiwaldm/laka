@@ -28,6 +28,7 @@
 
 	// Variablen für die Auftragserstellung
 	let arbeiten = '';
+	let infotext = '';
 	let bildSchaden = '';
 	let bildFertig = '';
 	let rechnung = '';
@@ -38,6 +39,7 @@
 		const auftragDaten = {
 			action: 'createAuftrag',
 			arbeiten,
+			infotext,
 			bildSchaden,
 			bildFertig,
 			rechnung,
@@ -121,7 +123,7 @@
 	}
 
 	// Funktion zum Löschen eines Kunden mit Bestätigung
-	async function confirmDelete() {
+	async function deleteFahrzeug() {
 		try {
 			await pb.collection('Kunde').delete($page.params.kunde);
 			location.reload();
@@ -224,7 +226,7 @@
 					</button>
 					<button
 						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-						on:click={confirmDelete}
+						on:click={deleteFahrzeug}
 					>
 						Löschen
 					</button>
@@ -257,6 +259,15 @@
 										type="arbeiten"
 										bind:value={arbeiten}
 										placeholder="Arbeiten an..."
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="arbeiten">Infotext</Label>
+									<Input
+										type="arbeiten"
+										bind:value={infotext}
+										placeholder="Arbeitsbeschreibung"
 										class="max-w-xs"
 									/>
 								</div>

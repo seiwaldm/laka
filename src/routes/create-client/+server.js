@@ -98,11 +98,12 @@ export async function POST({ request }) {
 					.filter((num) => !isNaN(num))
 					.sort((a, b) => b - a)[0] || 1000;
 			// neue Auftragsnummer wird erstellt
-			const neueAuftragnummer = `K-${letzteAuftragnummer + 1}`;
+			const neueAuftragnummer = `A-${letzteAuftragnummer + 1}`;
 
 			// Auftrag wird erstellt
 			const response = await pb.collection('Auftrag').create({
 				Arbeiten: data.arbeiten,
+				Infotext: data.infotext,
 				BildSchaden: data.bildSchaden,
 				BildFertig: data.bildFertig,
 				Rechnung: data.rechnung,

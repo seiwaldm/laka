@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import Attribute from '$lib/components/Attribute.svelte';
 	import { icons } from '$lib/icons';
-
+	import { openCloudinaryWidgetSchaden } from '$lib/cloudinary.js';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -14,21 +14,8 @@
 	// laden der Daten
 	export let data;
 
-	function openCloudinaryWidget() {
-		let cloudinaryWidget = cloudinary.createUploadWidget(
-			{
-				cloudName: 'seiwaldm',
-				uploadPreset: 'zqnhbbpy'
-			},
-			(error, result) => {
-				if (!error && result && result.event === 'success') {
-					console.log('Done! Here is the image info: ', result.info);
-				}
-			}
-		);
-
-		cloudinaryWidget.open();
-	}
+	// Funktion zum öffnen des Cloudinary Widgets, so dass sie in icons verwendet werden kann
+	
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
@@ -50,6 +37,7 @@
 	let updateRechnung = '';
 	let updateFahrzeugid = $page.params.fahrzeug;
 	let updateAuftragnr = '';
+	let updateInfotext = '';
 
 	// Variablen für die Rechnungerstellung
 	let bezeichnung = '';
@@ -115,7 +103,7 @@
 	}
 
 	// Funktion zum Löschen eines Kunden mit Bestätigung
-	async function confirmDelete() {
+	async function deleteAuftrag() {
 		try {
 			await pb.collection('Kunde').delete($page.params.kunde);
 			location.reload();
@@ -125,6 +113,7 @@
 	}
 </script>
 
+<!-- Dateien auf cloudinary hochladen -->
 <svelte:head>
 	<script
 		src="https://upload-widget.cloudinary.com/latest/global/all.js"
@@ -197,7 +186,7 @@
 				</button>
 				<button
 					class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-					on:click={confirmDelete}
+					on:click={deleteAuftrag}
 				>
 					Löschen
 				</button>
@@ -206,8 +195,6 @@
 	</div>
 {/if}
 <div class="my-5"><hr /></div>
-
-<!-- <button on:click={openCloudinaryWidget}><iconify-icon icon="lucide:camera"></iconify-icon></button> -->
 
 <button
 	class="
@@ -221,14 +208,20 @@
 	Rechnung
 </button>
 
+<!-- Button zum öffnen des Cloudinary Widgets
+<button on:click={openCloudinaryWidgetSchaden}
+	><iconify-icon icon="lucide:camera"></iconify-icon></button
+> -->
+
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
-	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Rechnung') as [key, value]}
+	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Infotext' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
-			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
-			<span class="font-bold">{key}:</span>
-			<span class="absolute left-48">{value}</span>
+			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
+				<iconify-icon icon={typeof icons[key] === 'object' ? icons[key].icon : icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon></button>
+				<span class="font-bold">{key}:</span>
+				<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
 </div>
@@ -261,23 +254,15 @@
 								placeholder={data.auftrag.Arbeiten}
 								class="max-w-xs"
 							/>
-						</div>
-						<div class="flex flex-col space-y-1.5">
-							<Label for="bildSchaden">Bild vom Schaden</Label>
-							<Input id="bildSchaden" type="file" bind:value={updateBildSchaden} class="max-w-xs" />
-						</div>
-						<div class="flex flex-col space-y-1.5">
-							<Label for="bildFertig">Bild vom reparierten Schaden</Label>
-							<Input id="bildFertig" type="file" bind:value={updateBildFertig} class="max-w-xs" />
-						</div>
-						<div class="flex flex-col space-y-1.5">
-							<Label for="rechnung">Rechnung</Label>
-							<Input
-								type="rechnung"
-								bind:value={updateRechnung}
-								placeholder={data.auftrag.Rechnung}
-								class="max-w-xs"
-							/>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="arbeiten">Infotext</Label>
+								<Input
+									type="arbeiten"
+									bind:value={updateInfotext}
+									placeholder={data.auftrag.Infotext}
+									class="max-w-xs"
+								/>
+							</div>
 						</div>
 					</div>
 				</form>
@@ -305,7 +290,7 @@
 	{#if showRechnung}
 		<Card.Root class="top-12">
 			<Card.Header>
-				<Card.Title>Rechnung</Card.Title>
+				<Card.Title>Auftrager</Card.Title>
 			</Card.Header>
 			<Card.Content>
 				<form>
