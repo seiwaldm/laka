@@ -15,7 +15,6 @@
 	export let data;
 
 	// Funktion zum öffnen des Cloudinary Widgets, so dass sie in icons verwendet werden kann
-	
 
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
@@ -110,6 +109,63 @@
 		} catch (error) {
 			console.error(error);
 		}
+	}
+	// Zustand für die Sichtbarkeit des Formulars "Ersatzteile hinzufügen"
+	let showAddPartForm = false;
+	// Zustand für die Sichtbarkeit des Formulars "Arbeitsstunden hinzufügen"
+	let showAddHourForm = false;
+
+	// Variablen für die Felder des Formulars Ersatzteile
+	let ersatzteilName = '';
+	let ersatzteilEinzelpreis = '';
+	let ersatzteilStück = '';
+	let ersatzteilGesamtpreis = '';
+
+	// Variablen für die Felder des Formulars Arbeitsstunden
+	let arbeitName = '';
+	let stundenMenge = '';
+	let stundenEinzelpreis = '';
+	let stundenGesamtpreis = '';
+
+	// Funktion zum Hinzufügen eines Arbeitsstunden
+	function addArbeitsstunden() {
+		// Berechnung des Gesamtpreises
+		stundenGesamtpreis = stundenEinzelpreis * stundenMenge;
+
+		// Hier kannst du die Daten weiterverarbeiten oder speichern
+		console.log({
+			Name: arbeitName,
+			Einzelpreis: stundenEinzelpreis,
+			Menge: stundenMenge,
+			Gesamtpreis: stundenGesamtpreis
+		});
+		// Formular zurücksetzen und ausblenden
+		let arbeitName = '';
+		let stundenMenge = '';
+		let stundenEinzelpreis = '';
+		let stundenGesamtpreis = '';
+		showAddHourForm = false;
+	}
+
+	// Funktion zum Hinzufügen der Ersatzteils
+	function addErsatzteil() {
+		// Berechnung des Gesamtpreises
+		ersatzteilGesamtpreis = ersatzteilEinzelpreis * ersatzteilStück;
+
+		// Hier kannst du die Daten weiterverarbeiten oder speichern
+		console.log({
+			Name: ersatzteilName,
+			Einzelpreis: ersatzteilEinzelpreis,
+			Stück: ersatzteilStück,
+			Gesamtpreis: ersatzteilGesamtpreis
+		});
+
+		// Formular zurücksetzen und ausblenden
+		ersatzteilName = '';
+		ersatzteilEinzelpreis = '';
+		ersatzteilStück = '';
+		ersatzteilGesamtpreis = '';
+		showAddPartForm = false;
 	}
 </script>
 
@@ -216,15 +272,166 @@
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
-	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Infotext' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig') as [key, value]}
+	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Infotext' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
-				<iconify-icon icon={typeof icons[key] === 'object' ? icons[key].icon : icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon></button>
-				<span class="font-bold">{key}:</span>
-				<span class="absolute left-48">{value}</span>
+				<iconify-icon
+					icon={typeof icons[key] === 'object' ? icons[key].icon : icons[key]}
+					class="mr-2 text-2xl translate-y-1"
+				></iconify-icon></button
+			>
+			<span class="font-bold">{key}:</span>
+			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
+
+	<!-- Unterüberschrift 1 -->
+	<h2 class="text-lg font-bold mb-4">Ersatzteile</h2>
+	<button
+		class="ml-4 bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-3 py-1"
+		on:click={() => (showAddPartForm = !showAddPartForm)}
+	>
+		+
+	</button>
+
+	<!-- Unterüberschrift 2 -->
+	<h2 class="text-lg font-bold mt-6 mb-4">Arbeitsstunden</h2>
+	<button
+		class="ml-4 bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-3 py-1"
+		on:click={() => (showAddHourForm = !showAddHourForm)}
+	>
+		+
+	</button>
 </div>
+
+<!-- Formular zum Hinzufügen eines Ersatzteils -->
+{#if showAddPartForm}
+	<div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
+		<h3 class="text-lg font-semibold mb-2">Ersatzteil hinzufügen</h3>
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+			<div>
+				<label for="ersatzteilName" class="block text-sm font-medium mb-1">Name</label>
+				<input
+					id="ersatzteilName"
+					type="text"
+					bind:value={ersatzteilName}
+					placeholder="Ersatzteil Name"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="einzelpreis" class="block text-sm font-medium mb-1">Einzelpreis</label>
+				<input
+					id="einzelpreis"
+					type="text"
+					bind:value={ersatzteilEinzelpreis}
+					placeholder="Einzelpreis"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="ersatzteilStück" class="block text-sm font-medium mb-1">Stück</label>
+				<input
+					id="ersatzteilStück"
+					type="number"
+					bind:value={ersatzteilStück}
+					placeholder="Stück"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Gesamtpreis</label>
+				<input
+					id="gesamtpreis"
+					type="text"
+					value={ersatzteilEinzelpreis * ersatzteilStück}
+					placeholder="Gesamtpreis (wird berechnet)"
+					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+					disabled
+				/>
+			</div>
+		</div>
+		<div class="mt-4 flex justify-end gap-2">
+			<button
+				class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
+				on:click={() => (showAddPartForm = false)}
+			>
+				Abbrechen
+			</button>
+			<button
+				class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+				on:click={addErsatzteil}
+			>
+				Hinzufügen
+			</button>
+		</div>
+	</div>
+{/if}
+<!-- Formular zum Hinzufügen von Arbeitsstunden -->
+{#if showAddHourForm}
+	<div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
+		<h3 class="text-lg font-semibold mb-2">Arbeitsstunden hinzufügen</h3>
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+			<div>
+				<label for="arbeitName" class="block text-sm font-medium mb-1">Name</label>
+				<input
+					id="arbeitName"
+					type="text"
+					bind:value={arbeitName}
+					placeholder="Arbeit Name"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="stundenEinzelpreis" class="block text-sm font-medium mb-1"
+					>Einzelstundenpreis</label
+				>
+				<input
+					id="einzelpreis"
+					type="text"
+					bind:value={stundenEinzelpreis}
+					placeholder="Einzelpreis"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="stundenMenge" class="block text-sm font-medium mb-1">Stunden</label>
+				<input
+					id="stundenMenge"
+					type="number"
+					bind:value={stundenMenge}
+					placeholder="Stunden"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Gesamtpreis</label>
+				<input
+					id="stundenGesamtpreis"
+					type="text"
+					value={stundenMenge * stundenEinzelpreis}
+					placeholder="Gesamtpreis (wird berechnet)"
+					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+					disabled
+				/>
+			</div>
+		</div>
+		<div class="mt-4 flex justify-end gap-2">
+			<button
+				class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
+				on:click={() => (showAddHourForm = false)}
+			>
+				Abbrechen
+			</button>
+			<button
+				class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+				on:click={addArbeitsstunden}
+			>
+				Hinzufügen
+			</button>
+		</div>
+	</div>
+{/if}
 <hr />
 
 <!-- Bearbeitungsfeld -->

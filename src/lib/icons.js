@@ -34,5 +34,7 @@ export const icons = {
 	KW: 'lucide-car-front',
 	Motorcode: 'lucide-hash',
 	Kraftstoff: 'lucide-fuel',
-	Farbcode: 'lucide-hash'
+	Farbcode: 'lucide-hash',
+	Infotext: 'lucide-info-circle',
+	Auftragsnr: 'lucide-hash'
 };
