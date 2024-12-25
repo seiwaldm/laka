@@ -28,6 +28,12 @@
 	// Zustand für die Sichtbarkeit des Bestätigungsdialogs definieren
 	let showDeleteConfirm = false;
 
+	// Zustand für die Sichtbarkeit des Formulars "Ersatzteile hinzufügen"
+	let showAddPartForm = false;
+
+	// Zustand für die Sichtbarkeit des Formulars "Arbeitsstunden hinzufügen"
+	let showAddHourForm = false;
+
 	// Variablen für die update Funktion
 	let updateAuftragid = $page.params.auftrag;
 	let updateArbeiten = '';
@@ -37,6 +43,34 @@
 	let updateFahrzeugid = $page.params.fahrzeug;
 	let updateAuftragnr = '';
 	let updateInfotext = '';
+
+	// funktion zum aktualisieren des Auftrags
+	async function updateAuftrag() {
+		const auftragDaten = {
+			action: 'updateAuftrag',
+			updateAuftragid,
+			updateArbeiten,
+			updateBildSchaden,
+			updateBildFertig,
+			updateRechnung,
+			updateAuftragnr,
+			updateFahrzeugid
+		};
+		try {
+			const response = await fetch('/update-client', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(auftragDaten)
+			});
+			const result = await response.json();
+			location.reload();
+		} catch (error) {
+			console.error(error);
+		}
+		console.log(auftragDaten);
+	}
 
 	// Variablen für die Rechnungerstellung
 	let bezeichnung = '';
@@ -68,58 +102,57 @@
 		console.log(auftragDaten);
 	}
 
-	// funktion zum aktualisieren des Auftrags
-	async function updateAuftrag() {
-		const auftragDaten = {
-			action: 'updateAuftrag',
-			updateAuftragid,
-			updateArbeiten,
-			updateBildSchaden,
-			updateBildFertig,
-			updateRechnung,
-			updateAuftragnr,
-			updateFahrzeugid
+	// Variablen für die Felder des Formulars Ersatzteile
+	let ersatzteilBezeichnung = '';
+	let ersatzteilEKPreis = '';
+	let ersatzteilMenge = '';
+	let ersatzteilBruttosumme = '';
+	let auftragid = $page.params.auftrag;
+
+	async function createErsatzteil() {
+		const ersatzteilDaten = {
+			action: 'createErsatzteil',
+			ersatzteilBezeichnung,
+			ersatzteilEKPreis,
+			ersatzteilMenge,
+			ersatzteilBruttosumme,
+			auftragid
 		};
 		try {
-			const response = await fetch('/update-client', {
-				method: 'PUT',
+			const response = await fetch('/create-client', {
+				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(auftragDaten)
+				body: JSON.stringify(ersatzteilDaten)
 			});
-			const result = await response.json();
 			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
-		console.log(auftragDaten);
+		console.log(ersatzteilDaten);
 	}
 
-	// Funktion zum Schließen des Bestätigungsdialogs
-	function cancelDelete() {
-		showDeleteConfirm = false;
-	}
+	// Funktion zum Hinzufügen der Ersatzteils
+	function addErsatzteil() {
+		// Berechnung des Gesamtpreises
+		ersatzteilBruttosumme = ersatzteilEKPreis * ersatzteilMenge;
 
-	// Funktion zum Löschen eines Kunden mit Bestätigung
-	async function deleteAuftrag() {
-		try {
-			await pb.collection('Kunde').delete($page.params.kunde);
-			location.reload();
-		} catch (error) {
-			console.error(error);
-		}
-	}
-	// Zustand für die Sichtbarkeit des Formulars "Ersatzteile hinzufügen"
-	let showAddPartForm = false;
-	// Zustand für die Sichtbarkeit des Formulars "Arbeitsstunden hinzufügen"
-	let showAddHourForm = false;
+		// Hier kannst du die Daten weiterverarbeiten oder speichern
+		console.log({
+			Name: ersatzteilBezeichnung,
+			Einzelpreis: ersatzteilEKPreis,
+			Stück: ersatzteilMenge,
+			Gesamtpreis: ersatzteilBruttosumme
+		});
 
-	// Variablen für die Felder des Formulars Ersatzteile
-	let ersatzteilName = '';
-	let ersatzteilEinzelpreis = '';
-	let ersatzteilStück = '';
-	let ersatzteilGesamtpreis = '';
+		// Formular zurücksetzen und ausblenden
+		ersatzteilName = '';
+		ersatzteilEinzelpreis = '';
+		ersatzteilStück = '';
+		ersatzteilGesamtpreis = '';
+		showAddPartForm = false;
+	}
 
 	// Variablen für die Felder des Formulars Arbeitsstunden
 	let arbeitName = '';
@@ -147,25 +180,19 @@
 		showAddHourForm = false;
 	}
 
-	// Funktion zum Hinzufügen der Ersatzteils
-	function addErsatzteil() {
-		// Berechnung des Gesamtpreises
-		ersatzteilGesamtpreis = ersatzteilEinzelpreis * ersatzteilStück;
+	// Funktion zum Schließen des Bestätigungsdialogs
+	function cancelDelete() {
+		showDeleteConfirm = false;
+	}
 
-		// Hier kannst du die Daten weiterverarbeiten oder speichern
-		console.log({
-			Name: ersatzteilName,
-			Einzelpreis: ersatzteilEinzelpreis,
-			Stück: ersatzteilStück,
-			Gesamtpreis: ersatzteilGesamtpreis
-		});
-
-		// Formular zurücksetzen und ausblenden
-		ersatzteilName = '';
-		ersatzteilEinzelpreis = '';
-		ersatzteilStück = '';
-		ersatzteilGesamtpreis = '';
-		showAddPartForm = false;
+	// Funktion zum Löschen eines Kunden mit Bestätigung
+	async function deleteAuftrag() {
+		try {
+			await pb.collection('Kunde').delete($page.params.kunde);
+			location.reload();
+		} catch (error) {
+			console.error(error);
+		}
 	}
 </script>
 
@@ -293,6 +320,19 @@
 	>
 		+
 	</button>
+	{#if data.ersatzteile.items.length > 0}
+		{#each data.ersatzteile.items as Ersatzteile (Ersatzteile.id)}
+			<a
+				href="/{$page.params.kunde}/{$page.params.fahrzeug}/{Ersatzteile.id}"
+				class="flex items-center gap-2 leading-tight"
+			>
+				<iconify-icon icon="lucide-car" class="text-4xl"></iconify-icon>
+				{Ersatzteile.Bezeichnung}
+				{Ersatzteile.Menge} Stk.
+				{Ersatzteile.Bruttosumme} €
+			</a>
+		{/each}
+	{/if}
 
 	<!-- Unterüberschrift 2 -->
 	<h2 class="text-lg font-bold mt-6 mb-4">Arbeitsstunden</h2>
@@ -310,41 +350,41 @@
 		<h3 class="text-lg font-semibold mb-2">Ersatzteil hinzufügen</h3>
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 			<div>
-				<label for="ersatzteilName" class="block text-sm font-medium mb-1">Name</label>
+				<label for="ersatzteilName" class="block text-sm font-medium mb-1">Bezeichnung</label>
 				<input
 					id="ersatzteilName"
 					type="text"
-					bind:value={ersatzteilName}
+					bind:value={ersatzteilBezeichnung}
 					placeholder="Ersatzteil Name"
 					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 				/>
 			</div>
 			<div>
-				<label for="einzelpreis" class="block text-sm font-medium mb-1">Einzelpreis</label>
+				<label for="einzelpreis" class="block text-sm font-medium mb-1">Einkaufspreis Netto</label>
 				<input
 					id="einzelpreis"
 					type="text"
-					bind:value={ersatzteilEinzelpreis}
+					bind:value={ersatzteilEKPreis}
 					placeholder="Einzelpreis"
 					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 				/>
 			</div>
 			<div>
-				<label for="ersatzteilStück" class="block text-sm font-medium mb-1">Stück</label>
+				<label for="ersatzteilStück" class="block text-sm font-medium mb-1">Menge</label>
 				<input
 					id="ersatzteilStück"
 					type="number"
-					bind:value={ersatzteilStück}
+					bind:value={ersatzteilMenge}
 					placeholder="Stück"
 					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 				/>
 			</div>
 			<div>
-				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Gesamtpreis</label>
+				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Bruttosumme</label>
 				<input
 					id="gesamtpreis"
 					type="text"
-					value={ersatzteilEinzelpreis * ersatzteilStück}
+					value={ersatzteilEKPreis * ersatzteilMenge}
 					placeholder="Gesamtpreis (wird berechnet)"
 					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
 					disabled
@@ -360,7 +400,7 @@
 			</button>
 			<button
 				class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
-				on:click={addErsatzteil}
+				on:click={createErsatzteil}
 			>
 				Hinzufügen
 			</button>

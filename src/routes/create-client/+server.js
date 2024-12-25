@@ -42,7 +42,6 @@ export async function POST({ request }) {
 
 		// Fahrzeug erstellen
 		if (action === 'createFahrzeug') {
-
 			// const fahrzeugDaten = await request.json();
 			// überprüfe ob Kennzeichen, Marke und Modell vorhanden sind
 			if (!data.kennzeichen) {
@@ -56,7 +55,10 @@ export async function POST({ request }) {
 			if (!data.modell) {
 				return new Response('Marke fehlt', { status: 400 });
 			}
-
+			let ps = null;
+			if (data.kw) {
+				ps = Math.round(data.kw * 1.36); // Umrechnung von kW in PS
+			}
 			// Fahrzeug wird erstellt
 			const response = await pb.collection('Fahrzeug').create({
 				Kennzeichen: data.kennzeichen,
@@ -68,7 +70,7 @@ export async function POST({ request }) {
 				KMStand: data.kmstand,
 				Hubraum: data.hubraum,
 				KW: data.kw,
-				PS: data.ps,
+				PS: ps,
 				Pickerl: data.pickerl,
 				Zulassungsschein: data.zulassungsschein,
 				KundenID: data.kundenid,
@@ -82,7 +84,6 @@ export async function POST({ request }) {
 		}
 		// Auftrag erstellen
 		if (action === 'createAuftrag') {
-
 			// überprüfe ob Arbeiten vorhanden sind
 			if (!data.arbeiten) {
 				return new Response('Arbeiten fehlen', { status: 400 });
@@ -109,6 +110,23 @@ export async function POST({ request }) {
 				Rechnung: data.rechnung,
 				Auftragnummer: neueAuftragnummer,
 				FahrzeugID: data.fahrzeugid
+			});
+			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
+		}
+		// Arbeitszeit erstellen
+		if (action === 'createErsatzteil') {
+			// überprüfe ob Arbeiten vorhanden sind
+			if (!data.ersatzteilBezeichnung) {
+				return new Response('Arbeiten fehlen', { status: 400 });
+			}
+
+			// Auftrag wird erstellt
+			const response = await pb.collection('Ersatzteile').create({
+				Bezeichnung: data.ersatzteilBezeichnung,
+				EK_PreisNetto: data.ersatzteilEKPreis,
+				Menge: data.ersatzteilMenge,
+				Bruttosumme: data.ersatzteilBruttosumme,
+				AuftragID: data.auftragid
 			});
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
