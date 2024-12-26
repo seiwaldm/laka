@@ -26,7 +26,7 @@
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
 					<DropdownMenu.Label class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
-						><a href="/zuletzt" class="block w-full h-full"> Zuletzt verwendet</a>
+						><a href="/?o=last" class="block w-full h-full">Zuletzt verwendet</a>
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
 					<DropdownMenu.Label class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
@@ -44,21 +44,30 @@
 		<p class="pt-6 pb-24 text-3xl font-semibold">LaKa Radstadt</p>
 		<div class="flex flex-col space-y-4">
 			<ul>
-				<li class="text-xl p-4 hover:bg-slate-900 cursor-pointer rounded-lg">
+				<li class="text-xl pl-2 p-4 hover:bg-slate-900 cursor-pointer rounded-lg flex items-center">
+					<iconify-icon icon="lucide:list" class="mx-3 text-xl"></iconify-icon>
 					<a href="/" class="block w-full h-full">Alle Kunden</a>
 				</li>
-				<li class="text-xl p-4 hover:bg-slate-900 cursor-pointer rounded-lg mb-4">
+				<li class="text-xl pl-2 p-4 hover:bg-slate-900 cursor-pointer rounded-lg flex items-center">
+					<iconify-icon icon="lucide:clock" class="mx-3 text-xl"></iconify-icon>
 					<a href="/?o=last" class="block w-full h-full">Zuletzt verwendet</a>
 				</li>
-				<hr />
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-				<li
-					class="text-xl p-4 hover:bg-slate-900 rounded-lg cursor-pointer mt-4"
+				<div class="p-2"><hr /></div>
+
+				<button
+					type="button"
+					class="text-xl pl-2 pr-14 p-4 hover:bg-slate-900 cursor-pointer rounded-lg flex items-center"
 					on:click={() => (showCard = true)}
+					on:keydown={(e) => e.key === 'Enter' && (showCard = true)}
 				>
+					<iconify-icon icon="lucide:user-plus" class="mx-3 text-xl"></iconify-icon>
 					Neue Kunden
-				</li>
+				</button>
+				<!-- <li
+					class="text-xl mt-80 pl-2 hover:bg-slate-900 cursor-pointer rounded-lg flex items-center"
+				>
+					Ausloggen
+				</li> -->
 			</ul>
 		</div>
 	</div>

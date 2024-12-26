@@ -81,10 +81,14 @@
 				{kunde.Vorname}
 
 				<button
-					class="absolute right-0 px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg"
+					type="button"
+					class="absolute right-0 pr-10 text-black rounded-lg"
 					on:click|stopPropagation|preventDefault={() => deleteKunde(kunde.id)}
+					on:keydown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') deleteKunde(kunde.id);
+					}}
 				>
-					Löschen
+					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 				</button>
 			</span>
 		</a>

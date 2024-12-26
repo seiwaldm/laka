@@ -245,13 +245,13 @@
 			<button class=" text-gray-600 hover:text-gray-800 text-2xl" aria-label="Options"> ⋮ </button>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content>
-			<DropdownMenu.Group class="mt-2 w-48 bg-white shadow-md rounded-md p-2" s>
+			<DropdownMenu.Group class="mt-2 w-48  bg-white shadow-md rounded-md p-2" s>
 				<!-- Neu: Bestätigungsdialog -->
-				<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
 					<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
-				<DropdownMenu.Label class="text-black hover:bg-blue-600 rounded-lg px-4 py-2">
+				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
 					<button
 						on:click={() => {
 							showEditForm = true;
@@ -260,6 +260,14 @@
 					>
 						Bearbeiten
 					</button>
+				</DropdownMenu.Label>
+				<DropdownMenu.Separator />
+				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+					<button on:cklick={() => (showRechnung = true)}> Rechnung </button>
+				</DropdownMenu.Label>
+				<DropdownMenu.Separator />
+				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+					<button> Auftrag </button>
 				</DropdownMenu.Label>
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>
@@ -290,18 +298,6 @@
 	</div>
 {/if}
 <div class="my-5"><hr /></div>
-
-<button
-	class="
-	bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2
-	absolute top-10 right-5
-	sm:static sm:mt-4 sm:ml-auto
-	md:absolute md:top-10 md:right-5
-"
-	on:cklick={() => (showRechnung = true)}
->
-	Rechnung
-</button>
 
 <!-- Button zum öffnen des Cloudinary Widgets
 <button on:click={openCloudinaryWidgetSchaden}
