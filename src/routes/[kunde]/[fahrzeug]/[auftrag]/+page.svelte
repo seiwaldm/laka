@@ -103,19 +103,31 @@
 	}
 
 	// Variablen für die Felder des Formulars Ersatzteile
+	let ersatzteilArtikelnummer = '';
 	let ersatzteilBezeichnung = '';
-	let ersatzteilEKPreis = '';
 	let ersatzteilMenge = '';
+	let ersatzteilMarge = '';
+	let ersatzteilRabatt = '';
+	let ersatzteilVKPreisNetto = '';
+	let ersatzteilEKPreis = '';
+	let ersatzteilVKPreisBrutto = '';
+	let ersatzteilNettosumme = '';
 	let ersatzteilBruttosumme = '';
 	let auftragid = $page.params.auftrag;
 
 	async function createErsatzteil() {
 		const ersatzteilDaten = {
 			action: 'createErsatzteil',
+			ersatzteilArtikelnummer,
 			ersatzteilBezeichnung,
-			ersatzteilEKPreis,
 			ersatzteilMenge,
-			ersatzteilBruttosumme,
+			// ersatzteilMarge: parseFloat(ersatzteilMarge),
+			ersatzteilRabatt,
+			ersatzteilVKPreisNetto: parseFloat(ersatzteilVKPreisNetto),
+			ersatzteilEKPreis: parseFloat(ersatzteilEKPreis),
+			ersatzteilVKPreisBrutto: parseFloat(ersatzteilVKPreisBrutto),
+			ersatzteilNettosumme: parseFloat(ersatzteilNettosumme),
+			ersatzteilBruttosumme: parseFloat(ersatzteilBruttosumme),
 			auftragid
 		};
 		try {
@@ -126,7 +138,7 @@
 				},
 				body: JSON.stringify(ersatzteilDaten)
 			});
-			location.reload();
+			// location.reload();
 		} catch (error) {
 			console.error(error);
 		}
@@ -350,22 +362,22 @@
 		<h3 class="text-lg font-semibold mb-2">Ersatzteil hinzufügen</h3>
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 			<div>
+				<label for="ersatzteilName" class="block text-sm font-medium mb-1">Artikelnummer</label>
+				<input
+					id="ersatzteilArtikelnummer"
+					type="text"
+					bind:value={ersatzteilArtikelnummer}
+					placeholder="Artikelnummer"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
 				<label for="ersatzteilName" class="block text-sm font-medium mb-1">Bezeichnung</label>
 				<input
 					id="ersatzteilName"
 					type="text"
 					bind:value={ersatzteilBezeichnung}
 					placeholder="Ersatzteil Name"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-			</div>
-			<div>
-				<label for="einzelpreis" class="block text-sm font-medium mb-1">Einkaufspreis Netto</label>
-				<input
-					id="einzelpreis"
-					type="text"
-					bind:value={ersatzteilEKPreis}
-					placeholder="Einzelpreis"
 					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 				/>
 			</div>
@@ -380,11 +392,78 @@
 				/>
 			</div>
 			<div>
+				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Marge in %</label>
+				<input
+					id="marge"
+					type="number"
+					value={(
+						((ersatzteilVKPreisNetto - ersatzteilEKPreis) / ersatzteilVKPreisNetto) *
+						100
+					).toFixed(2)}
+					placeholder="Gesamtpreis (wird berechnet)"
+					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+					disabled
+				/>
+			</div>
+			<div>
+				<label for="einzelpreis" class="block text-sm font-medium mb-1">Rabatt in %</label>
+				<input
+					id="rabatt"
+					type="number"
+					bind:value={ersatzteilRabatt}
+					placeholder=""
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="einzelpreis" class="block text-sm font-medium mb-1">Verkaufspreis Netto</label>
+				<input
+					id="einzelpreis"
+					type="number"
+					bind:value={ersatzteilVKPreisNetto}
+					placeholder="Einzelpreis"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="einzelpreis" class="block text-sm font-medium mb-1">Einkaufspreis Netto</label>
+				<input
+					id="einzelpreis"
+					type="number"
+					bind:value={ersatzteilEKPreis}
+					placeholder="Einzelpreis"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="einzelpreis" class="block text-sm font-medium mb-1">Verkaufspreis Brutto</label>
+				<input
+					id="einzelpreis"
+					type="number"
+					value={ersatzteilVKPreisNetto * 1.2}
+					placeholder="Einzelpreis"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Nettosumme</label>
+				<input
+					id="gesamtpreis"
+					type="number"
+					value={((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * ersatzteilMenge}
+					placeholder="Gesamtpreis (wird berechnet)"
+					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+					disabled
+				/>
+			</div>
+			<div>
 				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Bruttosumme</label>
 				<input
 					id="gesamtpreis"
-					type="text"
-					value={ersatzteilEKPreis * ersatzteilMenge}
+					type="number"
+					value={((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) *
+						ersatzteilMenge *
+						1.2}
 					placeholder="Gesamtpreis (wird berechnet)"
 					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
 					disabled

@@ -1,4 +1,5 @@
 import { pb } from '$lib/pocketbase';
+import { parse } from 'svelte/compiler';
 
 export async function POST({ request }) {
 	try {
@@ -119,12 +120,43 @@ export async function POST({ request }) {
 			if (!data.ersatzteilBezeichnung) {
 				return new Response('Arbeiten fehlen', { status: 400 });
 			}
+			// if (!data.ersatzteilMenge) {
+			// 	return new Response('Arbeiten fehlen', { status: 400 });
+			// }
 
+			// berechnung der Marge
+			let marge = 0;
+			if (data.ersatzteilEKPreis && data.ersatzteilVKPreisNetto) {
+				marge = parseFloat(
+					((data.ersatzteilVKPreisNetto - data.ersatzteilEKPreis) / data.ersatzteilVKPreisNetto) *
+						100
+				).toFixed(2);
+			}
+
+			// berechnung des Bruttoverkaufspreises
+			let verkaufspreisBrutto = 0;
+			if (data.ersatzteilVKPreisNetto) {
+				verkaufspreisBrutto = parseFloat(data.ersatzteilVKPreisNetto * 1.2).toFixed(2);
+			}
+
+			// //berechne die Nettosumme
+			// let nettosumme = 0;
+			// if (data.ersatzteilMenge && data.ersatzteilVKPreisNetto) {
+			// 	nettosumme =
+			// 		((data.ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * data.ersatzteilMenge;
+			// 	nettosumme = parseFloat(nettosumme.toFixed(2));
+			// }
 			// Auftrag wird erstellt
 			const response = await pb.collection('Ersatzteile').create({
+				Artikelnummer: data.ersatzteilArtikelnummer,
 				Bezeichnung: data.ersatzteilBezeichnung,
-				EK_PreisNetto: data.ersatzteilEKPreis,
 				Menge: data.ersatzteilMenge,
+				Marge: marge,
+				Rabatt: data.ersatzteilRabatt,
+				VK_PreisNetto: data.ersatzteilVKPreisNetto,
+				EK_PreisNetto: data.ersatzteilEKPreis,
+				VK_PreisBrutto: verkaufspreisBrutto,
+				// Nettosumme: nettosumme,
 				Bruttosumme: data.ersatzteilBruttosumme,
 				AuftragID: data.auftragid
 			});
