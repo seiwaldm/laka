@@ -35,6 +35,6 @@ export const icons = {
 	Motorcode: 'lucide-hash',
 	Kraftstoff: 'lucide-fuel',
 	Farbcode: 'lucide-hash',
-	Infotext: 'lucide-info-circle',
-	Auftragsnr: 'lucide-hash'
+	Infotext: 'lucide-info',
+	Auftragnummer: 'lucide-hash'
 };

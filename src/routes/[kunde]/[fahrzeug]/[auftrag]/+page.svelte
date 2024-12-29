@@ -106,13 +106,10 @@
 	let ersatzteilArtikelnummer = '';
 	let ersatzteilBezeichnung = '';
 	let ersatzteilMenge = '';
-	let ersatzteilMarge = '';
 	let ersatzteilRabatt = '';
 	let ersatzteilVKPreisNetto = '';
 	let ersatzteilEKPreis = '';
 	let ersatzteilVKPreisBrutto = '';
-	let ersatzteilNettosumme = '';
-	let ersatzteilBruttosumme = '';
 	let auftragid = $page.params.auftrag;
 
 	async function createErsatzteil() {
@@ -121,13 +118,10 @@
 			ersatzteilArtikelnummer,
 			ersatzteilBezeichnung,
 			ersatzteilMenge,
-			// ersatzteilMarge: parseFloat(ersatzteilMarge),
 			ersatzteilRabatt,
 			ersatzteilVKPreisNetto: parseFloat(ersatzteilVKPreisNetto),
 			ersatzteilEKPreis: parseFloat(ersatzteilEKPreis),
 			ersatzteilVKPreisBrutto: parseFloat(ersatzteilVKPreisBrutto),
-			ersatzteilNettosumme: parseFloat(ersatzteilNettosumme),
-			ersatzteilBruttosumme: parseFloat(ersatzteilBruttosumme),
 			auftragid
 		};
 		try {
@@ -138,7 +132,7 @@
 				},
 				body: JSON.stringify(ersatzteilDaten)
 			});
-			// location.reload();
+			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
@@ -146,23 +140,15 @@
 	}
 
 	// Funktion zum Hinzufügen der Ersatzteils
-	function addErsatzteil() {
-		// Berechnung des Gesamtpreises
-		ersatzteilBruttosumme = ersatzteilEKPreis * ersatzteilMenge;
-
-		// Hier kannst du die Daten weiterverarbeiten oder speichern
-		console.log({
-			Name: ersatzteilBezeichnung,
-			Einzelpreis: ersatzteilEKPreis,
-			Stück: ersatzteilMenge,
-			Gesamtpreis: ersatzteilBruttosumme
-		});
-
+	function resetErsatzteil() {
 		// Formular zurücksetzen und ausblenden
-		ersatzteilName = '';
-		ersatzteilEinzelpreis = '';
-		ersatzteilStück = '';
-		ersatzteilGesamtpreis = '';
+		ersatzteilArtikelnummer = '';
+		ersatzteilBezeichnung = '';
+		ersatzteilMenge = '';
+		ersatzteilRabatt = '';
+		ersatzteilVKPreisNetto = '';
+		ersatzteilEKPreis = '';
+		ersatzteilVKPreisBrutto = '';
 		showAddPartForm = false;
 	}
 
@@ -307,7 +293,7 @@
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
-	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Infotext' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext') as [key, value]}
+	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
 				<iconify-icon
@@ -330,15 +316,12 @@
 	</button>
 	{#if data.ersatzteile.items.length > 0}
 		{#each data.ersatzteile.items as Ersatzteile (Ersatzteile.id)}
-			<a
-				href="/{$page.params.kunde}/{$page.params.fahrzeug}/{Ersatzteile.id}"
-				class="flex items-center gap-2 leading-tight"
-			>
+			<span class="flex items-center gap-2 leading-tight">
 				<iconify-icon icon="lucide-car" class="text-4xl"></iconify-icon>
 				{Ersatzteile.Bezeichnung}
 				{Ersatzteile.Menge} Stk.
 				{Ersatzteile.Bruttosumme} €
-			</a>
+			</span>
 		{/each}
 	{/if}
 
@@ -436,7 +419,7 @@
 				<input
 					id="einzelpreis"
 					type="number"
-					value={ersatzteilVKPreisNetto * 1.2}
+					value={parseFloat(ersatzteilVKPreisNetto * 1.2).toFixed(2)}
 					placeholder="Einzelpreis"
 					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 				/>
@@ -446,7 +429,9 @@
 				<input
 					id="gesamtpreis"
 					type="number"
-					value={((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * ersatzteilMenge}
+					value={parseFloat(
+						((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * ersatzteilMenge
+					).toFixed(2)}
 					placeholder="Gesamtpreis (wird berechnet)"
 					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
 					disabled
@@ -457,9 +442,9 @@
 				<input
 					id="gesamtpreis"
 					type="number"
-					value={((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) *
-						ersatzteilMenge *
-						1.2}
+					value={parseFloat(
+						((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * ersatzteilMenge * 1.2
+					).toFixed(2)}
 					placeholder="Gesamtpreis (wird berechnet)"
 					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
 					disabled
@@ -468,8 +453,9 @@
 		</div>
 		<div class="mt-4 flex justify-end gap-2">
 			<button
+				type="reset"
 				class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
-				on:click={() => (showAddPartForm = false)}
+				on:click={resetErsatzteil}
 			>
 				Abbrechen
 			</button>

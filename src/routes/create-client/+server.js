@@ -140,12 +140,21 @@ export async function POST({ request }) {
 			}
 
 			// //berechne die Nettosumme
-			// let nettosumme = 0;
-			// if (data.ersatzteilMenge && data.ersatzteilVKPreisNetto) {
-			// 	nettosumme =
-			// 		((data.ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * data.ersatzteilMenge;
-			// 	nettosumme = parseFloat(nettosumme.toFixed(2));
-			// }
+			let nettosumme = 0;
+			if (data.ersatzteilMenge && data.ersatzteilVKPreisNetto && data.ersatzteilRabatt) {
+				nettosumme =
+					((data.ersatzteilVKPreisNetto * (100 - data.ersatzteilRabatt)) / 100) *
+					data.ersatzteilMenge;
+				nettosumme = parseFloat(nettosumme.toFixed(2));
+			}
+
+			let bruttosumme = 0;
+			if (data.ersatzteilMenge && data.ersatzteilVKPreisNetto && data.ersatzteilRabatt) {
+				bruttosumme =
+					((data.ersatzteilVKPreisNetto * (100 - data.ersatzteilRabatt)) / 100) *
+					data.ersatzteilMenge * 1.2;
+				bruttosumme = parseFloat(bruttosumme.toFixed(2));
+			}
 			// Auftrag wird erstellt
 			const response = await pb.collection('Ersatzteile').create({
 				Artikelnummer: data.ersatzteilArtikelnummer,
@@ -156,8 +165,8 @@ export async function POST({ request }) {
 				VK_PreisNetto: data.ersatzteilVKPreisNetto,
 				EK_PreisNetto: data.ersatzteilEKPreis,
 				VK_PreisBrutto: verkaufspreisBrutto,
-				// Nettosumme: nettosumme,
-				Bruttosumme: data.ersatzteilBruttosumme,
+				Nettosumme: nettosumme,
+				Bruttosumme: bruttosumme,
 				AuftragID: data.auftragid
 			});
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });

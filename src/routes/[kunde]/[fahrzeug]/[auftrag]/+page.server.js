@@ -1,5 +1,6 @@
 import { pb } from '$lib/pocketbase';
 
+
 export async function load({ params }) {
 	// Kunde abrufen
 	const kunde = await pb.collection('Kunde').getOne(params.kunde);
@@ -20,6 +21,8 @@ export async function load({ params }) {
 	const ersatzteile = await pb.collection('Ersatzteile').getList(1, 50, {
 		filter: `AuftragID~"${params.auftrag}"`
 	})
+
+	const arbeitswerte = await pb.collection('Arbeitswerte').getFullList()
 	;
 
 	kunde.fahrzeuge = fahrzeuge;
@@ -27,6 +30,7 @@ export async function load({ params }) {
 	// kunde.rechnung = rechnung;
 	kunde.arbeitszeit = arbeitszeit;
 	kunde.ersatzteile = ersatzteile;
+	kunde.arbeitswerte = arbeitswerte;
 	// kunde.arbeitswerte = arbeitswerte;
 	return kunde;
 }
