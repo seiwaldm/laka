@@ -112,6 +112,7 @@
 	let ersatzteilVKPreisBrutto = '';
 	let auftragid = $page.params.auftrag;
 
+	// Funktion zum Erstellen eines Ersatzteils
 	async function createErsatzteil() {
 		const ersatzteilDaten = {
 			action: 'createErsatzteil',
@@ -139,9 +140,8 @@
 		console.log(ersatzteilDaten);
 	}
 
-	// Funktion zum Hinzufügen der Ersatzteils
+	// Funktion zum Zurücksetzen des Formulars Ersatzteile und ausblenden
 	function resetErsatzteil() {
-		// Formular zurücksetzen und ausblenden
 		ersatzteilArtikelnummer = '';
 		ersatzteilBezeichnung = '';
 		ersatzteilMenge = '';
@@ -153,10 +153,36 @@
 	}
 
 	// Variablen für die Felder des Formulars Arbeitsstunden
-	let arbeitName = '';
+	let stundenBezeichnung = '';
+	let stundenKuerzel = '';
+	let stundenInfotext = '';
 	let stundenMenge = '';
-	let stundenEinzelpreis = '';
-	let stundenGesamtpreis = '';
+	let stundenRabatt = '';
+	let stundenFestpreis = 0;
+	let stundenSummenetto = '';
+	let stundenSummebrutto = '';
+	let stundenauftragid = $page.params.auftrag;
+
+	// Funktion zum Aktualisieren des Festpreises basierend auf der Auswahl der arbeitswerte
+	async function updateArbeitswerte(event) {
+		const bezeichnung = event.target.value;
+
+		// Sicherstellen, dass arbeitswerte vorhanden sind
+		if (!data.arbeitswerte || data.arbeitswerte.length === 0) {
+			console.error('Keine Arbeitswerte vorhanden');
+			return;
+		}
+		const arbeit = data.arbeitswerte.find((item) => item.Leistungsbezeichnung === bezeichnung);
+		if (arbeit) {
+			stundenFestpreis = arbeit.AwPreis;
+			stundenKuerzel = arbeit.Kuerzel;
+		} else {
+			stundenFestpreis = 0;
+			stundenKuerzel = '';
+		}
+	}
+
+	// Funktion zum Aktualisieren des Kürzel basierend auf der Auswahl der arbeitswerte
 
 	// Funktion zum Hinzufügen eines Arbeitsstunden
 	function addArbeitsstunden() {
@@ -473,26 +499,30 @@
 	<div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
 		<h3 class="text-lg font-semibold mb-2">Arbeitsstunden hinzufügen</h3>
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+			<!-- Arbeitname Dropdown -->
 			<div>
-				<label for="arbeitName" class="block text-sm font-medium mb-1">Name</label>
-				<input
+				<label for="arbeitName" class="block text-sm font-medium mb-1">Arbeit</label>
+				<select
 					id="arbeitName"
-					type="text"
-					bind:value={arbeitName}
-					placeholder="Arbeit Name"
+					bind:value={stundenBezeichnung}
+					placeholder="Dropdown"
 					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
+					on:change={updateArbeitswerte}
+				>
+					<option value="" disabled selected>Bitte wählen</option>
+					{#each data.arbeitswerte as arbeit}
+						<option value={arbeit.Leistungsbezeichnung}>{arbeit.Leistungsbezeichnung}</option>
+					{/each}
+				</select>
 			</div>
 			<div>
-				<label for="stundenEinzelpreis" class="block text-sm font-medium mb-1"
-					>Einzelstundenpreis</label
-				>
+				<label for="bezeichnung" class="block text-sm font-medium mb-1">Bezeichnung</label>
 				<input
-					id="einzelpreis"
+					id="bezeichnung"
 					type="text"
-					bind:value={stundenEinzelpreis}
-					placeholder="Einzelpreis"
+					bind:value={stundenKuerzel}
 					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					readonly
 				/>
 			</div>
 			<div>
@@ -506,11 +536,57 @@
 				/>
 			</div>
 			<div>
-				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Gesamtpreis</label>
+				<label for="stundenMenge" class="block text-sm font-medium mb-1">Infotext</label>
+				<input
+					id="geleisteteArbeit"
+					type="text"
+					bind:value={stundenInfotext}
+					placeholder="geleistete Arbeit"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="rabatt" class="block text-sm font-medium mb-1">Rabatt</label>
+				<input
+					id="rabatt"
+					type="number"
+					bind:value={stundenRabatt}
+					placeholder="Rabatt"
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+				/>
+			</div>
+			<div>
+				<label for="festpreis" class="block text-sm font-medium mb-1">Festpreis</label>
+				<input
+					id="festpreis"
+					type="number"
+					bind:value={stundenFestpreis}
+					placeholder=""
+					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					readonly
+				/>
+			</div>
+			<div>
+				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Nettosumme</label>
 				<input
 					id="stundenGesamtpreis"
 					type="text"
-					value={stundenMenge * stundenEinzelpreis}
+					value={parseFloat(
+						((stundenFestpreis * (100 - stundenRabatt)) / 100) * stundenMenge
+					).toFixed(2)}
+					placeholder="Gesamtpreis (wird berechnet)"
+					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+					disabled
+				/>
+			</div>
+			<div>
+				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Bruttosumme</label>
+				<input
+					id="stundenGesamtpreis"
+					type="text"
+					value={parseFloat(
+						((stundenFestpreis * (100 - stundenRabatt)) / 100) * stundenMenge * 1.2
+					).toFixed(2)}
 					placeholder="Gesamtpreis (wird berechnet)"
 					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
 					disabled

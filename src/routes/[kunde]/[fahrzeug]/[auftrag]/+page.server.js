@@ -12,7 +12,6 @@ export async function load({ params }) {
 	// const rechnung = await pb.collection('Rechnung').getList(1, 50, {
 	// 	filter: `AuftragID~"${params.auftrag}"`
 	// })
-	// const arbeitswerte = await pb.collection('Arbeitswerte').getFullList();
 	
 	const arbeitszeit = await pb.collection('Arbeitszeit').getList(1, 50, {
 		filter: `AuftragID~"${params.auftrag}"`
@@ -31,6 +30,5 @@ export async function load({ params }) {
 	kunde.arbeitszeit = arbeitszeit;
 	kunde.ersatzteile = ersatzteile;
 	kunde.arbeitswerte = arbeitswerte;
-	// kunde.arbeitswerte = arbeitswerte;
 	return kunde;
 }
