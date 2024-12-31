@@ -32,6 +32,7 @@
 	let bildSchaden = '';
 	let bildFertig = '';
 	let rechnung = '';
+	let lieferschein = '';
 	let fahrzeugid = $page.params.fahrzeug;
 
 	// Funktion zum Erstellen eines Auftrags
@@ -43,7 +44,8 @@
 			bildSchaden,
 			bildFertig,
 			rechnung,
-			fahrzeugid
+			fahrzeugid,
+			lieferschein
 		};
 		try {
 			const response = await fetch('/create-client', {
@@ -287,6 +289,10 @@
 										placeholder="Rechnung erstellen"
 										class="max-w-xs"
 									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="lieferschein">Lieferschein</Label>
+									<Input id="lieferschien" bind:value={lieferschein} type="file" class="max-w-xs" />
 								</div>
 							</div>
 						</div>

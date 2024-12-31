@@ -43,6 +43,7 @@
 	let updateFahrzeugid = $page.params.fahrzeug;
 	let updateAuftragnr = '';
 	let updateInfotext = '';
+	let updateLieferschein = '';
 
 	// funktion zum aktualisieren des Auftrags
 	async function updateAuftrag() {
@@ -54,7 +55,8 @@
 			updateBildFertig,
 			updateRechnung,
 			updateAuftragnr,
-			updateFahrzeugid
+			updateFahrzeugid,
+			updateLieferschein
 		};
 		try {
 			const response = await fetch('/update-client', {
@@ -319,7 +321,7 @@
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
-	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext') as [key, value]}
+	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext' || item[0] === 'Lieferschein') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
 				<iconify-icon
