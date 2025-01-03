@@ -1,4 +1,6 @@
 <script>
+		import { pb } from '$lib/pocketbase.js';
+		// export let data;
 	// import logo from '../logo.png';
 	let rechnummer = 'INV-2024-001';
 	let rechdatum = new Date().toLocaleDateString('en-CA');

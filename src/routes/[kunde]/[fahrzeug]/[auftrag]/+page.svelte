@@ -74,20 +74,14 @@
 		console.log(auftragDaten);
 	}
 
-	// Variablen für die Rechnungerstellung
-	let bezeichnung = '';
-	let menge = '';
-	let einzelpreis = '';
-	let rabatt = '';
-
+	let showRechnungLink = false;
+	let rechnungsnummer = '';
 	// Funktion zum erstellen einer Rechnung (Datensatz)
 	async function createRechnung() {
-		const auftragDaten = {
-			action: 'createAuftrag',
-			bezeichnung,
-			menge,
-			einzelpreis,
-			rabatt
+		const rechnungsDaten = {
+			action: 'createRechnung',
+			rechnungsnummer,
+			auftragid
 		};
 		try {
 			const response = await fetch('/create-client', {
@@ -95,13 +89,13 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(auftragDaten)
+				body: JSON.stringify(rechnungsDaten)
 			});
-			location.reload();
+			showRechnungLink = true;
 		} catch (error) {
 			console.error(error);
 		}
-		console.log(auftragDaten);
+		console.log(rechnungsDaten);
 	}
 
 	// Variablen für die Felder des Formulars Ersatzteile
@@ -155,26 +149,62 @@
 	}
 
 	// Variablen für die Felder des Formulars Arbeitsstunden
-	let stundenBezeichnung = '';
+	let stundenArbeit = '';
 	let stundenKuerzel = '';
 	let stundenInfotext = '';
 	let stundenMenge = '';
 	let stundenRabatt = '';
 	let stundenFestpreis = 0;
-	let stundenSummenetto = '';
-	let stundenSummebrutto = '';
-	let stundenauftragid = $page.params.auftrag;
+	let stundenNettosumme = '';
+	let stundenBruttosumme = '';
+
+	// Funktion zum Hinzufügen eines Arbeitszeit
+	async function createArbeitszeit() {
+		// Berechnung des Gesamtpreises
+		const arbeitszeitDaten = {
+			action: 'createArbeitszeit',
+			stundenArbeit,
+			stundenKuerzel,
+			stundenInfotext,
+			stundenMenge,
+			stundenRabatt,
+			stundenFestpreis: parseFloat(stundenFestpreis),
+			stundenNettosumme: parseFloat(stundenNettosumme),
+			stundenBruttosumme: parseFloat(stundenBruttosumme),
+			auftragid
+		};
+		console.log(arbeitszeitDaten);
+		try {
+			const response = await fetch('/create-client', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(arbeitszeitDaten)
+			});
+			if (response.ok) {
+				alert('Arbeitszeit erfolgreich hinzugefügt!');
+				location.reload();
+			} else {
+				const error = await response.text();
+				alert(`Fehler: ${error}`);
+			}
+		} catch (error) {
+			console.error('Fehler beim Hinzufügen der Arbeitszeit:', error);
+			alert('Ein unerwarteter Fehler ist aufgetreten.');
+		}
+	}
 
 	// Funktion zum Aktualisieren des Festpreises basierend auf der Auswahl der arbeitswerte
 	async function updateArbeitswerte(event) {
-		const bezeichnung = event.target.value;
+		const arbeitswerteID = event.target.value;
 
 		// Sicherstellen, dass arbeitswerte vorhanden sind
 		if (!data.arbeitswerte || data.arbeitswerte.length === 0) {
 			console.error('Keine Arbeitswerte vorhanden');
 			return;
 		}
-		const arbeit = data.arbeitswerte.find((item) => item.Leistungsbezeichnung === bezeichnung);
+		const arbeit = data.arbeitswerte.find((item) => item.id === arbeitswerteID);
 		if (arbeit) {
 			stundenFestpreis = arbeit.AwPreis;
 			stundenKuerzel = arbeit.Kuerzel;
@@ -184,25 +214,15 @@
 		}
 	}
 
-	// Funktion zum Aktualisieren des Kürzel basierend auf der Auswahl der arbeitswerte
-
-	// Funktion zum Hinzufügen eines Arbeitsstunden
-	function addArbeitsstunden() {
-		// Berechnung des Gesamtpreises
-		stundenGesamtpreis = stundenEinzelpreis * stundenMenge;
-
-		// Hier kannst du die Daten weiterverarbeiten oder speichern
-		console.log({
-			Name: arbeitName,
-			Einzelpreis: stundenEinzelpreis,
-			Menge: stundenMenge,
-			Gesamtpreis: stundenGesamtpreis
-		});
-		// Formular zurücksetzen und ausblenden
-		let arbeitName = '';
-		let stundenMenge = '';
-		let stundenEinzelpreis = '';
-		let stundenGesamtpreis = '';
+	function resetArbeitszeit() {
+		stundenArbeit = '';
+		stundenKuerzel = '';
+		stundenInfotext = '';
+		stundenMenge = '';
+		stundenRabatt = '';
+		stundenFestpreis = 0;
+		stundenSummenetto = '';
+		stundenSummebrutto = '';
 		showAddHourForm = false;
 	}
 
@@ -276,8 +296,9 @@
 					</button>
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
+				<!-- Rechnung -->
 				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
-					<button on:cklick={() => (showRechnung = true)}> Rechnung </button>
+					<button on:click={createRechnung}> Rechnung </button>
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
@@ -287,6 +308,35 @@
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
 </div>
+
+{#if showRechnungLink}
+	<div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
+		<h3 class="text-lg font-semibold mb-2">Willst du die Rechnung erstellen?</h3>
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+			<div class="mt-4 flex justify-end gap-2">
+				<button
+					type="reset"
+					class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
+					on:click={(showRechnungLink = false)}
+				>
+					Nein
+				</button>
+				<a
+					href="/{$page.params.kunde}/{$page.params.fahrzeug}/{$page.params.auftrag}/{data.rechnung
+						.id}"
+					class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+				>
+					<button
+						class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+						on:click={createErsatzteil}
+					>
+						Ja
+					</button>
+				</a>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <!-- Bestätigungsdialog für Löschen -->
 {#if showDeleteConfirm}
@@ -361,6 +411,16 @@
 	>
 		+
 	</button>
+	{#if data.arbeitszeit.items.length > 0}
+		{#each data.arbeitszeit.items as Arbeitszeit (Arbeitszeit.id)}
+			<span class="flex items-center gap-2 leading-tight">
+				<iconify-icon icon="lucide-car" class="text-4xl"></iconify-icon>
+				{Arbeitszeit.expand.ArbeitswerteID.Leistungsbezeichnung}
+				{Arbeitszeit.Menge} Std.
+				{Arbeitszeit.Bruttosumme} €
+			</span>
+		{/each}
+	{/if}
 </div>
 
 <!-- Formular zum Hinzufügen eines Ersatzteils -->
@@ -506,21 +566,21 @@
 				<label for="arbeitName" class="block text-sm font-medium mb-1">Arbeit</label>
 				<select
 					id="arbeitName"
-					bind:value={stundenBezeichnung}
+					bind:value={stundenArbeit}
 					placeholder="Dropdown"
 					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 					on:change={updateArbeitswerte}
 				>
 					<option value="" disabled selected>Bitte wählen</option>
 					{#each data.arbeitswerte as arbeit}
-						<option value={arbeit.Leistungsbezeichnung}>{arbeit.Leistungsbezeichnung}</option>
+						<option value={arbeit.id}>{arbeit.Leistungsbezeichnung}</option>
 					{/each}
 				</select>
 			</div>
 			<div>
-				<label for="bezeichnung" class="block text-sm font-medium mb-1">Bezeichnung</label>
+				<label for="kuerzel" class="block text-sm font-medium mb-1">Kürzel</label>
 				<input
-					id="bezeichnung"
+					id="kuerzel"
 					type="text"
 					bind:value={stundenKuerzel}
 					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
@@ -598,13 +658,13 @@
 		<div class="mt-4 flex justify-end gap-2">
 			<button
 				class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
-				on:click={() => (showAddHourForm = false)}
+				on:click={resetArbeitszeit}
 			>
 				Abbrechen
 			</button>
 			<button
 				class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
-				on:click={addArbeitsstunden}
+				on:click={createArbeitszeit}
 			>
 				Hinzufügen
 			</button>
@@ -672,7 +732,7 @@
 	{/if}
 </div>
 
-<div class="flex flex-col items-center">
+<!-- <div class="flex flex-col items-center">
 	{#if showRechnung}
 		<Card.Root class="top-12">
 			<Card.Header>
@@ -699,18 +759,18 @@
 					on:click={() => (showEditForm = false)}
 				>
 					Abbrechen
-				</button>
-				<!-- <a
+				</button> -->
+<!-- <a
 					href="/{$page.params.kunde}/{$page.params.fahrzeug}/{$page.params.auftrag}/{data.rechnung
 						.id}>" -->
-				<button
+<!-- <button
 					class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
 					on:click={createRechnung}
 				>
 					Speichern
 				</button>
-				<!-- </a> -->
+				</a>
 			</Card.Footer>
 		</Card.Root>
 	{/if}
-</div>
+</div> -->

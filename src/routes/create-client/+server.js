@@ -152,7 +152,8 @@ export async function POST({ request }) {
 			if (data.ersatzteilMenge && data.ersatzteilVKPreisNetto && data.ersatzteilRabatt) {
 				bruttosumme =
 					((data.ersatzteilVKPreisNetto * (100 - data.ersatzteilRabatt)) / 100) *
-					data.ersatzteilMenge * 1.2;
+					data.ersatzteilMenge *
+					1.2;
 				bruttosumme = parseFloat(bruttosumme.toFixed(2));
 			}
 			// Auftrag wird erstellt
@@ -169,9 +170,59 @@ export async function POST({ request }) {
 				Bruttosumme: bruttosumme,
 				AuftragID: data.auftragid
 			});
+
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
+		let nettosumme = 0;
+		let bruttosumme = 0;
+		// Arbeitszeit erstellen
+		if (action === 'createArbeitszeit') {
+			// berechnen der Nettosumme
+			const arbeit = await pb.collection('Arbeitswerte').getOne(data.stundenArbeit);
+			if (arbeit) {
+				nettosumme = ((arbeit.AwPreis * (100 - data.stundenRabatt)) / 100) * data.stundenMenge;
+				nettosumme = parseFloat(nettosumme.toFixed(2));
+			}
+			//berechnen der Bruttosumme
+			if (arbeit) {
+				bruttosumme =
+					((arbeit.AwPreis * (100 - data.stundenRabatt)) / 100) * data.stundenMenge * 1.2;
+				bruttosumme = parseFloat(bruttosumme.toFixed(2));
+			}
+			const response = await pb.collection('Arbeitszeit').create({
+				ArbeitswerteID: data.stundenArbeit,
+				Menge: data.stundenMenge,
+				Infotext: data.stundenInfotext,
+				Rabatt: data.stundenRabatt,
+				Nettosumme: nettosumme,
+				Bruttosumme: bruttosumme,
+				AuftragID: data.auftragid
+			});
+			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
+		}
+		// Rechnung erstellen
+		const rechnung = await pb.collection('Rechnung').getFullList({ sort: '-Rechnungsnummer' });
 
+			// letzte Rechnungsnummer wird ermittelt
+			const letzteRechnungsnummer =
+				rechnung
+					.map((rechnung) => parseInt(rechnung.Rechnungsnummer.split('-')[1], 10))
+					.filter((num) => !isNaN(num))
+					.sort((a, b) => b - a)[0] || 1000;
+			// neue Auftragsnummer wird erstellt
+			const neueRechnungsnummer = `R-${letzteRechnungsnummer + 1}`;
+
+		if (action === 'createRechnung') {
+			// überprüfe ob Rechnung vorhanden ist
+			// if (!data.rechnung) {
+			// 	return new Response('Rechnung fehlt', { status: 400 });
+			// }
+			const response = await pb.collection('Rechnung').create({
+				Rechnungsnummer: neueRechnungsnummer,
+				AuftragID: data.auftragid
+			});
+			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
+		}
 		return new Response('Action not found', { status: 400 });
 	} catch (error) {
 		return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
