@@ -314,24 +314,25 @@
 </div>
 
 {#if showRechnungLink}
-	<div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
-		<h3 class="text-lg font-semibold mb-2">Willst du die Rechnung erstellen?</h3>
-		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-			<div class="mt-4 flex justify-end gap-2">
+	<div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+		<div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+			<h3 class="text-lg font-semibold mb-4 text-center">Willst du die Rechnung erstellen?</h3>
+			<div class="flex justify-between gap-4">
 				<button
-					type="reset"
-					class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
-					on:click={(showRechnungLink = false)}
+					type="button"
+					class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2 w-full"
+					on:click={() => (showRechnungLink = false)}
 				>
 					Nein
 				</button>
 				<a
 					href="/{$page.params.kunde}/{$page.params.fahrzeug}/{$page.params.auftrag}/{data.rechnung
 						.id}"
-					class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+					class="w-full"
 				>
 					<button
-						class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+						type="button"
+						class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 w-full"
 					>
 						Ja
 					</button>

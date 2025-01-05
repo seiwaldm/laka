@@ -17,139 +17,165 @@
 </script>
 
 <div
-	class="p-8 max-w-4xl mx-auto border border-gray-300 bg-white print:max-w-full print:p-0 print:m-0 print:h-[calc(297mm-16px)] overflow-hidden"
+	class="p-10 max-w-4xl mx-auto border border-gray-300 bg-white rounded-lg shadow-md print:max-w-full print:p-0 print:m-0 print:h-[calc(297mm-16px)] overflow-hidden"
 >
-	<header class="mb-8">
-		<div class="flex justify-between items-center">
+	<div class="p-4 mx-auto">
+		<!-- oberster Teil mit Verkäufer daten -->
+		<div class="flex justify-between items-center border-b-2 border-gray-300 pb-6">
 			<div>
-				<h1 class="text-2xl font-bold">LA-KA</h1>
-				<p>Tomislav Kamenjasevic</p>
-				<p>LA-KA Lack&Karosserie</p>
-				<p>Gewerbestraße 11b, 5550 Radstadt</p>
+				<h1 class="text-3xl font-bold text-gray-800">Lack und Karosserie Radstadt</h1>
+				<p class="text-sm text-gray-600">Gewerbestraße 11b, 5550 Schwemmberg</p>
+				<p class="text-sm text-gray-600">Tel: 06601933616 | Email: info@laka.at</p>
 			</div>
-			<div class="text-right flex-col item-center">
-				<img src={logo} alt="Logo" class="h-28 w-28 rounded-full mr-4" />
-				<!-- <div>
-					<p class="font-bold">Kontakt</p>
-					<p>Gewerbestraße 11b</p>
-					<p>5550 Radstadt</p>
-					<p>Telefon: +43 6601933616</p>
-				</div> -->
-			</div>
+			<img src={logo} alt="Logo" class="h-28 w-28 rounded-full mr-4" />
 		</div>
-	</header>
 
-	<main class="print:h-[calc(297mm-40px)]">
-		<section class="mb-4">
-			<div class="flex justify-between">
-				<div>
-					<p>{getGeschlechtBezeichnung(data.Geschlecht)} {data.Vorname} {data.Nachname}</p>
-					<p>{data.Strasse}</p>
-					<p>{data.PLZ} {data.Ort}</p>
-				</div>
-				<div>
+		<main class="print:h-[calc(297mm-50px)]">
+			<section class="mb-10 mt-8">
+				<div class="flex justify-between">
 					<div>
-						<p class="font-bold">Kontakt</p>
-						<p>Gewerbestraße 11b</p>
-						<p>5550 Radstadt</p>
-						<p>Telefon: +43 6601933616</p>
+						<p class="text-lg text-gray-700 mt-10">
+							{getGeschlechtBezeichnung(data.Geschlecht)}
+							{data.Vorname}
+							{data.Nachname}
+						</p>
+						<p class="text-gray-600">{data.Strasse}</p>
+						<p class="text-gray-600">{data.PLZ} {data.Ort}</p>
 					</div>
-					<!-- abstand  -->
 
-					<div class="mt-4">
-						<p><strong>Rechnungs-Nr.:</strong> {data.rechnung.Rechnungsnummer}</p>
-						<p><strong>Datum:</strong> {formatDate(data.auftrag.created)}</p>
-						<p><strong>Liefer-/Leistungsdatum:</strong> {formatDate(data.rechnung.created)}</p>
-						<p><strong>Kunden-Nr.:</strong> {data.Kundennr}</p>
+					<div class="mt-8">
+						<p class="text-gray-700">
+							<strong>Rechnungs-Nr.:</strong>
+							{data.rechnung.Rechnungsnummer}
+						</p>
+						<p class="text-gray-700"><strong>Datum:</strong> {formatDate(data.auftrag.created)}</p>
+						<p class="text-gray-700">
+							<strong>Liefer-/Leistungsdatum:</strong>
+							{formatDate(data.rechnung.created)}
+						</p>
+						<p class="text-gray-700"><strong>Kunden-Nr.:</strong> {data.Kundennr}</p>
 					</div>
 				</div>
-			</div>
-		</section>
+			</section>
 
-		<section class="mb-4 flex-grow">
-			<h2 class="text-lg font-semibold">Fahrzeugdaten</h2>
-			<table class="w-full border-collapse border border-gray-300 text-sm print:break-inside-avoid">
-				<tbody>
-					<tr>
-						<td class="border border-gray-300 p-2"><strong>Marke:</strong></td>
-						<td class="border border-gray-300 p-2">{data.fahrzeuge.Marke}</td>
-						<td class="border border-gray-300 p-2"><strong>Nat. Code:</strong></td>
-						<td class="border border-gray-300 p-2">{data.fahrzeuge.Nat_Code}</td>
-						<td class="border border-gray-300 p-2"><strong>F.-Id.-Nr:</strong></td>
-						<td class="border border-gray-300 p-2">{data.fahrzeuge.FIN}</td>
-					</tr>
-					<tr>
-						<td class="border border-gray-300 p-2"><strong>Modell:</strong></td>
-						<td class="border border-gray-300 p-2">{data.fahrzeuge.Modell}</td>
-						<td class="border border-gray-300 p-2"><strong></strong></td>
-						<td class="border border-gray-300 p-2"></td>
-						<td class="border border-gray-300 p-2"><strong>§57a(Pickerl):</strong></td>
-						<td class="border border-gray-300 p-2">{formatDate(data.fahrzeuge.Pickerl)}</td>
-					</tr>
-					<tr>
-						<td class="border border-gray-300 p-2"><strong>Kennzeichen:</strong></td>
-						<td class="border border-gray-300 p-2">{data.fahrzeuge.Kennzeichen}</td>
-						<td class="border border-gray-300 p-2"><strong>EZ:</strong></td>
-						<td class="border border-gray-300 p-2">{formatDate(data.fahrzeuge.Erstzulassung)}</td>
-						<td class="border border-gray-300 p-2"><strong>Km-Stand:</strong></td>
-						<td class="border border-gray-300 p-2">{data.fahrzeuge.KMStand}</td>
-					</tr>
-				</tbody>
-			</table>
-		</section>
-
-		<section>
-			<h2 class="text-lg font-semibold mb-4">Rechnung</h2>
-			<table class="w-full border-collapse border border-gray-300 text-sm">
-				<thead>
-					<tr class="bg-gray-200">
-						<th class="border border-gray-300 p-2 text-left">Pos. Nummer</th>
-						<th class="border border-gray-300 p-2 text-left">Bezeichnung/Beschreibung</th>
-						<th class="border border-gray-300 p-2 text-right">Menge</th>
-						<th class="border border-gray-300 p-2 text-right">Einheit</th>
-						<th class="border border-gray-300 p-2 text-right">E-Preis</th>
-						<th class="border border-gray-300 p-2 text-right">Ges. Preis</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each data.ersatzteile.items as ersatzteil, index}
+			<section class="mb-8">
+				<h2 class="text-xl font-semibold text-gray-800 mb-4">Fahrzeugdaten</h2>
+				<table class="w-full border-collapse border border-gray-300 text-sm">
+					<tbody>
 						<tr>
-							<td class="border border-gray-300 p-2">{index + 1}</td>
-							<td class="border border-gray-300 p-2">{ersatzteil.Bezeichnung}</td>
-							<td class="border border-gray-300 p-2 text-right">{ersatzteil.Menge}</td>
-							<td class="border border-gray-300 p-2 text-right">Stk.</td>
-							<td class="border border-gray-300 p-2 text-right">{ersatzteil.VK_PreisNetto} €</td>
-							<td class="border border-gray-300 p-2 text-right">{ersatzteil.Nettosumme} €</td>
+							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>Marke:</strong></td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Marke}</td>
+							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
+								><strong>Nat. Code:</strong></td
+							>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Nat_Code}</td>
+							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
+								><strong>F.-Id.-Nr:</strong></td
+							>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.FIN}</td>
+						</tr><tr>
+							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>Modell:</strong></td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Modell}</td>
+							<td class="border border-gray-300 px-4 py-2 bg-gray-100"></td>
+							<td class="border border-gray-300 px-4 py-2"></td>
+							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
+								><strong>§57a (Pickerl):</strong></td
+							>
+							<td class="border border-gray-300 px-4 py-2">{formatDate(data.fahrzeuge.Pickerl)}</td>
 						</tr>
-					{/each}
-					{#each data.arbeitszeit as arbeitszeit, index}
 						<tr>
-							<td class="border border-gray-300 p-2">{data.ersatzteile.items.length + index + 1}</td
+							<td class="border border-gray-300 px-4 py-2 bg-gray-50"
+								><strong>Kennzeichen:</strong></td
 							>
-							<td class="border border-gray-300 p-2"
-								>{arbeitszeit.expand.ArbeitswerteID.Leistungsbezeichnung}</td
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Kennzeichen}</td>
+							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>EZ:</strong></td>
+							<td class="border border-gray-300 px-4 py-2"
+								>{formatDate(data.fahrzeuge.Erstzulassung)}</td
 							>
-							<td class="border border-gray-300 p-2 text-right">{arbeitszeit.Menge}</td>
-							<td class="border border-gray-300 p-2 text-right">Std.</td>
-							<td class="border border-gray-300 p-2 text-right"
-								>{arbeitszeit.expand.ArbeitswerteID.AwPreis} €</td
+							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
+								><strong>Km-Stand:</strong></td
 							>
-							<td class="border border-gray-300 p-2 text-right">{arbeitszeit.Nettosumme} €</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.KMStand}</td>
 						</tr>
-					{/each}
-				</tbody>
-			</table>
+					</tbody>
+				</table>
+			</section>
 
-			<div class="mt-4 flex justify-end">
-				<div>
-					<p class="text-right"><strong>Nettosumme:</strong> {data.rechnung.nettosumme} €</p>
-					<p class="text-right"><strong>Mehrwertsteuer:</strong> {data.rechnung.mwst} €</p>
-					<p class="text-right font-bold">
-						<strong>Gesamtbetrag:</strong>
-						{data.rechnung.gesamtbetrag} €
-					</p>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-800 mb-4">Rechnung</h2>
+				<table class="w-full border-collapse border border-gray-300 text-sm">
+					<thead>
+						<tr class="bg-gray-200 text-gray-700">
+							<th class="border border-gray-300 px-4 py-2 text-left">Pos. Nummer</th>
+							<th class="border border-gray-300 px-4 py-2 text-left">Bezeichnung/Beschreibung</th>
+							<th class="border border-gray-300 px-4 py-2 text-right">Menge</th>
+							<th class="border border-gray-300 px-4 py-2 text-right">Einheit</th>
+							<th class="border border-gray-300 px-4 py-2 text-right">E-Preis</th>
+							<th class="border border-gray-300 px-4 py-2 text-right">Ges. Preis</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each data.ersatzteile.items as ersatzteil, index}
+							<tr class="odd:bg-white even:bg-gray-50">
+								<td class="border border-gray-300 px-4 py-2">{index + 1}</td>
+								<td class="border border-gray-300 px-4 py-2">{ersatzteil.Bezeichnung}</td>
+								<td class="border border-gray-300 px-4 py-2 text-right">{ersatzteil.Menge}</td>
+								<td class="border border-gray-300 px-4 py-2 text-right">Stk.</td>
+								<td class="border border-gray-300 px-4 py-2 text-right"
+									>{ersatzteil.VK_PreisNetto} €</td
+								>
+								<td class="border border-gray-300 px-4 py-2 text-right"
+									>{ersatzteil.Nettosumme} €</td
+								>
+							</tr>
+						{/each}
+						{#each data.arbeitszeit as arbeitszeit, index}
+							<tr class="odd:bg-white even:bg-gray-50">
+								<td class="border border-gray-300 px-4 py-2"
+									>{data.ersatzteile.items.length + index + 1}</td
+								>
+								<td class="border border-gray-300 px-4 py-2"
+									>{arbeitszeit.expand.ArbeitswerteID.Leistungsbezeichnung}</td
+								>
+								<td class="border border-gray-300 px-4 py-2 text-right">{arbeitszeit.Menge}</td>
+								<td class="border border-gray-300 px-4 py-2 text-right">Std.</td>
+								<td class="border border-gray-300 px-4 py-2 text-right"
+									>{arbeitszeit.expand.ArbeitswerteID.AwPreis} €</td
+								>
+								<td class="border border-gray-300 px-4 py-2 text-right"
+									>{arbeitszeit.Nettosumme} €</td
+								>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+
+				<div class="mt-6 flex justify-end">
+					<div>
+						<p class="text-lg text-right text-gray-700">
+							<strong>Nettosumme:</strong>
+							{data.rechnung.nettosumme} €
+						</p>
+						<p class="text-lg text-right text-gray-700">
+							<strong>Mehrwertsteuer:</strong>
+							{data.rechnung.mwst} €
+						</p>
+						<p class="text-lg text-right text-gray-800 font-bold">
+							<strong>Gesamtbetrag:</strong>
+							{data.rechnung.gesamtbetrag} €
+						</p>
+					</div>
 				</div>
+			</section>
+		</main>
+
+		<p class="text-center text-gray-600 text-lg mt-4 mb-6">Vielen Dank für Ihren Auftrag!</p>
+
+		<footer class="text-center text-sm text-gray-600 pt-4 border-t">
+			<div>
+				<p class="font-bold">Kontaktieren Sie uns!</p>
+				<p class="text-gray-600">Gewerbestraße 11b | 5550 Radstadt | Telefon: +43 6601933616</p>
 			</div>
-		</section>
-	</main>
+		</footer>
+	</div>
 </div>
