@@ -76,11 +76,17 @@
 
 	let showRechnungLink = false;
 	let rechnungsnummer = '';
+	let nettosumme = '';
+	let bruttosumme = '';
+	let umsatzsteuer = '';
 	// Funktion zum erstellen einer Rechnung (Datensatz)
 	async function createRechnung() {
 		const rechnungsDaten = {
 			action: 'createRechnung',
 			rechnungsnummer,
+			nettosumme,
+			bruttosumme,
+			umsatzsteuer,
 			auftragid
 		};
 		try {
@@ -221,8 +227,6 @@
 		stundenMenge = '';
 		stundenRabatt = '';
 		stundenFestpreis = 0;
-		stundenSummenetto = '';
-		stundenSummebrutto = '';
 		showAddHourForm = false;
 	}
 
@@ -328,7 +332,6 @@
 				>
 					<button
 						class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
-						on:click={createErsatzteil}
 					>
 						Ja
 					</button>

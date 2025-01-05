@@ -1,162 +1,155 @@
 <script>
-		import { pb } from '$lib/pocketbase.js';
-		// export let data;
-	// import logo from '../logo.png';
-	let rechnummer = 'INV-2024-001';
-	let rechdatum = new Date().toLocaleDateString('en-CA');
-	let fälligdatum = '';
+	export let data; // Enthält die Kundendaten inklusive Fahrzeug, Auftrag, Rechnung, Arbeitszeit, Ersatzteile und Arbeitswerte
+	import logo from '$lib/logo.jpg';
 
-	let recipient = {
-		name: 'Kundenname',
-		address: 'Kundenadresse',
-		city: 'Stadt, PLZ',
-		phone: '',
-		email: ''
-	};
+	function formatDate(dateString) {
+		const options = { year: 'numeric', month: 'long', day: 'numeric' };
+		return new Date(dateString).toLocaleDateString(undefined, options);
+	}
 
-	let items = [{ description: 'Produkt/Dienstleistung', quantity: 1, price: 0.0 }];
-
-	const calculateTotal = () => {
-		return items.reduce((total, item) => total + item.quantity * item.price, 0).toFixed(2);
-	};
+	function getGeschlechtBezeichnung(geschlecht) {
+		const geschlechtMapping = {
+			Männlich: 'Herr', // Männlich
+			Weiblich: 'Frau' // Weiblich
+		};
+		return geschlechtMapping[geschlecht] || 'Kunde'; // Fallback zu 'Kunde', wenn ID nicht bekannt
+	}
 </script>
 
-<div class="a4 p-12 mx-auto">
-	<!-- oberster Teil mit Verkäufer daten -->
-	<div class="flex justify-between items-center border-b-2 border-gray-300 pb-6">
-		<div>
-			<h1 class="text-3xl font-bold text-gray-800">Lack und Karosserie Radstadt</h1>
-			<p class="text-sm text-gray-600">Gewerbestraße 11b, 5550 Schwemmberg</p>
-			<p class="text-sm text-gray-600">Tel: 06601933616 | Email: info@laka.at</p>
-		</div>
-		<img src="logo.png" alt="Logo" class="h-20 w-auto" />
-	</div>
-
-	<!-- Käufer daten -->
-	<div class="grid grid-cols-2 gap-8 mt-8">
-		<div>
-			<div class="mt-10">
-				<input
-					type="text"
-					bind:value={recipient.name}
-					placeholder="Kundenname"
-					class="w-full p-2"
-				/>
-				<input
-					type="text"
-					bind:value={recipient.address}
-					placeholder="Kundenadresse"
-					class="w-full p-2"
-				/>
-				<input
-					type="text"
-					bind:value={recipient.city}
-					placeholder="Stadt, PLZ"
-					class="w-full p-2"
-				/>
-				<!-- <input
-					type="text"
-					bind:value={recipient.phone}
-					placeholder="Telefonnummer"
-					class="w-full p-2"
-				/>
-				<input
-					type="email"
-					bind:value={recipient.email}
-					placeholder="E-Mail-Adresse"
-					class="w-full p-2"
-				/> -->
+<div
+	class="p-8 max-w-4xl mx-auto border border-gray-300 bg-white print:max-w-full print:p-0 print:m-0 print:h-[calc(297mm-16px)] overflow-hidden"
+>
+	<header class="mb-8">
+		<div class="flex justify-between items-center">
+			<div>
+				<h1 class="text-2xl font-bold">LA-KA</h1>
+				<p>Tomislav Kamenjasevic</p>
+				<p>LA-KA Lack&Karosserie</p>
+				<p>Gewerbestraße 11b, 5550 Radstadt</p>
+			</div>
+			<div class="text-right flex-col item-center">
+				<img src={logo} alt="Logo" class="h-28 w-28 rounded-full mr-4" />
+				<!-- <div>
+					<p class="font-bold">Kontakt</p>
+					<p>Gewerbestraße 11b</p>
+					<p>5550 Radstadt</p>
+					<p>Telefon: +43 6601933616</p>
+				</div> -->
 			</div>
 		</div>
-		<div>
-			<div class="space-y-2 mt-2">
+	</header>
+
+	<main class="print:h-[calc(297mm-40px)]">
+		<section class="mb-4">
+			<div class="flex justify-between">
 				<div>
-					<label for="invoiceNumber" class="block text-sm text-gray-600">Rechnungsnummer</label>
-					<input id="invoiceNumber" type="text" bind:value={rechnummer} class="w-full p-2" />
+					<p>{getGeschlechtBezeichnung(data.Geschlecht)} {data.Vorname} {data.Nachname}</p>
+					<p>{data.Strasse}</p>
+					<p>{data.PLZ} {data.Ort}</p>
 				</div>
 				<div>
-					<label for="invoiceDate" class="block text-sm text-gray-600">Rechnungsdatum</label>
-					<input id="invoiceDate" type="date" bind:value={rechdatum} class="w-full p-2" />
-				</div>
-				<div>
-					<label for="dueDate" class="block text-sm text-gray-600">Fälligkeitsdatum</label>
-					<input id="dueDate" type="date" bind:value={fälligdatum} class="w-full p-2" />
+					<div>
+						<p class="font-bold">Kontakt</p>
+						<p>Gewerbestraße 11b</p>
+						<p>5550 Radstadt</p>
+						<p>Telefon: +43 6601933616</p>
+					</div>
+					<!-- abstand  -->
+
+					<div class="mt-4">
+						<p><strong>Rechnungs-Nr.:</strong> {data.rechnung.Rechnungsnummer}</p>
+						<p><strong>Datum:</strong> {formatDate(data.auftrag.created)}</p>
+						<p><strong>Liefer-/Leistungsdatum:</strong> {formatDate(data.rechnung.created)}</p>
+						<p><strong>Kunden-Nr.:</strong> {data.Kundennr}</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+		</section>
 
-	<!-- Items Table -->
-	<div class="mt-12">
-		<h2 class="text-2xl font-semibold text-black mb-4">Rechnungsnummer</h2>
-
-		<!-- rechnungsnummer einfügen -->
-
-		<h2 class="text-lg font-semibold text-gray-700">Artikel / Dienstleistungen</h2>
-		<table class="w-full mt-4 border border-gray-300">
-			<thead class="bg-gray-100">
-				<tr>
-					<th class="border border-gray-300 p-2 text-left">Beschreibung</th>
-					<th class="border border-gray-300 p-2 text-right">Menge</th>
-					<th class="border border-gray-300 p-2 text-right">Preis (€)</th>
-					<th class="border border-gray-300 p-2 text-right">Betrag (€)</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each items as item, index}
+		<section class="mb-4 flex-grow">
+			<h2 class="text-lg font-semibold">Fahrzeugdaten</h2>
+			<table class="w-full border-collapse border border-gray-300 text-sm print:break-inside-avoid">
+				<tbody>
 					<tr>
-						<td class="border border-gray-300 p-2">
-							<input
-								type="text"
-								bind:value={item.description}
-								placeholder="Beschreibung"
-								class="w-full p-2"
-							/>
-						</td>
-						<td class="border border-gray-300 p-2 text-right">
-							<input
-								type="number"
-								bind:value={item.quantity}
-								min="1"
-								class="w-full p-2 text-right"
-							/>
-						</td>
-						<td class="border border-gray-300 p-2 text-right">
-							<input
-								type="number"
-								bind:value={item.price}
-								step="0.01"
-								min="0"
-								class="w-full p-2 text-right"
-							/>
-						</td>
-						<td class="border border-gray-300 p-2 text-right"
-							>{(item.quantity * item.price).toFixed(2)}</td
-						>
+						<td class="border border-gray-300 p-2"><strong>Marke:</strong></td>
+						<td class="border border-gray-300 p-2">{data.fahrzeuge.Marke}</td>
+						<td class="border border-gray-300 p-2"><strong>Nat. Code:</strong></td>
+						<td class="border border-gray-300 p-2">{data.fahrzeuge.Nat_Code}</td>
+						<td class="border border-gray-300 p-2"><strong>F.-Id.-Nr:</strong></td>
+						<td class="border border-gray-300 p-2">{data.fahrzeuge.FIN}</td>
 					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
+					<tr>
+						<td class="border border-gray-300 p-2"><strong>Modell:</strong></td>
+						<td class="border border-gray-300 p-2">{data.fahrzeuge.Modell}</td>
+						<td class="border border-gray-300 p-2"><strong></strong></td>
+						<td class="border border-gray-300 p-2"></td>
+						<td class="border border-gray-300 p-2"><strong>§57a(Pickerl):</strong></td>
+						<td class="border border-gray-300 p-2">{formatDate(data.fahrzeuge.Pickerl)}</td>
+					</tr>
+					<tr>
+						<td class="border border-gray-300 p-2"><strong>Kennzeichen:</strong></td>
+						<td class="border border-gray-300 p-2">{data.fahrzeuge.Kennzeichen}</td>
+						<td class="border border-gray-300 p-2"><strong>EZ:</strong></td>
+						<td class="border border-gray-300 p-2">{formatDate(data.fahrzeuge.Erstzulassung)}</td>
+						<td class="border border-gray-300 p-2"><strong>Km-Stand:</strong></td>
+						<td class="border border-gray-300 p-2">{data.fahrzeuge.KMStand}</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
 
-	<!-- Total Amount -->
-	<div class="mt-8 text-right">
-		<h2 class="text-2xl font-semibold text-gray-700">Gesamtsumme: €{calculateTotal()}</h2>
-	</div>
+		<section>
+			<h2 class="text-lg font-semibold mb-4">Rechnung</h2>
+			<table class="w-full border-collapse border border-gray-300 text-sm">
+				<thead>
+					<tr class="bg-gray-200">
+						<th class="border border-gray-300 p-2 text-left">Pos. Nummer</th>
+						<th class="border border-gray-300 p-2 text-left">Bezeichnung/Beschreibung</th>
+						<th class="border border-gray-300 p-2 text-right">Menge</th>
+						<th class="border border-gray-300 p-2 text-right">Einheit</th>
+						<th class="border border-gray-300 p-2 text-right">E-Preis</th>
+						<th class="border border-gray-300 p-2 text-right">Ges. Preis</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each data.ersatzteile.items as ersatzteil, index}
+						<tr>
+							<td class="border border-gray-300 p-2">{index + 1}</td>
+							<td class="border border-gray-300 p-2">{ersatzteil.Bezeichnung}</td>
+							<td class="border border-gray-300 p-2 text-right">{ersatzteil.Menge}</td>
+							<td class="border border-gray-300 p-2 text-right">Stk.</td>
+							<td class="border border-gray-300 p-2 text-right">{ersatzteil.VK_PreisNetto} €</td>
+							<td class="border border-gray-300 p-2 text-right">{ersatzteil.Nettosumme} €</td>
+						</tr>
+					{/each}
+					{#each data.arbeitszeit as arbeitszeit, index}
+						<tr>
+							<td class="border border-gray-300 p-2">{data.ersatzteile.items.length + index + 1}</td
+							>
+							<td class="border border-gray-300 p-2"
+								>{arbeitszeit.expand.ArbeitswerteID.Leistungsbezeichnung}</td
+							>
+							<td class="border border-gray-300 p-2 text-right">{arbeitszeit.Menge}</td>
+							<td class="border border-gray-300 p-2 text-right">Std.</td>
+							<td class="border border-gray-300 p-2 text-right"
+								>{arbeitszeit.expand.ArbeitswerteID.AwPreis} €</td
+							>
+							<td class="border border-gray-300 p-2 text-right">{arbeitszeit.Nettosumme} €</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
 
-	<!-- Footer -->
-	<div class=" text-center text-sm text-gray-600 border-t">
-		<p>Lack und Karosserie Radstadt</p>
-		<p>Gewerbestraße 11b, 5550 Schwemmberg | Tel: 06601933616 | Email: info@laka.at</p>
-	</div>
+			<div class="mt-4 flex justify-end">
+				<div>
+					<p class="text-right"><strong>Nettosumme:</strong> {data.rechnung.nettosumme} €</p>
+					<p class="text-right"><strong>Mehrwertsteuer:</strong> {data.rechnung.mwst} €</p>
+					<p class="text-right font-bold">
+						<strong>Gesamtbetrag:</strong>
+						{data.rechnung.gesamtbetrag} €
+					</p>
+				</div>
+			</div>
+		</section>
+	</main>
 </div>
-
-<style>
-	.a4 {
-		width: 210mm;
-		height: 297mm;
-		padding: 20mm;
-		background-color: #ffffff;
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	}
-</style>

@@ -35,7 +35,8 @@ export async function POST({ request }) {
 				Telefonnr: data.telefonnummer,
 				Strasse: data.strasse,
 				PLZ: data.plz,
-				Ort: data.ort
+				Ort: data.ort,
+				Geschlecht: data.ausgewähltesGeschlecht
 			});
 
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
@@ -203,23 +204,64 @@ export async function POST({ request }) {
 		// Rechnung erstellen
 		const rechnung = await pb.collection('Rechnung').getFullList({ sort: '-Rechnungsnummer' });
 
-			// letzte Rechnungsnummer wird ermittelt
-			const letzteRechnungsnummer =
-				rechnung
-					.map((rechnung) => parseInt(rechnung.Rechnungsnummer.split('-')[1], 10))
-					.filter((num) => !isNaN(num))
-					.sort((a, b) => b - a)[0] || 1000;
-			// neue Auftragsnummer wird erstellt
-			const neueRechnungsnummer = `R-${letzteRechnungsnummer + 1}`;
+		// letzte Rechnungsnummer wird ermittelt
+		const letzteRechnungsnummer =
+			rechnung
+				.map((rechnung) => parseInt(rechnung.Rechnungsnummer.split('-')[1], 10))
+				.filter((num) => !isNaN(num))
+				.sort((a, b) => b - a)[0] || 1000;
+		// neue Auftragsnummer wird erstellt
+		const neueRechnungsnummer = `R-${letzteRechnungsnummer + 1}`;
+
+		// Nettosumme berechnen
+		let gesamtnettosumme = 0;
+		let arbeitszeitnettosumme = 0;
+		let ersatzteilnettosumme = 0;
+		let arbeitszeit = [];
+		let ersatzteile = [];
 
 		if (action === 'createRechnung') {
+			if (data.arbeitszeit) {
+				arbeitszeit = await pb.collection('Arbeitszeit').getFullList(
+					{
+					filter: `AuftragID="${data.auftragid}"`,
+					expand: 'ArbeitswerteID'
+				}
+			);
+			}
+
+			if (data.ersatzteile) {
+				const ersatzteile = await pb.collection('Ersatzteile').getFullList(
+					{
+					filter: `AuftragID="${data.auftragid}"`
+				}
+			);
+			}
+
+			console.log(arbeitszeit);
+			console.log(ersatzteile);
+			console.log(data.auftragid);
+
+			arbeitszeitnettosumme =
+				arbeitszeit?.reduce((sum, item) => sum + (item.Nettosumme || 0), 0) || 0;
+			ersatzteilnettosumme =
+				ersatzteile?.reduce((sum, item) => sum + (item.Nettosumme || 0), 0) || 0;
+			gesamtnettosumme = arbeitszeitnettosumme + ersatzteilnettosumme;
+
+			console.log(arbeitszeitnettosumme);
+			console.log(ersatzteilnettosumme);
+			console.log(gesamtnettosumme);
+
 			// überprüfe ob Rechnung vorhanden ist
 			// if (!data.rechnung) {
 			// 	return new Response('Rechnung fehlt', { status: 400 });
 			// }
 			const response = await pb.collection('Rechnung').create({
 				Rechnungsnummer: neueRechnungsnummer,
-				AuftragID: data.auftragid
+				AuftragID: data.auftragid,
+				Nettosumme: gesamtnettosumme,
+				Umsatzsteuer: data.umsatzsteuer,
+				Bruttosumme: bruttosumme
 			});
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}

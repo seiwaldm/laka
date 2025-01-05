@@ -20,6 +20,7 @@ export async function PUT({ request }) {
 			if (data.updateStrasse) updateData.Strasse = data.updateStrasse;
 			if (data.updatePlz) updateData.PLZ = data.updatePlz;
 			if (data.updateOrt) updateData.Ort = data.updateOrt;
+			if (data.updateGeschlecht) updateData.Geschlecht = data.updateGeschlecht;
 
 			// update wird durchgeführt
 			const response = await pb.collection('Kunde').update(data.updateKundenid, updateData);

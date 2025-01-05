@@ -12,6 +12,7 @@
 
 	//muss definiert werden:
 	export let data;
+
 	// Array mit den Feldern, die angezeigt werden sollen
 	let datenfelder = [
 		'Kundennr',
@@ -22,7 +23,8 @@
 		'Telefonnr',
 		'Strasse',
 		'PLZ',
-		'Ort'
+		'Ort',
+		'Geschlecht'
 	];
 
 	// Objekt mit den Feldern und den dazugehörigen Bezeichnungen, für die Anzeige
@@ -35,7 +37,8 @@
 		Telefonnr: 'Telefonnummer',
 		Strasse: 'Strasse',
 		PLZ: 'PLZ',
-		Ort: 'Ort'
+		Ort: 'Ort',
+		Geschlecht: 'Geschlecht'
 	};
 
 	// Zustand für die Sichbarkeit der Card definieren
@@ -104,6 +107,11 @@
 		console.log(fahrzeugDaten);
 	}
 
+
+	let geschlecht = [
+		{ id: 1, Geschlecht: 'Männlich' },
+		{ id: 2, Geschlecht: 'Weiblich' }
+	];
 	// Variablen für die Bearbeitung eines Kunden
 	let updateKundenid = $page.params.kunde;
 	let updateKundennr = '';
@@ -115,6 +123,7 @@
 	let updateStrasse = '';
 	let updatePlz = '';
 	let updateOrt = '';
+	let updateGeschlecht = '';
 
 	// Funktion zum Aktualisieren eines Kunden
 	async function updateKunde() {
@@ -129,7 +138,8 @@
 			updateTelefonnr,
 			updateStrasse,
 			updatePlz,
-			updateOrt
+			updateOrt,
+			updateGeschlecht
 		};
 		try {
 			const response = await fetch('/update-client', {
@@ -427,6 +437,19 @@
 										placeholder={data.Ort}
 										class="max-w-xs"
 									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<label for="geschlecht">Geschlecht</label>
+									<select
+										id="geschlecht"
+										bind:value={updateGeschlecht}
+										class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+									>
+										<option value="" disabled selected>Bitte wählen</option>
+										{#each geschlecht as geschlecht}
+											<option value={geschlecht.Geschlecht}>{geschlecht.Geschlecht}</option>
+										{/each}
+									</select>
 								</div>
 							</div>
 						</div>

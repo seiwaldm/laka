@@ -4,6 +4,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 
+
 	let firma = '';
 	let vorname = '';
 	let nachname = '';
@@ -12,6 +13,11 @@
 	let strasse = '';
 	let plz = '';
 	let ort = '';
+	let geschlecht = [
+		{id: 1, Geschlecht: 'Männlich'},	
+		{id: 2, Geschlecht: 'Weiblich'},
+	];
+	let ausgewähltesGeschlecht = '';
 
 	const emit = createEventDispatcher();
 
@@ -25,7 +31,8 @@
 			telefonnummer,
 			strasse,
 			plz,
-			ort
+			ort,
+			ausgewähltesGeschlecht
 		};
 
 		try {
@@ -112,6 +119,17 @@
 						<Label for="ort">Ort</Label>
 						<Input type="ort" bind:value={ort} placeholder="Musterort" class="max-w-xs" />
 					</div>
+					<select
+					id="geschlecht"
+					bind:value={ausgewähltesGeschlecht}
+					placeholder="Dropdown"
+					class="flex flex-col space-y-1.5"
+				>
+					<option class="max-w-xs" value="" disabled selected>Bitte wähle das Geschlecht aus</option>
+					{#each geschlecht as geschlecht}
+						<option value={geschlecht.Geschlecht}>{geschlecht.Geschlecht}</option>
+					{/each}
+				</select>
 				</div>
 			</form>
 		</Card.Content>
