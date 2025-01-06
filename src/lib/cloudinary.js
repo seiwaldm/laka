@@ -1,3 +1,4 @@
+import {pb} from '$lib/pocketbase';
 export function openCloudinaryWidgetSchaden() {
     let cloudinaryWidget = cloudinary.createUploadWidget(
         {
@@ -12,6 +13,8 @@ export function openCloudinaryWidgetSchaden() {
     );
 
     cloudinaryWidget.open();
+
+    
 }
 
 export function openCloudinaryWidgetFertig() {
