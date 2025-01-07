@@ -127,7 +127,7 @@
 	// Funktion zum Löschen eines Kunden mit Bestätigung
 	async function deleteFahrzeug() {
 		try {
-			await pb.collection('Kunde').delete($page.params.kunde);
+			await pb.collection('Fahrzeug').delete($page.params.Fahrzeug);
 			location.reload();
 		} catch (error) {
 			console.error(error);

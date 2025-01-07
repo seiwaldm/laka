@@ -16,17 +16,20 @@
 	}
 </script>
 
+<!-- Button zur Speicherung der Rechnung -->
 <div class="flex justify-end mb-4 print:hidden">
 	<button
 		on:click={() => window.print()}
-		class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
+		class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+	>
 		Drucken
 	</button>
 </div>
 
 <div
-	class="min-h-[297mm] flex flex-col justify-between p-10 max-w-4xl mx-auto border border-gray-300 bg-white rounded-lg shadow-md print:max-w-full print:p-0 print:m-0">
-	<div class="p-4 mx-auto">
+	class="min-h-[297mm] flex flex-col justify-between p-10 max-w-4xl mx-auto border border-gray-300 bg-white rounded-lg shadow-md print:max-w-full print:p-0 print:m-0 print:border-0 print:shadow-none"
+>
+	<div class="p-4">
 		<!-- oberster Teil mit Verkäufer daten -->
 		<div class="flex justify-between items-center border-b-2 border-gray-300 pb-6">
 			<div>
@@ -69,7 +72,7 @@
 				<h2 class="text-xl font-semibold text-gray-800 mb-4">Fahrzeugdaten</h2>
 				<table class="w-full border-collapse border border-gray-300 text-sm">
 					<tbody>
-						<tr>
+						<tr class="whitespace-nowrap">
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>Marke:</strong></td>
 							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Marke}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
@@ -80,21 +83,21 @@
 								><strong>F.-Id.-Nr:</strong></td
 							>
 							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.FIN}</td>
-						</tr><tr>
+						</tr><tr class="whitespace-nowrap">
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>Modell:</strong></td>
 							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Modell}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"></td>
 							<td class="border border-gray-300 px-4 py-2"></td>
-							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
+							<td class="whitespace-nowrap border border-gray-300 px-4 py-2 bg-gray-100"
 								><strong>§57a (Pickerl):</strong></td
 							>
-							<td class="border border-gray-300 px-4 py-2">{formatDate(data.fahrzeuge.Pickerl)}</td>
+							<td class="whitespace-nowrap border border-gray-300 px-4 py-2">{formatDate(data.fahrzeuge.Pickerl)}</td>
 						</tr>
-						<tr>
+						<tr class="whitespace-nowrap">
 							<td class="border border-gray-300 px-4 py-2 bg-gray-50"
 								><strong>Kennzeichen:</strong></td
 							>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Kennzeichen}</td>
+							<td class="whitespace-nowrap border border-gray-300 px-4 py-2">{data.fahrzeuge.Kennzeichen}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>EZ:</strong></td>
 							<td class="border border-gray-300 px-4 py-2"
 								>{formatDate(data.fahrzeuge.Erstzulassung)}</td
@@ -176,13 +179,12 @@
 			</section>
 		</main>
 	</div>
-		<p class="text-center text-gray-600 text-lg mt-4 mb-6">Vielen Dank für Ihren Auftrag!</p>
+	<p class="text-center text-gray-600 text-lg mt-4 mb-6">Vielen Dank für Ihren Auftrag!</p>
 
-		<footer class="text-center text-sm text-gray-600 pt-4 border-t mb-10">
-			<div>
-				<p class="font-bold">Kontaktieren Sie uns!</p>
-				<p class="text-gray-600">Gewerbestraße 11b | 5550 Radstadt | Telefon: +43 6601933616</p>
-			</div>
-		</footer>
-
+	<footer class="text-center text-sm text-gray-600 pt-4 border-t mb-10">
+		<div>
+			<p class="font-bold">Kontaktieren Sie uns!</p>
+			<p class="text-gray-600">Gewerbestraße 11b | 5550 Radstadt | Telefon: +43 6601933616</p>
+		</div>
+	</footer>
 </div>

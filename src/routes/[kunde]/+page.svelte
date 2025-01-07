@@ -107,7 +107,6 @@
 		console.log(fahrzeugDaten);
 	}
 
-
 	let geschlecht = [
 		{ id: 1, Geschlecht: 'Männlich' },
 		{ id: 2, Geschlecht: 'Weiblich' }
@@ -164,7 +163,16 @@
 
 	// Funktion zum Löschen eines Kunden mit Bestätigung
 	async function deleteKunde() {
+		const confirmed = confirm(
+			'Möchten Sie diesen Kunden und alle zugehörigen Fahrzeuge wirklich löschen?'
+		);
+		if (!confirmed) return;
 		try {
+			for (const fahrzeuge of data.fahrzeuge.items) {
+				if (fahrzeuge.KundenID === $page.params.kunde) {
+					await pb.collection('Fahrzeug').delete(fahrzeuge.id);
+				}
+			}
 			await pb.collection('Kunde').delete($page.params.kunde);
 			location.reload();
 		} catch (error) {

@@ -10,7 +10,7 @@
 
 <nav class="flex flex-col lg:flex-row lg:w-full lg:h-screen bg-neutral-200">
 	<!-- Sidebar für Mobile -->
-	<div class="sm:w-full bg-slate-700 px-4 py-4 flex items-center justify-between print:hidden lg:hidden">
+	<div class="sm:w-full bg-slate-700 px-4 py-4 flex items-center justify-between  lg:hidden print:hidden">
 		<img src={logo} alt="Logo" class="h-14 w-14 rounded-full" />
 		<p class="text-lg text-white font-medium">LaKa Radstadt</p>
 

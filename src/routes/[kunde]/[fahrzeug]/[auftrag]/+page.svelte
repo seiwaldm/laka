@@ -238,7 +238,7 @@
 	// Funktion zum Löschen eines Kunden mit Bestätigung
 	async function deleteAuftrag() {
 		try {
-			await pb.collection('Kunde').delete($page.params.kunde);
+			await pb.collection('Auftrag').delete($page.params.auftrag);
 			location.reload();
 		} catch (error) {
 			console.error(error);
@@ -735,46 +735,3 @@
 		</Card.Root>
 	{/if}
 </div>
-
-<!-- <div class="flex flex-col items-center">
-	{#if showRechnung}
-		<Card.Root class="top-12">
-			<Card.Header>
-				<Card.Title>Auftrager</Card.Title>
-			</Card.Header>
-			<Card.Content>
-				<form>
-					<div class="flex flex-col space-y-1.5">
-						<Label for="auftragnr">Bezeichnung</Label>
-						<Input type="auftragnr" bind:value={bezeichnung} class="max-w-xs" />
-					</div>
-					<div class="grid w-full items-center gap-4">
-						<div class="flex flex-col space-y-1.5">
-							<Label for="arbeiten">Menge</Label>
-							<Input type="arbeiten" bind:value={menge} class="max-w-xs" />
-						</div>
-					</div>
-				</form>
-			</Card.Content>
-
-			<Card.Footer class="flex justify-between">
-				<button
-					class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-					on:click={() => (showEditForm = false)}
-				>
-					Abbrechen
-				</button> -->
-<!-- <a
-					href="/{$page.params.kunde}/{$page.params.fahrzeug}/{$page.params.auftrag}/{data.rechnung
-						.id}>" -->
-<!-- <button
-					class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-					on:click={createRechnung}
-				>
-					Speichern
-				</button>
-				</a>
-			</Card.Footer>
-		</Card.Root>
-	{/if}
-</div> -->
