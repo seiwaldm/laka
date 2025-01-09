@@ -4,6 +4,8 @@ import { parse } from 'svelte/compiler';
 export async function POST({ request }) {
 	try {
 		const { action, ...data } = await request.json();
+		console.log(request.headers.get('referer'));
+
 
 		// Kunde erstellen
 		if (action === 'createKunde') {
@@ -130,7 +132,7 @@ export async function POST({ request }) {
 			if (data.ersatzteilEKPreis && data.ersatzteilVKPreisNetto) {
 				marge = parseFloat(
 					((data.ersatzteilVKPreisNetto - data.ersatzteilEKPreis) / data.ersatzteilVKPreisNetto) *
-						100
+					100
 				).toFixed(2);
 			}
 
@@ -201,56 +203,38 @@ export async function POST({ request }) {
 			});
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
-		// Rechnung erstellen
-		const rechnung = await pb.collection('Rechnung').getFullList({ sort: '-Rechnungsnummer' });
 
-		// letzte Rechnungsnummer wird ermittelt
-		const letzteRechnungsnummer =
-			rechnung
-				.map((rechnung) => parseInt(rechnung.Rechnungsnummer.split('-')[1], 10))
-				.filter((num) => !isNaN(num))
-				.sort((a, b) => b - a)[0] || 1000;
-		// neue Auftragsnummer wird erstellt
-		const neueRechnungsnummer = `R-${letzteRechnungsnummer + 1}`;
-
-		// Nettosumme berechnen
-		let gesamtnettosumme = 0;
-		let arbeitszeitnettosumme = 0;
-		let ersatzteilnettosumme = 0;
-		let arbeitszeit = [];
-		let ersatzteile = [];
 
 		if (action === 'createRechnung') {
+			// Rechnung erstellen
+			const rechnung = await pb.collection('Rechnung').getFullList({ sort: '-Rechnungsnummer' });
+
+			// letzte Rechnungsnummer wird ermittelt
+			const letzteRechnungsnummer =
+				rechnung
+					.map((rechnung) => parseInt(rechnung.Rechnungsnummer.split('-')[1], 10))
+					.filter((num) => !isNaN(num))
+					.sort((a, b) => b - a)[0] || 1000;
+			// neue Auftragsnummer wird erstellt
+			const neueRechnungsnummer = `R-${letzteRechnungsnummer + 1}`;
+
+			// Nettosumme berechnen
+			let gesamtnettosumme = 0;
+			let arbeitszeitnettosumme = 0;
+			let ersatzteilnettosumme = 0;
+
+
 			if (data.arbeitszeit) {
-				arbeitszeit = await pb.collection('Arbeitszeit').getFullList(
-					{
-					filter: `AuftragID="${data.auftragid}"`,
-					expand: 'ArbeitswerteID'
-				}
-			);
+				arbeitszeitnettosumme = data.arbeitszeit.reduce((sum, item) => sum + item.Nettosumme, 0)
 			}
 
 			if (data.ersatzteile) {
-				const ersatzteile = await pb.collection('Ersatzteile').getFullList(
-					{
-					filter: `AuftragID="${data.auftragid}"`
-				}
-			);
+				ersatzteilnettosumme = data.ersatzteile.reduce((sum, item) => sum + item.Nettosumme, 0)
 			}
 
-			console.log(arbeitszeit);
-			console.log(ersatzteile);
-			console.log(data.auftragid);
-
-			arbeitszeitnettosumme =
-				arbeitszeit?.reduce((sum, item) => sum + (item.Nettosumme || 0), 0) || 0;
-			ersatzteilnettosumme =
-				ersatzteile?.reduce((sum, item) => sum + (item.Nettosumme || 0), 0) || 0;
 			gesamtnettosumme = arbeitszeitnettosumme + ersatzteilnettosumme;
 
-			console.log(arbeitszeitnettosumme);
-			console.log(ersatzteilnettosumme);
-			console.log(gesamtnettosumme);
+
 
 			// überprüfe ob Rechnung vorhanden ist
 			// if (!data.rechnung) {
@@ -258,11 +242,12 @@ export async function POST({ request }) {
 			// }
 			const response = await pb.collection('Rechnung').create({
 				Rechnungsnummer: neueRechnungsnummer,
-				AuftragID: data.auftragid,
+				AuftragID: data.auftrag,
 				Nettosumme: gesamtnettosumme,
-				Umsatzsteuer: data.umsatzsteuer,
-				Bruttosumme: bruttosumme
+				Umsatzsteuer: (gesamtnettosumme * 0.2).toFixed(2),
+				Bruttosumme: (gesamtnettosumme * 1.2).toFixed(2),
 			});
+			response.url = request.headers.get('referer') + `/${response.id}`;
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
 		return new Response('Action not found', { status: 400 });

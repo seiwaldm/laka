@@ -83,21 +83,22 @@
 	async function createRechnung() {
 		const rechnungsDaten = {
 			action: 'createRechnung',
-			rechnungsnummer,
-			nettosumme,
-			bruttosumme,
-			umsatzsteuer,
-			auftragid
+			auftrag: $page.params.auftrag,
+			ersatzteile: data.ersatzteile.items,
+			arbeitszeit: data.arbeitszeit.items
 		};
 		try {
 			const response = await fetch('/create-client', {
 				method: 'POST',
+				redirect: 'follow',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(rechnungsDaten)
 			});
-			showRechnungLink = true;
+			// showRechnungLink = true;
+			const result = await response.json();
+			window.location.href = result.data.url;
 		} catch (error) {
 			console.error(error);
 		}
