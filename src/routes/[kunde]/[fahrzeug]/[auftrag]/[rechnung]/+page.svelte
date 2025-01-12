@@ -74,38 +74,38 @@
 					<tbody>
 						<tr class="whitespace-nowrap">
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>Marke:</strong></td>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Marke}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Marke || "-"}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
 								><strong>Nat. Code:</strong></td
 							>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Nat_Code}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Nat_Code || "-"}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
 								><strong>F.-Id.-Nr:</strong></td
 							>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.FIN}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.FIN || "-"}</td>
 						</tr><tr class="whitespace-nowrap">
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>Modell:</strong></td>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Modell}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Modell || "-"}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"></td>
 							<td class="border border-gray-300 px-4 py-2"></td>
 							<td class="whitespace-nowrap border border-gray-300 px-4 py-2 bg-gray-100"
 								><strong>§57a (Pickerl):</strong></td
 							>
-							<td class="whitespace-nowrap border border-gray-300 px-4 py-2">{formatDate(data.fahrzeuge.Pickerl)}</td>
+							<td class="whitespace-nowrap border border-gray-300 px-4 py-2">{data.fahrzeuge.Pickerl? formatDate(data.fahrzeuge.Pickerl) : "-"}</td>
 						</tr>
 						<tr class="whitespace-nowrap">
 							<td class="border border-gray-300 px-4 py-2 bg-gray-50"
 								><strong>Kennzeichen:</strong></td
 							>
-							<td class="whitespace-nowrap border border-gray-300 px-4 py-2">{data.fahrzeuge.Kennzeichen}</td>
+							<td class="whitespace-nowrap border border-gray-300 px-4 py-2">{data.fahrzeuge.Kennzeichen || "-"}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>EZ:</strong></td>
 							<td class="border border-gray-300 px-4 py-2"
-								>{formatDate(data.fahrzeuge.Erstzulassung)}</td
+								>{data.fahrzeuge.Erstzulassung? formatDate(data.fahrzeuge.Erstzulassung) : "-"}</td
 							>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
 								><strong>Km-Stand:</strong></td
 							>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.KMStand}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.KMStand || "-"}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -164,15 +164,15 @@
 					<div>
 						<p class="text-lg text-right text-gray-700">
 							<strong>Nettosumme:</strong>
-							{data.rechnung.nettosumme} €
+							{data.rechnung.Nettosumme} €
 						</p>
 						<p class="text-lg text-right text-gray-700">
-							<strong>Mehrwertsteuer:</strong>
-							{data.rechnung.mwst} €
+							<strong>Umsatzsteuer:</strong>
+							{data.rechnung.Umsatzsteuer} €
 						</p>
 						<p class="text-lg text-right text-gray-800 font-bold">
 							<strong>Gesamtbetrag:</strong>
-							{data.rechnung.gesamtbetrag} €
+							{data.rechnung.Bruttosumme} €
 						</p>
 					</div>
 				</div>

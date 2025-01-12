@@ -9,6 +9,7 @@ export async function load({ params }) {
     const fahrzeuge = await pb.collection('Fahrzeug').getList(1, 50, {
         filter: `KundenID~"${params.kunde}"`
     });
+
     kunde.fahrzeuge = fahrzeuge;
     return kunde;
 }

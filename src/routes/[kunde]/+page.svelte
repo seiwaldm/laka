@@ -179,6 +179,34 @@
 			console.error(error);
 		}
 	}
+
+	// Funktion zum Löschen eines Kunden mit Bestätigung
+	async function deleteAll() {
+		const confirmed = confirm(
+			'Möchten Sie diesen Kunden und alle zugehörigen Fahrzeuge und Aufträge wirklich löschen?'
+		);
+		if (!confirmed) return;
+		try {
+			for (const fahrzeuge of data.fahrzeuge.items) {
+				if (fahrzeuge.KundenID === $page.params.kunde) {
+					// Delete related Aufträge
+					const auftraege = await pb.collection('Auftrag').getFullList({
+						filter: `FahrzeugID='${fahrzeuge.id}'`
+					});
+					for (const auftrag of auftraege) {
+						await pb.collection('Auftrag').delete(auftrag.id);
+					}
+					//      // Delete Fahrzeug
+					await pb.collection('Fahrzeug').delete(fahrzeuge.id);
+				}
+			}
+			// Delete Kunde
+			await pb.collection('Kunde').delete($page.params.kunde);
+			location.reload();
+		} catch (error) {
+			console.error(error);
+		}
+	}
 </script>
 
 <!-- Link zu den verschiedenen Seiten -->
@@ -255,7 +283,7 @@
 					</button>
 					<button
 						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-						on:click={deleteKunde}
+						on:click={deleteAll}
 					>
 						Löschen
 					</button>

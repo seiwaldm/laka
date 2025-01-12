@@ -143,7 +143,7 @@
 			</button>
 			<button
 				class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-				on:click={createKunde}
+				on:click={() => {createKunde(); emit('hide');}}
 			>
 				Speichern
 			</button>
