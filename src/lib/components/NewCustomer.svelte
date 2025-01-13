@@ -44,6 +44,7 @@
 				body: JSON.stringify(kundenDaten)
 			});
 			const result = await response.json();
+			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
