@@ -163,42 +163,42 @@
 
 	// Funktion zum Löschen eines Kunden mit Bestätigung
 	async function deleteKunde() {
-		const confirmed = confirm(
-			'Möchten Sie diesen Kunden und alle zugehörigen Fahrzeuge und Aufträge wirklich löschen?'
-		);
-		if (!confirmed) return;
-		try {
-			for (const fahrzeuge of data.fahrzeuge.items) {
-				if (fahrzeuge.KundenID === $page.params.kunde) {
-					for (const auftrag of data.auftrag.items) {
-						if (auftrag.FahrzeugID === fahrzeuge.id) {
-							console.log(auftrag.id);
-							let auftragid = auftrag.id;
-							for (const ersatzteile of data.ersatzteile.items) {
-								console.log(ersatzteile.AuftragID);
-								if (ersatzteile.AuftragID === auftragid) {
-									await pb.collection('Ersatzteile').delete(ersatzteile.id);
-									console.log(ersatzteile.id);
-								}
-							}
-							for (const arbeitszeiten of data.arbeitszeit.items) {
-								if (arbeitszeiten.AuftragID === auftrag.id) {
-									await pb.collection('Arbeitszeit').delete(arbeitszeiten.id);
-								}
-							}
-							await pb.collection('Auftrag').delete(auftrag.id);
-						}
-					}
-					// Delete Fahrzeug
-					await pb.collection('Fahrzeug').delete(fahrzeuge.id);
-				}
-			}
-			// Delete Kunde
-			await pb.collection('Kunde').delete($page.params.kunde);
-			location.reload();
-		} catch (error) {
-			console.error(error);
-		}
+		// const confirmed = confirm(
+		// 	'Möchten Sie diesen Kunden und alle zugehörigen Fahrzeuge und Aufträge wirklich löschen?'
+		// );
+		// if (!confirmed) return;
+		// try {
+		// 	for (const fahrzeuge of data.fahrzeuge.items) {
+		// 		if (fahrzeuge.KundenID === $page.params.kunde) {
+		// 			for (const auftrag of data.auftrag.items) {
+		// 				if (auftrag.FahrzeugID === fahrzeuge.id) {
+		// 					console.log(auftrag.id);
+		// 					let auftragid = auftrag.id;
+		// 					for (const ersatzteile of data.ersatzteile.items) {
+		// 						console.log(ersatzteile.AuftragID);
+		// 						if (ersatzteile.AuftragID === auftragid) {
+		// 							await pb.collection('Ersatzteile').delete(ersatzteile.id);
+		// 							console.log(ersatzteile.id);
+		// 						}
+		// 					}
+		// 					for (const arbeitszeiten of data.arbeitszeit.items) {
+		// 						if (arbeitszeiten.AuftragID === auftrag.id) {
+		// 							await pb.collection('Arbeitszeit').delete(arbeitszeiten.id);
+		// 						}
+		// 					}
+		// 					await pb.collection('Auftrag').delete(auftrag.id);
+		// 				}
+		// 			}
+		// 			// Delete Fahrzeug
+		// 			await pb.collection('Fahrzeug').delete(fahrzeuge.id);
+		// 		}
+		// 	}
+		// 	// Delete Kunde
+		// 	await pb.collection('Kunde').delete($page.params.kunde);
+		// 	location.reload();
+		// } catch (error) {
+		// 	console.error(error);
+		// }
 	}
 </script>
 

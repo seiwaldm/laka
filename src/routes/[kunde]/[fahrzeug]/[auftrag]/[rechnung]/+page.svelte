@@ -1,7 +1,9 @@
 <script>
 	export let data; // Enthält die Kundendaten inklusive Fahrzeug, Auftrag, Rechnung, Arbeitszeit, Ersatzteile und Arbeitswerte
 	import logo from '$lib/logo.jpg';
+	// import {auftragsdokument} from '"$lib/components/Attribute.svelte"';
 
+	import auftragsdokument from './+page.svelte';
 	function formatDate(dateString) {
 		const options = { year: 'numeric', month: 'long', day: 'numeric' };
 		return new Date(dateString).toLocaleDateString(undefined, options);
@@ -55,8 +57,8 @@
 
 					<div class="mt-8">
 						<p class="text-gray-700">
-							<strong>Rechnungs-Nr.:</strong>
-							{data.rechnung.Rechnungsnummer}
+							<strong>{$auftragsdokument ? 'Auftrags-Nr.:' : 'Rechnungs-Nr.:'}</strong>
+							{$auftragsdokument ? data.auftrag?.Aufragsnummer : data.rechnung?.Rechnungsnummer}
 						</p>
 						<p class="text-gray-700"><strong>Datum:</strong> {formatDate(data.auftrag.created)}</p>
 						<p class="text-gray-700">
@@ -74,45 +76,51 @@
 					<tbody>
 						<tr class="whitespace-nowrap">
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>Marke:</strong></td>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Marke || "-"}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Marke || '-'}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
 								><strong>Nat. Code:</strong></td
 							>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Nat_Code || "-"}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Nat_Code || '-'}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
 								><strong>F.-Id.-Nr:</strong></td
 							>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.FIN || "-"}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.FIN || '-'}</td>
 						</tr><tr class="whitespace-nowrap">
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>Modell:</strong></td>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Modell || "-"}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.Modell || '-'}</td>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"></td>
 							<td class="border border-gray-300 px-4 py-2"></td>
 							<td class="whitespace-nowrap border border-gray-300 px-4 py-2 bg-gray-100"
 								><strong>§57a (Pickerl):</strong></td
 							>
-							<td class="whitespace-nowrap border border-gray-300 px-4 py-2">{data.fahrzeuge.Pickerl? formatDate(data.fahrzeuge.Pickerl) : "-"}</td>
+							<td class="whitespace-nowrap border border-gray-300 px-4 py-2"
+								>{data.fahrzeuge.Pickerl ? formatDate(data.fahrzeuge.Pickerl) : '-'}</td
+							>
 						</tr>
 						<tr class="whitespace-nowrap">
 							<td class="border border-gray-300 px-4 py-2 bg-gray-50"
 								><strong>Kennzeichen:</strong></td
 							>
-							<td class="whitespace-nowrap border border-gray-300 px-4 py-2">{data.fahrzeuge.Kennzeichen || "-"}</td>
+							<td class="whitespace-nowrap border border-gray-300 px-4 py-2"
+								>{data.fahrzeuge.Kennzeichen || '-'}</td
+							>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"><strong>EZ:</strong></td>
 							<td class="border border-gray-300 px-4 py-2"
-								>{data.fahrzeuge.Erstzulassung? formatDate(data.fahrzeuge.Erstzulassung) : "-"}</td
+								>{data.fahrzeuge.Erstzulassung ? formatDate(data.fahrzeuge.Erstzulassung) : '-'}</td
 							>
 							<td class="border border-gray-300 px-4 py-2 bg-gray-100"
 								><strong>Km-Stand:</strong></td
 							>
-							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.KMStand || "-"}</td>
+							<td class="border border-gray-300 px-4 py-2">{data.fahrzeuge.KMStand || '-'}</td>
 						</tr>
 					</tbody>
 				</table>
 			</section>
 
 			<section>
-				<h2 class="text-xl font-semibold text-gray-800 mb-4">Rechnung</h2>
+				<h2 class="text-xl font-semibold text-gray-800 mb-4">
+					{auftragsdokument ? 'Auftrag' : 'Rechnung'}
+				</h2>
 				<table class="w-full border-collapse border border-gray-300 text-sm">
 					<thead>
 						<tr class="bg-gray-200 text-gray-700">

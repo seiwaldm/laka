@@ -7,15 +7,17 @@
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+	import { writable } from 'svelte/store';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-
+	// import { auftragsdokument } from '$lib/components/Attribute.svelte';
 	import 'iconify-icon';
-
+	export let auftragsdokument = writable(false);
 	// laden der Daten
 	export let data;
 
 	// Funktion zum öffnen des Cloudinary Widgets, so dass sie in icons verwendet werden kann
 
+	// export let auftragsdokument = false;
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
 
@@ -23,7 +25,7 @@
 	let showEditForm = false;
 
 	// Zustand für die Sichtbarkeit der Rechnung definieren
-	let showRechnung = false;
+	let showAuftrag = false;
 
 	// Zustand für die Sichtbarkeit des Bestätigungsdialogs definieren
 	let showDeleteConfirm = false;
@@ -307,13 +309,20 @@
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
-					<button> Auftrag </button>
+					<button
+						on:click={() => {
+							createRechnung();
+							auftragsdokument.set(true);
+						}}
+					>
+						Auftrag
+					</button>
 				</DropdownMenu.Label>
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
 </div>
-
+<!-- 
 {#if showRechnungLink}
 	<div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
 		<div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
@@ -341,7 +350,7 @@
 			</div>
 		</div>
 	</div>
-{/if}
+{/if} -->
 
 <!-- Bestätigungsdialog für Löschen -->
 {#if showDeleteConfirm}
