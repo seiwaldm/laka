@@ -9,15 +9,12 @@
 	import { Label } from '$lib/components/ui/label';
 	import { writable } from 'svelte/store';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	// import { auftragsdokument } from '$lib/components/Attribute.svelte';
 	import 'iconify-icon';
-	export let auftragsdokument = writable(false);
 	// laden der Daten
 	export let data;
 
 	// Funktion zum öffnen des Cloudinary Widgets, so dass sie in icons verwendet werden kann
 
-	// export let auftragsdokument = false;
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
 
@@ -81,13 +78,15 @@
 	let nettosumme = '';
 	let bruttosumme = '';
 	let umsatzsteuer = '';
+	let auftragsdokument = false;
 	// Funktion zum erstellen einer Rechnung (Datensatz)
 	async function createRechnung() {
 		const rechnungsDaten = {
 			action: 'createRechnung',
 			auftrag: $page.params.auftrag,
 			ersatzteile: data.ersatzteile.items,
-			arbeitszeit: data.arbeitszeit.items
+			arbeitszeit: data.arbeitszeit.items,
+			auftragsdokument
 		};
 		try {
 			const response = await fetch('/create-client', {
@@ -309,14 +308,7 @@
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
-					<button
-						on:click={() => {
-							createRechnung();
-							auftragsdokument.set(true);
-						}}
-					>
-						Auftrag
-					</button>
+					<button on:click={() => { auftragsdokument = true; createRechnung(); }}>Auftrag</button>
 				</DropdownMenu.Label>
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>

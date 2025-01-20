@@ -6,7 +6,6 @@ export async function POST({ request }) {
 		const { action, ...data } = await request.json();
 		console.log(request.headers.get('referer'));
 
-
 		// Kunde erstellen
 		if (action === 'createKunde') {
 			// überprüfe ob vorname und nachname vorhanden sind
@@ -132,7 +131,7 @@ export async function POST({ request }) {
 			if (data.ersatzteilEKPreis && data.ersatzteilVKPreisNetto) {
 				marge = parseFloat(
 					((data.ersatzteilVKPreisNetto - data.ersatzteilEKPreis) / data.ersatzteilVKPreisNetto) *
-					100
+						100
 				).toFixed(2);
 			}
 
@@ -204,37 +203,35 @@ export async function POST({ request }) {
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
 
-
 		if (action === 'createRechnung') {
 			// Rechnung erstellen
 			const rechnung = await pb.collection('Rechnung').getFullList({ sort: '-Rechnungsnummer' });
 
-			// letzte Rechnungsnummer wird ermittelt
-			const letzteRechnungsnummer =
-				rechnung
-					.map((rechnung) => parseInt(rechnung.Rechnungsnummer.split('-')[1], 10))
-					.filter((num) => !isNaN(num))
-					.sort((a, b) => b - a)[0] || 1000;
-			// neue Auftragsnummer wird erstellt
-			const neueRechnungsnummer = `R-${letzteRechnungsnummer + 1}`;
-
+			let neueRechnungsnummer = null;
+			// letzte Rechnungsnummer wird ermittelt wenn es sich um eine Rechnung handelt
+			if (data.auftragsdokument === false) {
+				const letzteRechnungsnummer =
+					rechnung
+						.map((rechnung) => parseInt(rechnung.Rechnungsnummer.split('-')[1], 10))
+						.filter((num) => !isNaN(num))
+						.sort((a, b) => b - a)[0] || 1000;
+				// neue Auftragsnummer wird erstellt
+				neueRechnungsnummer = `R-${letzteRechnungsnummer + 1}`;
+			}
 			// Nettosumme berechnen
 			let gesamtnettosumme = 0;
 			let arbeitszeitnettosumme = 0;
 			let ersatzteilnettosumme = 0;
 
-
 			if (data.arbeitszeit) {
-				arbeitszeitnettosumme = data.arbeitszeit.reduce((sum, item) => sum + item.Nettosumme, 0)
+				arbeitszeitnettosumme = data.arbeitszeit.reduce((sum, item) => sum + item.Nettosumme, 0);
 			}
 
 			if (data.ersatzteile) {
-				ersatzteilnettosumme = data.ersatzteile.reduce((sum, item) => sum + item.Nettosumme, 0)
+				ersatzteilnettosumme = data.ersatzteile.reduce((sum, item) => sum + item.Nettosumme, 0);
 			}
 
 			gesamtnettosumme = arbeitszeitnettosumme + ersatzteilnettosumme;
-
-
 
 			// überprüfe ob Rechnung vorhanden ist
 			// if (!data.rechnung) {
@@ -246,6 +243,7 @@ export async function POST({ request }) {
 				Nettosumme: gesamtnettosumme,
 				Umsatzsteuer: (gesamtnettosumme * 0.2).toFixed(2),
 				Bruttosumme: (gesamtnettosumme * 1.2).toFixed(2),
+				Auftragsdokument: data.auftragsdokument
 			});
 			response.url = request.headers.get('referer') + `/${response.id}`;
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });

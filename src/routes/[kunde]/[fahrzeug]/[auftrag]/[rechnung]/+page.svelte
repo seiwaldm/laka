@@ -1,9 +1,7 @@
 <script>
 	export let data; // Enthält die Kundendaten inklusive Fahrzeug, Auftrag, Rechnung, Arbeitszeit, Ersatzteile und Arbeitswerte
 	import logo from '$lib/logo.jpg';
-	// import {auftragsdokument} from '"$lib/components/Attribute.svelte"';
 
-	import auftragsdokument from './+page.svelte';
 	function formatDate(dateString) {
 		const options = { year: 'numeric', month: 'long', day: 'numeric' };
 		return new Date(dateString).toLocaleDateString(undefined, options);
@@ -57,8 +55,10 @@
 
 					<div class="mt-8">
 						<p class="text-gray-700">
-							<strong>{$auftragsdokument ? 'Auftrags-Nr.:' : 'Rechnungs-Nr.:'}</strong>
-							{$auftragsdokument ? data.auftrag?.Aufragsnummer : data.rechnung?.Rechnungsnummer}
+							<strong>{data.rechnung.Auftragsdokument ? 'Auftrags-Nr.:' : 'Rechnungs-Nr.:'}</strong>
+							{data.rechnung.Auftragsdokument
+								? data.auftrag.Auftragnummer
+								: data.rechnung.Rechnungsnummer}
 						</p>
 						<p class="text-gray-700"><strong>Datum:</strong> {formatDate(data.auftrag.created)}</p>
 						<p class="text-gray-700">
@@ -119,17 +119,23 @@
 
 			<section>
 				<h2 class="text-xl font-semibold text-gray-800 mb-4">
-					{auftragsdokument ? 'Auftrag' : 'Rechnung'}
+					{data.rechnung.Auftragsdokument ? 'Auftrag' : 'Rechnung'}
 				</h2>
 				<table class="w-full border-collapse border border-gray-300 text-sm">
 					<thead>
-						<tr class="bg-gray-200 text-gray-700">
-							<th class="border border-gray-300 px-4 py-2 text-left">Pos. Nummer</th>
-							<th class="border border-gray-300 px-4 py-2 text-left">Bezeichnung/Beschreibung</th>
-							<th class="border border-gray-300 px-4 py-2 text-right">Menge</th>
-							<th class="border border-gray-300 px-4 py-2 text-right">Einheit</th>
-							<th class="border border-gray-300 px-4 py-2 text-right">E-Preis</th>
-							<th class="border border-gray-300 px-4 py-2 text-right">Ges. Preis</th>
+						<tr class="whitespace-nowrap bg-gray-200 text-gray-700">
+							<th class="whitespace-nowrap border border-gray-300 px-4 py-2 text-left"
+								>Pos. Nummer</th
+							>
+							<th class="whitespace-nowrap border border-gray-300 px-4 py-2 text-left"
+								>Bezeichnung/Beschreibung</th
+							>
+							<th class="whitespace-nowrap border border-gray-300 px-4 py-2 text-right">Menge</th>
+							<th class="whitespace-nowrap border border-gray-300 px-4 py-2 text-right">Einheit</th>
+							<th class="whitespace-nowrap border border-gray-300 px-4 py-2 text-right">E-Preis</th>
+							<th class="whitespace-nowrap border border-gray-300 px-4 py-2 text-right"
+								>Ges. Preis</th
+							>
 						</tr>
 					</thead>
 					<tbody>
