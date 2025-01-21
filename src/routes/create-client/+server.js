@@ -48,7 +48,7 @@ export async function POST({ request }) {
 			// const fahrzeugDaten = await request.json();
 			// überprüfe ob Kennzeichen, Marke und Modell vorhanden sind
 			if (!data.kennzeichen) {
-				return new Response('Marke fehlt', { status: 400 });
+				return new Response('Kennzeichen fehlt', { status: 400 });
 			}
 
 			if (!data.marke) {
@@ -56,7 +56,7 @@ export async function POST({ request }) {
 			}
 
 			if (!data.modell) {
-				return new Response('Marke fehlt', { status: 400 });
+				return new Response('Modell fehlt', { status: 400 });
 			}
 			let ps = null;
 			if (data.kw) {
@@ -233,10 +233,6 @@ export async function POST({ request }) {
 
 			gesamtnettosumme = arbeitszeitnettosumme + ersatzteilnettosumme;
 
-			// überprüfe ob Rechnung vorhanden ist
-			// if (!data.rechnung) {
-			// 	return new Response('Rechnung fehlt', { status: 400 });
-			// }
 			const response = await pb.collection('Rechnung').create({
 				Rechnungsnummer: neueRechnungsnummer,
 				AuftragID: data.auftrag,

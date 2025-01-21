@@ -14,7 +14,15 @@ export async function load({ params }) {
 		filter: `FahrzeugID~"${params.fahrzeug}"`
 	});
 
+	const ersatzteile = await pb.collection('Ersatzteile').getList(1, 50, {
+    });
+
+    const arbeitszeit = await pb.collection('Arbeitszeit').getList(1, 50, {
+    });
+
 	kunde.fahrzeuge = fahrzeuge;
 	kunde.auftrag = auftrag;
+	kunde.ersatzteile = ersatzteile;
+	kunde.arbeitszeit = arbeitszeit;
 	return kunde;
 }

@@ -238,11 +238,36 @@
 	}
 
 	// Funktion zum Löschen eines Kunden mit Bestätigung
-	async function deleteAuftrag() {
+	async function deleteA() {
 		try {
 			await pb.collection('Auftrag').delete($page.params.auftrag);
 			location.reload();
 		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	async function deleteAuftrag() {
+		const confirmed = confirm(
+			'Möchten Sie dieses Fahrzeug und alle zugehörigen und Aufträge wirklich löschen?'
+		);
+		if (!confirmed) return;
+		try {
+			for (const ersatzteile of data.ersatzteile.items) {
+				console.log(ersatzteile.AuftragID);
+				if (ersatzteile.AuftragID === $page.params.auftrag) {
+					await pb.collection('Ersatzteile').delete(ersatzteile.id);
+					console.log(ersatzteile.id);
+				}
+			}
+			for (const arbeitszeiten of data.arbeitszeit.items) {
+				if (arbeitszeiten.AuftragID === $page.params.auftrag) {
+					await pb.collection('Arbeitszeit').delete(arbeitszeiten.id);
+				}
+			}
+			await pb.collection('Auftrag').delete($page.params.auftrag);
+		} catch (error) {
+			// location.reload();
 			console.error(error);
 		}
 	}
@@ -308,7 +333,12 @@
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
-					<button on:click={() => { auftragsdokument = true; createRechnung(); }}>Auftrag</button>
+					<button
+						on:click={() => {
+							auftragsdokument = true;
+							createRechnung();
+						}}>Auftrag</button
+					>
 				</DropdownMenu.Label>
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>
@@ -357,12 +387,14 @@
 				>
 					Abbrechen
 				</button>
-				<button
-					class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-					on:click={deleteAuftrag}
-				>
-					Löschen
-				</button>
+				<a href="/{$page.params.kunde}/{$page.params.fahrzeug}"
+					><button
+						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+						on:click={deleteAuftrag}
+					>
+						Löschen
+					</button>
+				</a>
 			</div>
 		</div>
 	</div>

@@ -22,6 +22,6 @@ export async function load({ params }) {
     kunde.fahrzeuge = fahrzeuge;
     kunde.auftrag = auftrag;
     kunde.ersatzteile = ersatzteile;
-    kunde.arbeitszeit = arbeitszeit
+    kunde.arbeitszeit = arbeitszeit;
     return kunde;
 }

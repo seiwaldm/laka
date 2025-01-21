@@ -126,8 +126,32 @@
 
 	// Funktion zum Löschen eines Kunden mit Bestätigung
 	async function deleteFahrzeug() {
+		const confirmed = confirm(
+			'Möchten Sie dieses Fahrzeug und alle zugehörigen und Aufträge wirklich löschen?'
+		);
+		if (!confirmed) return;
 		try {
-			await pb.collection('Fahrzeug').delete($page.params.Fahrzeug);
+			for (const auftrag of data.auftrag.items) {
+				if (auftrag.FahrzeugID === $page.params.fahrzeug) {
+					let auftragid = auftrag.id;
+					for (const ersatzteile of data.ersatzteile.items) {
+						console.log(ersatzteile.AuftragID);
+						if (ersatzteile.AuftragID === auftragid) {
+							await pb.collection('Ersatzteile').delete(ersatzteile.id);
+							console.log(ersatzteile.id);
+						}
+					}
+					for (const arbeitszeiten of data.arbeitszeit.items) {
+						if (arbeitszeiten.AuftragID === auftrag.id) {
+							await pb.collection('Arbeitszeit').delete(arbeitszeiten.id);
+						}
+					}
+					await pb.collection('Auftrag').delete(auftrag.id);
+				}
+			}
+			// Delete Fahrzeug
+			await pb.collection('Fahrzeug').delete($page.params.fahrzeug);
+			console.log($page.params.fahrzeug)
 			location.reload();
 		} catch (error) {
 			console.error(error);
@@ -226,12 +250,14 @@
 					>
 						Abbrechen
 					</button>
-					<button
-						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-						on:click={deleteFahrzeug}
+					<a href="/{$page.params.kunde}">
+						<button
+							class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+							on:click={deleteFahrzeug}
+						>
+							Löschen
+						</button></a
 					>
-						Löschen
-					</button>
 				</div>
 			</div>
 		</div>
