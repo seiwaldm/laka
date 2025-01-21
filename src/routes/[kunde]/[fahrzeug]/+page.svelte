@@ -151,7 +151,7 @@
 			}
 			// Delete Fahrzeug
 			await pb.collection('Fahrzeug').delete($page.params.fahrzeug);
-			console.log($page.params.fahrzeug)
+			console.log($page.params.fahrzeug);
 			location.reload();
 		} catch (error) {
 			console.error(error);
@@ -218,11 +218,11 @@
 			<DropdownMenu.Content>
 				<DropdownMenu.Group class="mt-2 w-48 bg-white shadow-md rounded-md p-2" s>
 					<!-- Neu: Bestätigungsdialog -->
-					<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+					<DropdownMenu.Label class="text-black text-base hover:bg-salte-600 rounded-lg px-4 py-2">
 						<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
-					<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+					<DropdownMenu.Label class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2">
 						<button
 							on:click={() => {
 								showEditForm = true;

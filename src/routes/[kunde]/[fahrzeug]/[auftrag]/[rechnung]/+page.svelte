@@ -1,9 +1,12 @@
 <script>
 	export let data; // Enthält die Kundendaten inklusive Fahrzeug, Auftrag, Rechnung, Arbeitszeit, Ersatzteile und Arbeitswerte
 	import logo from '$lib/logo.jpg';
+	import { icons } from '$lib/icons';
+	import { pb } from '$lib/pocketbase.js';
+	import { page } from '$app/stores';
 
 	function formatDate(dateString) {
-		const options = { year: 'numeric', month: 'long', day: 'numeric' };
+		const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
 		return new Date(dateString).toLocaleDateString(undefined, options);
 	}
 
@@ -16,11 +19,23 @@
 	}
 </script>
 
+<!-- zurück icon -->
+<h1 class="text-lg pl-5 flex items-center mt-5">
+	<!-- Desktop Design ) -->
+	<div class="hidden lg:flex items-center">
+		<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
+		<a
+			href="/{$page.params.kunde}/{$page.params.fahrzeug}/{$page.params.auftrag}"
+			class="hover:underline">Zurück</a
+		>
+	</div>
+</h1>
+
 <!-- Button zur Speicherung der Rechnung -->
-<div class="flex justify-end mb-4 print:hidden">
+<div class="flex justify-end print:hidden mr-4">
 	<button
 		on:click={() => window.print()}
-		class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+		class="bg-slate-600 text-white px-4 py-2 rounded hover:bg-slate-900 focus:outline-none focus:ring focus:ring-blue-300"
 	>
 		Drucken
 	</button>
@@ -34,8 +49,8 @@
 		<div class="flex justify-between items-center border-b-2 border-gray-300 pb-6">
 			<div>
 				<h1 class="text-3xl font-bold text-gray-800">Lack und Karosserie Radstadt</h1>
-				<p class="text-sm text-gray-600">Gewerbestraße 11b, 5550 Schwemmberg</p>
-				<p class="text-sm text-gray-600">Tel: 06601933616 | Email: info@laka.at</p>
+				<p class="text-sm text-gray-600">Gewerbestraße 11b, 5550 Radstadt</p>
+				<p class="text-sm text-gray-600">Tel: +43 6601933616 | Email: info@laka.at</p>
 			</div>
 			<img src={logo} alt="Logo" class="h-28 w-28 rounded-full mr-4" />
 		</div>
@@ -43,9 +58,12 @@
 		<main class="mt-6 flex-grow">
 			<section class="mb-10">
 				<div class="flex justify-between">
-					<div>
+					<div class="mr-10">
+						<!-- Abstand nach rechts vergrößert -->
 						<p class="text-lg text-gray-700 mt-10">
 							{getGeschlechtBezeichnung(data.Geschlecht)}
+						</p>
+						<p class="text text-gray-600">
 							{data.Vorname}
 							{data.Nachname}
 						</p>
@@ -54,18 +72,28 @@
 					</div>
 
 					<div class="mt-8">
-						<p class="text-gray-700">
-							<strong>{data.rechnung.Auftragsdokument ? 'Auftrags-Nr.:' : 'Rechnungs-Nr.:'}</strong>
+						<p class="flex text-gray-700">
+							<strong class="w-40 font-bold"
+								>{data.rechnung.Auftragsdokument ? 'Auftrags-Nr.:' : 'Rechnungs-Nr.:'}</strong
+							>
 							{data.rechnung.Auftragsdokument
 								? data.auftrag.Auftragnummer
 								: data.rechnung.Rechnungsnummer}
 						</p>
-						<p class="text-gray-700"><strong>Datum:</strong> {formatDate(data.auftrag.created)}</p>
-						<p class="text-gray-700">
-							<strong>Liefer-/Leistungsdatum:</strong>
-							{formatDate(data.rechnung.created)}
-						</p>
-						<p class="text-gray-700"><strong>Kunden-Nr.:</strong> {data.Kundennr}</p>
+						<div>
+							<p class="flex text-gray-700">
+								<span class="w-40 font-bold">Datum:</span>
+								<span>{formatDate(data.auftrag.created)}</span>
+							</p>
+							<p class="flex text-gray-700">
+								<span class="w-40 font-bold">Liefer-/Leistungsdatum:</span>
+								<span>{formatDate(data.rechnung.created)}</span>
+							</p>
+							<p class="flex text-gray-700">
+								<span class="w-40 font-bold">Kunden-Nr.:</span>
+								<span>{data.Kundennr}</span>
+							</p>
+						</div>
 					</div>
 				</div>
 			</section>
@@ -194,11 +222,14 @@
 		</main>
 	</div>
 	<p class="text-center text-gray-600 text-lg mt-4 mb-6">Vielen Dank für Ihren Auftrag!</p>
+	<p>QR Code!!!!!</p>
 
 	<footer class="text-center text-sm text-gray-600 pt-4 border-t mb-10">
 		<div>
-			<p class="font-bold">Kontaktieren Sie uns!</p>
-			<p class="text-gray-600">Gewerbestraße 11b | 5550 Radstadt | Telefon: +43 6601933616</p>
+			<p class="text-gray-600">
+				Bank: Raiffeisenbank Radstadt | IBAN: AT29 3504 9000 0010 3044 | BIC: RVSAAT2S049
+			</p>
+			<p class="text-gray-600">USt-IdNr: ATU 73365048</p>
 		</div>
 	</footer>
 </div>

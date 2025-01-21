@@ -310,13 +310,13 @@
 			<button class=" text-gray-600 hover:text-gray-800 text-2xl" aria-label="Options"> ⋮ </button>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content>
-			<DropdownMenu.Group class="mt-2 w-48  bg-white shadow-md rounded-md p-2" s>
+			<DropdownMenu.Group class="mt-2 w-48  bg-white shadow-md rounded-md p-2">
 				<!-- Neu: Bestätigungsdialog -->
-				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+				<DropdownMenu.Label class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2">
 					<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
-				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+				<DropdownMenu.Label class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2">
 					<button
 						on:click={() => {
 							showEditForm = true;
@@ -328,11 +328,15 @@
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
 				<!-- Rechnung -->
-				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+				<DropdownMenu.Label
+					class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2 hidden md:block"
+				>
 					<button on:click={createRechnung}> Rechnung </button>
 				</DropdownMenu.Label>
-				<DropdownMenu.Separator />
-				<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+				<DropdownMenu.Separator class="hidden md:block" />
+				<DropdownMenu.Label
+					class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2 hidden md:block"
+				>
 					<button
 						on:click={() => {
 							auftragsdokument = true;
@@ -344,6 +348,7 @@
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
 </div>
+
 <!-- 
 {#if showRechnungLink}
 	<div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
@@ -425,7 +430,7 @@
 	<!-- Unterüberschrift 1 -->
 	<h2 class="text-lg font-bold mb-4">Ersatzteile</h2>
 	<button
-		class="ml-4 bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-3 py-1"
+		class="ml-4 bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 py-1"
 		on:click={() => (showAddPartForm = !showAddPartForm)}
 	>
 		+
@@ -444,7 +449,7 @@
 	<!-- Unterüberschrift 2 -->
 	<h2 class="text-lg font-bold mt-6 mb-4">Arbeitsstunden</h2>
 	<button
-		class="ml-4 bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-3 py-1"
+		class="ml-4 bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 py-1"
 		on:click={() => (showAddHourForm = !showAddHourForm)}
 	>
 		+
@@ -586,7 +591,7 @@
 				Abbrechen
 			</button>
 			<button
-				class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+				class="bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-4 py-2"
 				on:click={createErsatzteil}
 			>
 				Hinzufügen
@@ -701,7 +706,7 @@
 				Abbrechen
 			</button>
 			<button
-				class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2"
+				class="bg-slate-600 text-white hover:bg-salte-900 rounded-lg px-4 py-2"
 				on:click={createArbeitszeit}
 			>
 				Hinzufügen
