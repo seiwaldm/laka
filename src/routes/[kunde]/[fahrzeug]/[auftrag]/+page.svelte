@@ -75,11 +75,6 @@
 		console.log(auftragDaten);
 	}
 
-	let showRechnungLink = false;
-	let rechnungsnummer = '';
-	let nettosumme = '';
-	let bruttosumme = '';
-	let umsatzsteuer = '';
 	let auftragsdokument = false;
 	let zahlungsart = [
 		{ id: 1, Zahlungsart: 'Barverkauf' },
@@ -245,15 +240,7 @@
 		showDeleteConfirm = false;
 	}
 
-	// Funktion zum Löschen eines Kunden mit Bestätigung
-	async function deleteA() {
-		try {
-			await pb.collection('Auftrag').delete($page.params.auftrag);
-			location.reload();
-		} catch (error) {
-			console.error(error);
-		}
-	}
+	// Funktion zum Löschen eines Auftrages mit den dazugehörigen Ersatzteilen und Abreitiszeiten mit Bestätigung
 
 	async function deleteAuftrag() {
 		const confirmed = confirm(
@@ -427,7 +414,7 @@
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
-	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext' || item[0] === 'Lieferschein') as [key, value]}
+	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext' || item[0] === 'Lieferschein' || item[0] === 'Rechnung') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
 				<iconify-icon

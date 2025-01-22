@@ -33,11 +33,11 @@ export function openCloudinaryWidgetFertig() {
     cloudinaryWidget.open();
 }
 
-export function openCloudinaryWidgetSonstiges() {
+export function openCloudinaryWidgetLieferschein() {
     let cloudinaryWidget = cloudinary.createUploadWidget(
         {
             cloudName: 'duauohpob',
-            uploadPreset: 'Sonstiges'
+            uploadPreset: 'Lieferschein'
         },
         (error, result) => {
             if (!error && result && result.event === 'success') {
