@@ -239,7 +239,8 @@ export async function POST({ request }) {
 				Nettosumme: gesamtnettosumme,
 				Umsatzsteuer: (gesamtnettosumme * 0.2).toFixed(2),
 				Bruttosumme: (gesamtnettosumme * 1.2).toFixed(2),
-				Auftragsdokument: data.auftragsdokument
+				Auftragsdokument: data.auftragsdokument,
+				Zahlungsart: data.zahlungsart,
 			});
 			response.url = request.headers.get('referer') + `/${response.id}`;
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });

@@ -10,6 +10,7 @@
 	import { writable } from 'svelte/store';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import 'iconify-icon';
+	import { onMount } from 'svelte';
 	// laden der Daten
 	export let data;
 
@@ -33,8 +34,6 @@
 	// Zustand für die Sichtbarkeit des Formulars "Arbeitsstunden hinzufügen"
 	let showAddHourForm = false;
 
-	let zahlungsart = ''; // Variable für die ausgewählte Zahlungsart
-
 	// Variablen für die update Funktion
 	let updateAuftragid = $page.params.auftrag;
 	let updateArbeiten = '';
@@ -45,6 +44,7 @@
 	let updateAuftragnr = '';
 	let updateInfotext = '';
 	let updateLieferschein = '';
+	
 
 	// funktion zum aktualisieren des Auftrags
 	async function updateAuftrag() {
@@ -57,7 +57,8 @@
 			updateRechnung,
 			updateAuftragnr,
 			updateFahrzeugid,
-			updateLieferschein
+			updateLieferschein,
+			ausgewählteZahlungsart
 		};
 		try {
 			const response = await fetch('/update-client', {
@@ -68,7 +69,6 @@
 				body: JSON.stringify(auftragDaten)
 			});
 			const result = await response.json();
-			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
@@ -81,6 +81,12 @@
 	let bruttosumme = '';
 	let umsatzsteuer = '';
 	let auftragsdokument = false;
+	let zahlungsart = [
+		{ id: 1, Zahlungsart: 'Barverkauf' },
+		{ id: 2, Zahlungsart: 'Überweisung' }
+	];
+	let ausgewählteZahlungsart = '';
+
 	// Funktion zum erstellen einer Rechnung (Datensatz)
 	async function createRechnung() {
 		const rechnungsDaten = {
@@ -88,7 +94,7 @@
 			auftrag: $page.params.auftrag,
 			ersatzteile: data.ersatzteile.items,
 			arbeitszeit: data.arbeitszeit.items,
-			auftragsdokument
+			auftragsdokument,
 		};
 		try {
 			const response = await fetch('/create-client', {
@@ -273,6 +279,10 @@
 			console.error(error);
 		}
 	}
+
+	onMount(() => {
+		ausgewählteZahlungsart = data.auftrag.Zahlungsart;
+	});
 </script>
 
 <!-- Dateien auf cloudinary hochladen -->
@@ -722,28 +732,31 @@
 <div class="p-4">
 	<h2 class="text-lg font-bold mb-4">Zahlungsart</h2>
 	<div class="flex items-center gap-4">
-		<label class="flex items-center gap-2">
+		{#each zahlungsart as zahlungsart}
+			<label class="flex items-center gap-2">
+				<input
+					type="radio"
+					bind:group={ausgewählteZahlungsart}
+					value={zahlungsart.Zahlungsart}
+					on:change={updateAuftrag}
+					class="form-radio text-slate-600 focus:ring focus:ring-blue-300"
+				/>
+				<span>{zahlungsart.Zahlungsart}</span>
+			</label>
+			<!-- <label class="flex items-center gap-2">
 			<input
 				type="radio"
-				bind:group={zahlungsart}
-				value="Barverkauf"
-				class="form-radio text-slate-600 focus:ring focus:ring-blue-300"
-			/>
-			<span>Barverkauf</span>
-		</label>
-		<label class="flex items-center gap-2">
-			<input
-				type="radio"
-				bind:group={zahlungsart}
-				value="Überweisung"
+				bind:group={ausgewählteZahlungsart}
+				value="zahlungsart.Zahlungsart"
 				class="form-radio text-slate-600 focus:ring focus:ring-blue-300"
 			/>
 			<span>Überweisung</span>
-		</label>
+		</label> -->
+		{/each}
 	</div>
 	<!-- Anzeige der ausgewählten Zahlungsart -->
 	<p class="mt-4 text-sm text-gray-600">
-		Gewählte Zahlungsart: <span class="font-semibold">{zahlungsart}</span>
+		Gewählte Zahlungsart: <span class="font-semibold">{ausgewählteZahlungsart}</span>
 	</p>
 </div>
 <hr />

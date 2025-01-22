@@ -67,6 +67,7 @@ export async function PUT({ request }) {
 			if (data.updateBildFertig) updateData.BildFertig = data.updateBildFertig;
 			if (data.updateFahrzeugid) updateData.FahrzeugID = data.updateFahrzeugid;
 			if (data.updateAuftragnr) updateData.Auftragnummer = data.updateAuftragnr;
+			if (data.ausgewählteZahlungsart) updateData.Zahlungsart = data.ausgewählteZahlungsart;
 			// update wird durchgeführt
 			const response = await pb.collection('Auftrag').update(data.updateAuftragid, updateData);
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });

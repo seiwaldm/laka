@@ -19,12 +19,12 @@
 		'Firma',
 		'Vorname',
 		'Nachname',
+		'Geschlecht',
 		'EMail',
 		'Telefonnr',
 		'Strasse',
 		'PLZ',
-		'Ort',
-		'Geschlecht'
+		'Ort'
 	];
 
 	// Objekt mit den Feldern und den dazugehörigen Bezeichnungen, für die Anzeige

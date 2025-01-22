@@ -69,6 +69,7 @@
 						</p>
 						<p class="text-gray-600">{data.Strasse}</p>
 						<p class="text-gray-600">{data.PLZ} {data.Ort}</p>
+						<p class="text-gray-600">{data.auftrag.Zahlungsart}</p>
 					</div>
 
 					<div class="mt-8">
