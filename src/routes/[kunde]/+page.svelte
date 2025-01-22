@@ -310,6 +310,10 @@
 								<Input type="date" bind:value={erstzulassung} class="max-w-xs" />
 							</div>
 							<div class="flex flex-col space-y-1.5">
+								<Label for="fin">FIN</Label>
+								<Input type="fin" bind:value={fin} placeholder="J123456789P" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
 								<Label for="kennzeichen">Kennzeichen</Label>
 								<Input
 									type="kennzeichen"
@@ -318,10 +322,7 @@
 									class="max-w-xs"
 								/>
 							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="fin">Fahrzeugidendifizierungsnummer</Label>
-								<Input type="fin" bind:value={fin} placeholder="J123456789P" class="max-w-xs" />
-							</div>
+
 							<div class="flex flex-col space-y-1.5">
 								<Label for="marke">Marke</Label>
 								<Input type="marke" bind:value={marke} placeholder="VW" class="max-w-xs" />

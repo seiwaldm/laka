@@ -36,6 +36,8 @@
 
 	// Variablen für die update Funktion
 	let updateAuftragid = $page.params.auftrag;
+	let bildSchaden = '';
+	let bildFertig = '';
 	let updateArbeiten = '';
 	let updateBildSchaden = '';
 	let updateBildFertig = '';
@@ -44,7 +46,6 @@
 	let updateAuftragnr = '';
 	let updateInfotext = '';
 	let updateLieferschein = '';
-	
 
 	// funktion zum aktualisieren des Auftrags
 	async function updateAuftrag() {
@@ -89,7 +90,7 @@
 			auftrag: $page.params.auftrag,
 			ersatzteile: data.ersatzteile.items,
 			arbeitszeit: data.arbeitszeit.items,
-			auftragsdokument,
+			auftragsdokument
 		};
 		try {
 			const response = await fetch('/create-client', {
@@ -234,6 +235,15 @@
 		stundenFestpreis = 0;
 		showAddHourForm = false;
 	}
+	const Auftragdaten = {
+		Arbeiten: 'Arbeiten',
+		Auftragnummer: 'Auftragnummer',
+		BildSchaden: 'Schaden',
+		BildFertig: 'Fertig',
+		Infotext: 'Infotext',
+		Lieferschein: 'Lieferschein',
+		Rechnung: 'Rechnung'
+	};
 
 	// Funktion zum Schließen des Bestätigungsdialogs
 	function cancelDelete() {
@@ -349,36 +359,6 @@
 	</DropdownMenu.Root>
 </div>
 
-<!-- 
-{#if showRechnungLink}
-	<div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-		<div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-			<h3 class="text-lg font-semibold mb-4 text-center">Willst du die Rechnung erstellen?</h3>
-			<div class="flex justify-between gap-4">
-				<button
-					type="button"
-					class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2 w-full"
-					on:click={() => (showRechnungLink = false)}
-				>
-					Nein
-				</button>
-				<a
-					href="/{$page.params.kunde}/{$page.params.fahrzeug}/{$page.params.auftrag}/{data.rechnung
-						.id}"
-					class="w-full"
-				>
-					<button
-						type="button"
-						class="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 w-full"
-					>
-						Ja
-					</button>
-				</a>
-			</div>
-		</div>
-	</div>
-{/if} -->
-
 <!-- Bestätigungsdialog für Löschen -->
 {#if showDeleteConfirm}
 	<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
@@ -422,7 +402,7 @@
 					class="mr-2 text-2xl translate-y-1"
 				></iconify-icon></button
 			>
-			<span class="font-bold">{key}:</span>
+			<span class="font-bold">{Auftragdaten[key]}:</span>
 			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
@@ -765,24 +745,43 @@
 							class="max-w-xs"
 						/>
 					</div>
-					<div class="grid w-full items-center gap-4">
+					<div class="flex flex-col space-y-1.5">
+						<Label for="arbeiten">Arbeiten</Label>
+						<Input
+							type="arbeiten"
+							bind:value={updateArbeiten}
+							placeholder={data.auftrag.Arbeiten}
+							class="max-w-xs"
+						/>
+						<!-- <div class="flex flex-col space-y-1.5">
+							<Label for="bildSchaden">Bild vom Schaden</Label>
+							<Input id="bildSchaden" bind:value={bildSchaden} type="file" class="max-w-xs" />
+						</div>
 						<div class="flex flex-col space-y-1.5">
-							<Label for="arbeiten">Arbeiten</Label>
+							<Label for="bildFertig">Bild vom reparierten Schaden</Label>
+							<Input id="bildFertig" bind:value={bildFertig} type="file" class="max-w-xs" />
+						</div>
+						<div class="flex flex-col space-y-1.5">
+							<Label for="lieferschein">Lieferschein</Label>
+							<Input id="lieferschien" bind:value={lieferschein} type="file" class="max-w-xs" />
+						</div>
+						<div class="flex flex-col space-y-1.5">
+							<Label for="rechnung">Rechnung</Label>
 							<Input
-								type="arbeiten"
-								bind:value={updateArbeiten}
-								placeholder={data.auftrag.Arbeiten}
+								type="rechnung"
+								bind:value={rechnung}
+								placeholder="Rechnung erstellen"
 								class="max-w-xs"
 							/>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="arbeiten">Infotext</Label>
-								<Input
-									type="arbeiten"
-									bind:value={updateInfotext}
-									placeholder={data.auftrag.Infotext}
-									class="max-w-xs"
-								/>
-							</div>
+						</div> -->
+						<div class="flex flex-col space-y-1.5">
+							<Label for="arbeiten">Infotext</Label>
+							<Input
+								type="arbeiten"
+								bind:value={updateInfotext}
+								placeholder={data.auftrag.Infotext}
+								class="max-w-xs"
+							/>
 						</div>
 					</div>
 				</form>

@@ -35,6 +35,22 @@
 	let lieferschein = '';
 	let fahrzeugid = $page.params.fahrzeug;
 
+	const Fahrzeugdaten = {
+		Erstzulassung: 'Erstzulassung',
+		FIN: 'FIN',
+		Kennzeichen: 'Kennzeichen',
+		Marke: 'Marke',
+		Modell: 'Modell',
+		Nat_Code: 'Nationaler Code',
+		Pickerl: 'Pickerl',
+		Farbcode: 'Farbcode',
+		Hubraum: 'Hubraum',
+		KMStand: 'Kilometerstand',
+		KW: 'KW',
+		Kraftstoff: 'Kraftstoff',
+		Motorcode: 'Motorcode'
+	};
+
 	// Funktion zum Erstellen eines Auftrags
 	async function createAuftrag() {
 		const auftragDaten = {
@@ -185,7 +201,7 @@
 	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'FIN' || item[0] === 'Nat_Code' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung' || item[0] === 'Pickerl') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
-			<span class="font-bold">{key}:</span>
+			<span class="font-bold">{Fahrzeugdaten[key]}:</span>
 			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
@@ -290,15 +306,7 @@
 										class="max-w-xs"
 									/>
 								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="arbeiten">Infotext</Label>
-									<Input
-										type="arbeiten"
-										bind:value={infotext}
-										placeholder="Arbeitsbeschreibung"
-										class="max-w-xs"
-									/>
-								</div>
+
 								<div class="flex flex-col space-y-1.5">
 									<Label for="bildSchaden">Bild vom Schaden</Label>
 									<Input id="bildSchaden" bind:value={bildSchaden} type="file" class="max-w-xs" />
@@ -308,6 +316,20 @@
 									<Input id="bildFertig" bind:value={bildFertig} type="file" class="max-w-xs" />
 								</div>
 								<div class="flex flex-col space-y-1.5">
+									<Label for="arbeiten">Infotext</Label>
+									<Input
+										type="arbeiten"
+										bind:value={infotext}
+										placeholder="Arbeitsbeschreibung"
+										class="max-w-xs"
+									/>
+								</div>
+
+								<div class="flex flex-col space-y-1.5">
+									<Label for="lieferschein">Lieferschein</Label>
+									<Input id="lieferschien" bind:value={lieferschein} type="file" class="max-w-xs" />
+								</div>
+								<div class="flex flex-col space-y-1.5">
 									<Label for="rechnung">Rechnung</Label>
 									<Input
 										type="rechnung"
@@ -315,10 +337,6 @@
 										placeholder="Rechnung erstellen"
 										class="max-w-xs"
 									/>
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="lieferschein">Lieferschein</Label>
-									<Input id="lieferschien" bind:value={lieferschein} type="file" class="max-w-xs" />
 								</div>
 							</div>
 						</div>
@@ -344,152 +362,180 @@
 	</div>
 
 	<!-- Fahrzeugbearbeitung -->
-	<div class="flex flex-col items-center mb-5">
+	<div>
 		{#if showEditForm}
-			<Card.Root class="lg:w-[700px]">
-				<Card.Header>
-					<Card.Title>Fahrzeugdaten bearbeiten</Card.Title>
-				</Card.Header>
-				<Card.Content>
-					<form>
-						<div class="grid w-full items-center gap-4">
-							<div class="flex flex-col space-y-1.5">
-								<Label for="erstzulassung">Erstzulassung</Label>
-								<Input
-									type="erstzulassung"
-									bind:value={updateErstzulassung}
-									placeholder={data.fahrzeuge.Erstzulassung}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="fin">Fahrzeugientifikationsnummer</Label>
-								<Input
-									type="fin"
-									bind:value={updateFin}
-									placeholder={data.fahrzeuge.FIN}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="kennzeichen">Kennzeichen</Label>
-								<Input
-									type="kennzeichen"
-									bind:value={updateKennzeichen}
-									placeholder={data.fahrzeuge.Kennzeichen}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="marke">Marke</Label>
-								<Input
-									id="marke"
-									bind:value={updateMarke}
-									placeholder={data.fahrzeuge.Marke}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="modell">Modell</Label>
-								<Input
-									id="modell"
-									bind:value={updateModell}
-									placeholder={data.fahrzeuge.Modell}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="natcode">Nationaler Code</Label>
-								<Input
-									id="natcode"
-									bind:value={updateNatCode}
-									placeholder={data.fahrzeuge.Nat_Code}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="picerkl">Pickerl</Label>
-								<Input
-									type="pickerl"
-									bind:value={updatePickerl}
-									placeholder={data.fahrzeuge.Pickerl}
-									class="max-w-xs"
-								/>
-							</div>
+			<!-- Overlay -->
+			<button
+				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
+				on:click={() => (showEditForm = false)}
+				on:keydown={(e) => e.key === 'Enter' && (showEditForm = false)}
+				tabindex="0"
+			></button>
 
-							<div class="flex flex-col space-y-1.5">
-								<Label for="farbcode">Farbcode</Label>
-								<Input
-									type="farbcode"
-									bind:value={updateFarbcode}
-									placeholder={data.fahrzeuge.Farbcode}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="hubraum">Hubraum</Label>
-								<Input
-									type="hubraum"
-									bind:value={updateHubraum}
-									placeholder={data.fahrzeuge.Hubraum}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="kmstand">Kilometerstand</Label>
-								<Input
-									type="kmstand"
-									bind:value={updateKmstand}
-									placeholder={data.fahrzeuge.KMStand}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="kw">KW</Label>
-								<Input
-									type="kw"
-									bind:value={updateKw}
-									placeholder={data.fahrzeuge.KW}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="kraftstoff">Kraftstoff</Label>
-								<Input
-									type="kraftstoff"
-									bind:value={updateKraftstoff}
-									placeholder={data.fahrzeuge.Kraftstoff}
-									class="max-w-xs"
-								/>
-							</div>
-							<div class="flex flex-col space-y-1.5">
-								<Label for="motorcode">Motorcode</Label>
-								<Input
-									type="motorcode"
-									bind:value={updateMotorcode}
-									placeholder={data.fahrzeuge.Motorcode}
-									class="max-w-xs"
-								/>
-							</div>
-						</div>
-					</form>
-				</Card.Content>
+			<!-- Modal -->
+			<div class="fixed inset-0 flex items-center justify-center z-50">
+				<div
+					class="lg:w-[700px] bg-white rounded-lg shadow-lg max-h-[90vh] overflow-hidden flex flex-col"
+				>
+					<!-- Header -->
+					<div class="p-4 border-b">
+						<h2 class="text-lg font-bold">Fahrzeugdaten bearbeiten</h2>
+					</div>
 
-				<Card.Footer class="flex justify-between">
-					<button
-						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={() => (showEditForm = false)}
-					>
-						Abbrechen
-					</button>
-					<button
-						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={updateFahrzeug}
-					>
-						Speichern
-					</button>
-				</Card.Footer>
-			</Card.Root>
+					<!-- Content -->
+					<div class="flex-1 overflow-y-auto p-4">
+						<form>
+							<div class="grid gap-4">
+								<!-- Erstzulassung -->
+								<div class="flex flex-col space-y-1.5">
+									<Label for="erstzulassung">Erstzulassung</Label>
+									<Input
+										type="erstzulassung"
+										bind:value={updateErstzulassung}
+										placeholder={data.fahrzeuge.Erstzulassung}
+										class="max-w-xs"
+									/>
+								</div>
+
+								<!-- FIN -->
+								<div class="flex flex-col space-y-1.5">
+									<Label for="fin">FIN</Label>
+									<Input
+										type="FIN"
+										bind:value={updateFin}
+										placeholder={data.fahrzeuge.FIN}
+										class="max-w-xs"
+									/>
+								</div>
+
+								<!-- Weitere Felder -->
+								<div class="flex flex-col space-y-1.5">
+									<Label for="kennzeichen">Kennzeichen</Label>
+									<Input
+										type="kennzeichen"
+										bind:value={updateKennzeichen}
+										placeholder={data.fahrzeuge.Kennzeichen}
+										class="max-w-xs"
+									/>
+								</div>
+
+								<div class="flex flex-col space-y-1.5">
+									<Label for="marke">Marke</Label>
+									<Input
+										type="marke"
+										bind:value={updateMarke}
+										placeholder={data.fahrzeuge.Marke}
+										class="max-w-xs"
+									/>
+								</div>
+
+								<div class="flex flex-col space-y-1.5">
+									<Label for="modell">Modell</Label>
+									<Input
+										type="mddell"
+										bind:value={updateModell}
+										placeholder={data.fahrzeuge.Modell}
+										class="max-w-xs"
+									/>
+								</div>
+
+								<div class="flex flex-col space-y-1.5">
+									<Label for="natcode">Nationaler Code</Label>
+									<Input
+										type="NatCode"
+										bind:value={updateNatCode}
+										placeholder={data.fahrzeuge.Nat_Code}
+										class="max-w-xs"
+									/>
+									<div class="flex flex-col space-y-1.5">
+										<Label for="picerkl">Pickerl</Label>
+										<Input
+											type="pickerl"
+											bind:value={updatePickerl}
+											placeholder={data.fahrzeuge.Pickerl}
+											class="max-w-xs"
+										/>
+									</div>
+
+									<div class="flex flex-col space-y-1.5">
+										<Label for="farbcode">Farbcode</Label>
+										<Input
+											type="farbcode"
+											bind:value={updateFarbcode}
+											placeholder={data.fahrzeuge.Farbcode}
+											class="max-w-xs"
+										/>
+									</div>
+									<div class="flex flex-col space-y-1.5">
+										<Label for="hubraum">Hubraum</Label>
+										<Input
+											type="hubraum"
+											bind:value={updateHubraum}
+											placeholder={data.fahrzeuge.Hubraum}
+											class="max-w-xs"
+										/>
+									</div>
+									<div class="flex flex-col space-y-1.5">
+										<Label for="kmstand">Kilometerstand</Label>
+										<Input
+											type="kmstand"
+											bind:value={updateKmstand}
+											placeholder={data.fahrzeuge.KMStand}
+											class="max-w-xs"
+										/>
+									</div>
+									<div class="flex flex-col space-y-1.5">
+										<Label for="kw">KW</Label>
+										<Input
+											type="kw"
+											bind:value={updateKw}
+											placeholder={data.fahrzeuge.KW}
+											class="max-w-xs"
+										/>
+									</div>
+									<div class="flex flex-col space-y-1.5">
+										<Label for="kraftstoff">Kraftstoff</Label>
+										<Input
+											type="kraftstoff"
+											bind:value={updateKraftstoff}
+											placeholder={data.fahrzeuge.Kraftstoff}
+											class="max-w-xs"
+										/>
+									</div>
+									<div class="flex flex-col space-y-1.5">
+										<Label for="motorcode">Motorcode</Label>
+										<Input
+											type="motorcode"
+											bind:value={updateMotorcode}
+											placeholder={data.fahrzeuge.Motorcode}
+											class="max-w-xs"
+										/>
+									</div>
+
+									<!-- Weitere Felder wie Pickerl, Farbcode, Hubraum -->
+									<!-- Füge hier weitere Felder hinzu -->
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<!-- Footer -->
+					<div class="p-4 border-t flex justify-between">
+						<button
+							class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
+							on:click={() => (showEditForm = false)}
+						>
+							Abbrechen
+						</button>
+						<button
+							class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900"
+							on:click={updateFahrzeug}
+						>
+							Speichern
+						</button>
+					</div>
+				</div>
+			</div>
 		{/if}
 	</div>
 
