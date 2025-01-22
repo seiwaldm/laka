@@ -33,6 +33,8 @@
 	// Zustand für die Sichtbarkeit des Formulars "Arbeitsstunden hinzufügen"
 	let showAddHourForm = false;
 
+	let zahlungsart = ''; // Variable für die ausgewählte Zahlungsart
+
 	// Variablen für die update Funktion
 	let updateAuftragid = $page.params.auftrag;
 	let updateArbeiten = '';
@@ -281,7 +283,8 @@
 	></script>
 </svelte:head>
 
-<h1 class="text-lg pl-5 flex items-center my-5">
+<!-- links zu den verschiedenen Seiten -->
+<h1 class="text-base pl-5 flex items-center my-5">
 	<!-- Mobile und Tablet Design -->
 	<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block lg:hidden"></iconify-icon>
 	<a href="/{$page.params.kunde}/{$page.params.fahrzeug}" class="hover:underline block lg:hidden">
@@ -292,13 +295,13 @@
 	<div class="hidden lg:flex items-center">
 		<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/" class="hover:underline">Startseite </a>
-		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
+		<iconify-icon icon="lucide:chevron-right" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/{$page.params.kunde}" class="hover:underline">Kunde {data.Nachname}</a>
-		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
+		<iconify-icon icon="lucide:chevron-right" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/{$page.params.kunde}/{$page.params.fahrzeug}" class="hover:underline">
 			Fahrzeug {data.fahrzeuge.Marke}
 		</a>
-		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
+		<iconify-icon icon="lucide:chevron-right" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		Auftrag {data.auftrag.Arbeiten}
 	</div>
 </h1>
@@ -714,8 +717,36 @@
 		</div>
 	</div>
 {/if}
-<hr />
 
+<!-- Option zur Auswahl von Barverkauf oder Überweisung -->
+<div class="p-4">
+	<h2 class="text-lg font-bold mb-4">Zahlungsart</h2>
+	<div class="flex items-center gap-4">
+		<label class="flex items-center gap-2">
+			<input
+				type="radio"
+				bind:group={zahlungsart}
+				value="Barverkauf"
+				class="form-radio text-slate-600 focus:ring focus:ring-blue-300"
+			/>
+			<span>Barverkauf</span>
+		</label>
+		<label class="flex items-center gap-2">
+			<input
+				type="radio"
+				bind:group={zahlungsart}
+				value="Überweisung"
+				class="form-radio text-slate-600 focus:ring focus:ring-blue-300"
+			/>
+			<span>Überweisung</span>
+		</label>
+	</div>
+	<!-- Anzeige der ausgewählten Zahlungsart -->
+	<p class="mt-4 text-sm text-gray-600">
+		Gewählte Zahlungsart: <span class="font-semibold">{zahlungsart}</span>
+	</p>
+</div>
+<hr />
 <!-- Bearbeitungsfeld -->
 <div class="flex flex-col items-center">
 	{#if showEditForm}

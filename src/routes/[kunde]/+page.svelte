@@ -242,11 +242,11 @@
 			<DropdownMenu.Content>
 				<DropdownMenu.Group class="mt-2 w-48 bg-white shadow-md rounded-md p-2" s>
 					<!-- Neu: Bestätigungsdialog -->
-					<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+					<DropdownMenu.Label class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2">
 						<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
-					<DropdownMenu.Label class="text-black text-base hover:bg-blue-600 rounded-lg px-4 py-2">
+					<DropdownMenu.Label class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2">
 						<button
 							on:click={() => {
 								showEditForm = true;
@@ -276,13 +276,13 @@
 					</button>
 					<!-- svelte-ignore a11y-invalid-attribute -->
 					<a href="/">
-					<button 
-						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-						on:click={deleteKunde}
-					>
-						Löschen
-					</button>
-				</a>
+						<button
+							class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+							on:click={deleteKunde}
+						>
+							Löschen
+						</button>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -426,6 +426,19 @@
 									/>
 								</div>
 								<div class="flex flex-col space-y-1.5">
+									<Label for="geschlecht">Geschlecht</Label>
+									<select
+										id="geschlecht"
+										bind:value={updateGeschlecht}
+										class="flex flex-col p-2 rounded-lg"
+									>
+										<option class="max-w-xs" value="" disabled selected>Bitte wählen</option>
+										{#each geschlecht as geschlecht}
+											<option value={geschlecht.Geschlecht}>{geschlecht.Geschlecht}</option>
+										{/each}
+									</select>
+								</div>
+								<div class="flex flex-col space-y-1.5">
 									<Label for="email">E-Mail</Label>
 									<Input
 										id="email"
@@ -469,19 +482,6 @@
 										placeholder={data.Ort}
 										class="max-w-xs"
 									/>
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<label for="geschlecht">Geschlecht</label>
-									<select
-										id="geschlecht"
-										bind:value={updateGeschlecht}
-										class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-									>
-										<option value="" disabled selected>Bitte wählen</option>
-										{#each geschlecht as geschlecht}
-											<option value={geschlecht.Geschlecht}>{geschlecht.Geschlecht}</option>
-										{/each}
-									</select>
 								</div>
 							</div>
 						</div>

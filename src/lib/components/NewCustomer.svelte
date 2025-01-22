@@ -4,7 +4,6 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 
-
 	let firma = '';
 	let vorname = '';
 	let nachname = '';
@@ -14,8 +13,8 @@
 	let plz = '';
 	let ort = '';
 	let geschlecht = [
-		{id: 1, Geschlecht: 'Männlich'},	
-		{id: 2, Geschlecht: 'Weiblich'},
+		{ id: 1, Geschlecht: 'Männlich' },
+		{ id: 2, Geschlecht: 'Weiblich' }
 	];
 	let ausgewähltesGeschlecht = '';
 
@@ -57,7 +56,6 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	class="absolute top-0 left-0 w-screen min-h-screen h-max grid justify-center items-start bg-black bg-opacity-70 py-10"
-	
 >
 	<Card.Root
 		class="w-[95%] sm:w-[600px] md:w-[700px] lg:w-[800px] bg-white rounded-lg shadow-lg p-6"
@@ -84,6 +82,22 @@
 							placeholder="Mustermann"
 							class="max-w-xs"
 						/>
+					</div>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="ort">Geschlecht</Label>
+						<select
+							id="geschlecht"
+							bind:value={ausgewähltesGeschlecht}
+							placeholder="Dropdown"
+							class="flex flex-col p-2 rounded-lg"
+						>
+							<option class="max-w-xs" value="" disabled selected
+								>Bitte wähle das Geschlecht aus</option
+							>
+							{#each geschlecht as geschlecht}
+								<option value={geschlecht.Geschlecht}>{geschlecht.Geschlecht}</option>
+							{/each}
+						</select>
 					</div>
 					<div class="flex flex-col space-y-1.5">
 						<Label for="email">E-Mail</Label>
@@ -120,17 +134,6 @@
 						<Label for="ort">Ort</Label>
 						<Input type="ort" bind:value={ort} placeholder="Musterort" class="max-w-xs" />
 					</div>
-					<select
-					id="geschlecht"
-					bind:value={ausgewähltesGeschlecht}
-					placeholder="Dropdown"
-					class="flex flex-col space-y-1.5"
-				>
-					<option class="max-w-xs" value="" disabled selected>Bitte wähle das Geschlecht aus</option>
-					{#each geschlecht as geschlecht}
-						<option value={geschlecht.Geschlecht}>{geschlecht.Geschlecht}</option>
-					{/each}
-				</select>
 				</div>
 			</form>
 		</Card.Content>
@@ -144,7 +147,10 @@
 			</button>
 			<button
 				class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-				on:click={() => {createKunde(); emit('hide');}}
+				on:click={() => {
+					createKunde();
+					emit('hide');
+				}}
 			>
 				Speichern
 			</button>

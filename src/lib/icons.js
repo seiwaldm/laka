@@ -37,5 +37,6 @@ export const icons = {
 	Farbcode: 'lucide-hash',
 	Infotext: 'lucide-info',
 	Auftragnummer: 'lucide-hash',
-	Lieferschein: 'lucide-package'
+	Lieferschein: 'lucide-package',
+	Geschlecht: 'lucide-user'
 };

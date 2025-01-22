@@ -216,6 +216,11 @@
 							<strong>Gesamtbetrag:</strong>
 							{data.rechnung.Bruttosumme} €
 						</p>
+						<!-- <p class="text-lg text-right text-gray-800 font-bold">
+							<strong>Gesamtbetrag:</strong>
+							{zahlungsart} €
+						</p>
+					</div> -->
 					</div>
 				</div>
 			</section>
