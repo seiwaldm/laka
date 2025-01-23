@@ -17,7 +17,7 @@ export const icons = {
 	Erstzulassung: 'lucide-calendar',
 	Zulassungsschein: 'lucide-check-circle',
 	Arbeiten: 'lucide-wrench',
-	BildSchaden: { icon: 'lucide:camera', action: () => openCloudinaryWidgetSchaden() },
+	BildSchaden: { icon: 'lucide:camera', action: () => openCloudinaryWidgetSchaden(updateAuftrag, 'updateBildSchaden') },
 	BildFertig: { icon: 'lucide:camera', action: () => openCloudinaryWidgetFertig() },
 	Rechnung: { icon: 'lucide:euro', action: () => openCloudinaryWidgetRechnung() },
 	Auftrag: { icon: 'lucide:euro', action: () => openCloudinaryWidgetAuftrag() },

@@ -36,8 +36,6 @@
 
 	// Variablen für die update Funktion
 	let updateAuftragid = $page.params.auftrag;
-	let bildSchaden = '';
-	let bildFertig = '';
 	let updateArbeiten = '';
 	let updateBildSchaden = '';
 	let updateBildFertig = '';
@@ -48,7 +46,7 @@
 	let updateLieferschein = '';
 
 	// funktion zum aktualisieren des Auftrags
-	async function updateAuftrag() {
+	async function updateAuftrag(field, value) {
 		const auftragDaten = {
 			action: 'updateAuftrag',
 			updateAuftragid,
@@ -59,7 +57,8 @@
 			updateAuftragnr,
 			updateFahrzeugid,
 			updateLieferschein,
-			ausgewählteZahlungsart
+			ausgewählteZahlungsart,
+			// [field]: value
 		};
 		try {
 			const response = await fetch('/update-client', {
@@ -70,6 +69,7 @@
 				body: JSON.stringify(auftragDaten)
 			});
 			const result = await response.json();
+			location.reload();
 		} catch (error) {
 			console.error(error);
 		}
@@ -204,6 +204,20 @@
 		} catch (error) {
 			console.error('Fehler beim Hinzufügen der Arbeitszeit:', error);
 			alert('Ein unerwarteter Fehler ist aufgetreten.');
+		}
+	}
+
+	async function deleteArbeitszeit(ArbeitszeitId) {
+		if(confirm('Möchten Sie die Arbeitszeit wirklich löschen?')){
+			await pb.collection('Arbeitszeit').delete(ArbeitszeitId);
+			location.reload();
+		}
+	}
+
+	async function deleteErsatzteile(ErsatzteilId) {
+		if(confirm('Möchten Sie die Arbeitszeit wirklich löschen?')){
+			await pb.collection('Ersatzteile').delete(ErsatzteilId);
+			location.reload();
 		}
 	}
 
@@ -396,7 +410,7 @@
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
 	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext' || item[0] === 'Lieferschein' || item[0] === 'Rechnung') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
-			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
+			<button class="mr-2" on:click={() =>  icons[key]?.action && icons[key].action()}>
 				<iconify-icon
 					icon={typeof icons[key] === 'object' ? icons[key].icon : icons[key]}
 					class="mr-2 text-2xl translate-y-1"
@@ -422,6 +436,17 @@
 				{Ersatzteile.Bezeichnung}
 				{Ersatzteile.Menge} Stk.
 				{Ersatzteile.Bruttosumme} €
+
+				<button
+					type="button"
+					class="absolute right-0 pr-10 text-black rounded-lg"
+					on:click|stopPropagation|preventDefault={() => deleteErsatzteile(Ersatzteile.id)}
+					on:keydown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') deleteErsatzteile(Ersatzteile.id);
+					}}
+				>
+				<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+				</button>
 			</span>
 		{/each}
 	{/if}
@@ -441,6 +466,17 @@
 				{Arbeitszeit.expand.ArbeitswerteID.Leistungsbezeichnung}
 				{Arbeitszeit.Menge} Std.
 				{Arbeitszeit.Bruttosumme} €
+
+				<button
+					type="button"
+					class="absolute right-0 pr-10 text-black rounded-lg"
+					on:click|stopPropagation|preventDefault={() => deleteArbeitszeit(Arbeitszeit.id)}
+					on:keydown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') deleteArbeitszeit(Arbeitszeit.id);
+					}}
+				>
+				<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+				</button>
 			</span>
 		{/each}
 	{/if}
@@ -710,15 +746,6 @@
 				/>
 				<span>{zahlungsart.Zahlungsart}</span>
 			</label>
-			<!-- <label class="flex items-center gap-2">
-			<input
-				type="radio"
-				bind:group={ausgewählteZahlungsart}
-				value="zahlungsart.Zahlungsart"
-				class="form-radio text-slate-600 focus:ring focus:ring-blue-300"
-			/>
-			<span>Überweisung</span>
-		</label> -->
 		{/each}
 	</div>
 	<!-- Anzeige der ausgewählten Zahlungsart -->

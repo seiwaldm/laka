@@ -1,13 +1,15 @@
 import {pb} from '$lib/pocketbase';
-export function openCloudinaryWidgetSchaden() {
+// import { updateAuftrag} from '$routes/kunde/fahrzeug/auftrag';
+export function openCloudinaryWidgetSchaden(field) {
     let cloudinaryWidget = cloudinary.createUploadWidget(
         {
             cloudName: 'duauohpob',
-            uploadPreset: 'Schaden'
+            uploadPreset: 'Schaden',
         },
-        (error, result) => {
+        async (error, result) => {
             if (!error && result && result.event === 'success') {
-                console.log('Done! Here is the image info: ', result.info);
+                console.log('Done! Here is the image info: ', result.info.secure_url);
+                // await updateAuftrag({ [field]: result.info.secure_url});
             }
         }
     );

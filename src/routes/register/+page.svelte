@@ -4,7 +4,7 @@
 	import { Label } from '$lib/components/ui/label';
 	import { pb } from '$lib/pocketbase';
 
-	let username = '';
+	// let username = '';
 	let email = '';
 	let password = '';
 	let passwordConfirm = '';
@@ -21,22 +21,21 @@
 		}
 
 		try {
-			const user = await pb.collection('users').create({
-				username,
-				email,
+			const data = await pb.collection('users').create({
+				// username,
+				email: email,
 				emailVisibility: true,
-				password,
-				passwordConfirm,
+				passwort: password,
+				passwortConfirm: passwordConfirm,
 				Vorname: vorname,
 				Nachname: nachname,
 				Telefonnr: telefonnr
 			});
-			const record = await pb.collection('users').create(data);
-			await pb.collection('users').requestVerification(email);
+			Navigate('/login');
 			console.log('Benutzer erfolgreich registiert!', user);
-		} catch (err) {
-			errorMessage = err.message || 'Ein Fehler ist aufgetreten';
-			console.error('Fehler bei der Registrierung:', err);
+		} catch (error) {
+			console.error('Fehler bei der Registrierung:', error);
+			errorMessage = 'Fehler bei der Registrierung';
 		}
 	}
 </script>
