@@ -51,14 +51,11 @@
 	}
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="absolute top-0 left-0 w-screen min-h-screen h-max grid justify-center items-start bg-black bg-opacity-70 py-10"
+	class="fixed inset-0 w-screen min-h-screen h-max grid justify-center items-start bg-gray-700 bg-opacity-50 py-10 overflow-y-auto"
 >
 	<Card.Root
-		class="w-[95%] sm:w-[600px] md:w-[700px] lg:w-[800px] bg-white rounded-lg shadow-lg p-6"
+		class="lg:w-[700px] bg-white rounded-lg shadow-lg p-6 max-h-[90vh] overflow-y-auto flex flex-col"
 	>
 		<Card.Header>
 			<Card.Title class="text-xl font-semibold">Neuen Kunden anlegen</Card.Title>

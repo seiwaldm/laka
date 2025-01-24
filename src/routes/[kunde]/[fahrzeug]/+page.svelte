@@ -148,7 +148,7 @@
 	}
 
 	// Funktion zum Zurücksetzen des Bearbeitungsformulars
-	function resetupdateFahrzeug(){
+	function resetupdateFahrzeug() {
 		updateKennzeichen = '';
 		updateFin = '';
 		updateNatCode = '';
@@ -320,16 +320,25 @@
 		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2 mb-"
 		on:click={() => (showCard = true)}>Auftraganlegung</button
 	>
-	<div class="flex flex-col items-center">
+	<div>
 		{#if showCard}
-			<Card.Root class="lg:w-[700px]">
-				<Card.Header>
-					<Card.Title>Neuen Auftrag anlegen</Card.Title>
-				</Card.Header>
-				<Card.Content>
-					<form>
-						<div class="grid w-full items-center gap-4">
-							<div class="grid w-full items-center gap-4">
+			<!-- Overlay -->
+			<button
+				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
+				on:click={() => (showCard = false)}
+				on:keydown={(e) => e.key === 'Enter' && (showCard = false)}
+				tabindex="0"
+			></button>
+			<div class="fixed inset-0 flex items-center justify-center z-50">
+				<Card.Root
+					class="lg:w-[700px] bg-white rounded-lg shadow-lg max-h-[90vh] overflow-hidden flex flex-col"
+				>
+					<Card.Header class="p-4 border-b">
+						<Card.Title class="text-lg font-bold">Neuen Auftrag anlegen</Card.Title>
+					</Card.Header>
+					<Card.Content class="flex-1 overflow-y-auto p-4">
+						<form>
+							<div class="grid gap-4">
 								<div class="flex flex-col space-y-1.5">
 									<Label for="arbeiten">Arbeiten</Label>
 									<Input
@@ -365,36 +374,36 @@
 								<div class="flex flex-col space-y-1.5">
 									<Label for="rechnung">Rechnung</Label>
 									<Input
-										type="rechnung"
 										bind:value={rechnung}
 										placeholder="Rechnung erstellen"
+										type="file"
 										class="max-w-xs"
 									/>
 								</div>
 							</div>
-						</div>
-					</form>
-				</Card.Content>
+						</form>
+					</Card.Content>
 
-				<Card.Footer class="flex justify-between">
-					<button
-						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={resetAuftrag}
-					>
-						Abbrechen
-					</button>
-					<button
-						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={createAuftrag}
-					>
-						Speichern
-					</button>
-				</Card.Footer>
-			</Card.Root>
+					<Card.Footer class="p-4 border-t flex justify-between">
+						<button
+							class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
+							on:click={resetAuftrag}
+						>
+							Abbrechen
+						</button>
+						<button
+							class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900"
+							on:click={createAuftrag}
+						>
+							Speichern
+						</button>
+					</Card.Footer>
+				</Card.Root>
+			</div>
 		{/if}
 	</div>
 
-	<!-- Fahrzeugbearbeitung -->
+	<!-- Fahrzeugbearbeitungsfeld -->
 	<div>
 		{#if showEditForm}
 			<!-- Overlay -->
@@ -405,21 +414,16 @@
 				tabindex="0"
 			></button>
 
-			<!-- Modal -->
 			<div class="fixed inset-0 flex items-center justify-center z-50">
-				<div
+				<Card.Root
 					class="lg:w-[700px] bg-white rounded-lg shadow-lg max-h-[90vh] overflow-hidden flex flex-col"
 				>
-					<!-- Header -->
-					<div class="p-4 border-b">
-						<h2 class="text-lg font-bold">Fahrzeugdaten bearbeiten</h2>
-					</div>
-
-					<!-- Content -->
-					<div class="flex-1 overflow-y-auto p-4">
+					<Card.Header class="p-4 border-b">
+						<Card.Title class="text-lg font-bold">Fahrzeugdaten bearbeiten</Card.Title>
+					</Card.Header>
+					<Card.Content class="flex-1 overflow-y-auto p-4">
 						<form>
 							<div class="grid gap-4">
-								<!-- Erstzulassung -->
 								<div class="flex flex-col space-y-1.5">
 									<Label for="erstzulassung">Erstzulassung</Label>
 									<Input
@@ -430,7 +434,6 @@
 									/>
 								</div>
 
-								<!-- FIN -->
 								<div class="flex flex-col space-y-1.5">
 									<Label for="fin">FIN</Label>
 									<Input
@@ -441,7 +444,6 @@
 									/>
 								</div>
 
-								<!-- Weitere Felder -->
 								<div class="flex flex-col space-y-1.5">
 									<Label for="kennzeichen">Kennzeichen</Label>
 									<Input
@@ -544,16 +546,13 @@
 											class="max-w-xs"
 										/>
 									</div>
-
-									<!-- Weitere Felder wie Pickerl, Farbcode, Hubraum -->
-									<!-- Füge hier weitere Felder hinzu -->
 								</div>
 							</div>
 						</form>
-					</div>
+					</Card.Content>
 
 					<!-- Footer -->
-					<div class="p-4 border-t flex justify-between">
+					<Card.Footer class="p-4 border-t flex justify-between">
 						<button
 							class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
 							on:click={resetupdateFahrzeug}
@@ -566,8 +565,8 @@
 						>
 							Speichern
 						</button>
-					</div>
-				</div>
+					</Card.Footer>
+				</Card.Root>
 			</div>
 		{/if}
 	</div>
