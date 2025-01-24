@@ -15,23 +15,28 @@
 
 	async function registerUser() {
 		errorMessage = '';
+
+		if (password.length < 8) {
+			errorMessage = 'Das Passwort muss mindestens 8 Zeichen lang sein.';
+			return;
+		}
+
 		if (password !== passwordConfirm) {
 			errorMessage = 'Passwörter stimmen nicht überein';
 			return;
 		}
 
 		try {
-			const data = await pb.collection('users').create({
-				// username,
-				email: email,
+			const user = await pb.collection('users').create({
+				email,
 				emailVisibility: true,
-				passwort: password,
-				passwortConfirm: passwordConfirm,
+				password,
+				passwordConfirm,
 				Vorname: vorname,
 				Nachname: nachname,
 				Telefonnr: telefonnr
 			});
-			Navigate('/login');
+			window.location.href = '/login';
 			console.log('Benutzer erfolgreich registiert!', user);
 		} catch (error) {
 			console.error('Fehler bei der Registrierung:', error);
@@ -49,22 +54,65 @@
 			<form>
 				<div class="grid w-full items-center gap-4">
 					<div class="flex flex-col space-y-1.5">
+						<Label for="vorname">Vorname</Label>
+						<Input
+							type="text"
+							id="vorname"
+							bind:value={vorname}
+							placeholder="Vorname"
+							class="max-w-xs"
+						/>
+					</div>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="nachname">Nachname</Label>
+						<Input
+							type="test"
+							id="nachname"
+							bind:value={nachname}
+							placeholder="Nachname"
+							class="max-w-xs"
+						/>
+					</div>
+					<div class="flex flex-col space-y-1.5">
 						<Label for="email">E-Mail</Label>
-						<Input type="email" id="email" bind:value={email} placeholder="" class="max-w-xs" />
+						<Input
+							type="email"
+							id="email"
+							bind:value={email}
+							placeholder="E-Mail"
+							class="max-w-xs"
+						/>
+					</div>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="telefonnr">Telefonnummer</Label>
+						<Input
+							type="telefonnr"
+							id="telefonnr"
+							bind:value={telefonnr}
+							placeholder="Telefonnummer"
+							class="max-w-xs"
+						/>
 					</div>
 					<div class="flex flex-col space-y-1.5">
 						<Label for="<password>">Passwort</Label>
-						<Input type="password" id="password" bind:value={password} class="max-w-xs" />
+						<Input
+							type="password"
+							id="password"
+							bind:value={password}
+							placeholder="Passwort"
+							class="max-w-xs"
+						/>
 					</div>
 					<div class="flex flex-col space-y-1.5">
-						<Label for="passwortBestaetigen">Passwort wiederholen</Label>
 						<Input
 							type="password"
 							id="passwordConfirm"
 							bind:value={passwordConfirm}
+							placeholder="Passwort bestätigen"
 							class="max-w-xs"
 						/>
 					</div>
+					<p><a href="/login">Du hast schon ein Konto? Hier Anmelden</a></p>
 				</div>
 			</form>
 		</Card.Content>

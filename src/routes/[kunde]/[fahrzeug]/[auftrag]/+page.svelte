@@ -11,6 +11,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import 'iconify-icon';
 	import { onMount } from 'svelte';
+	import { stringify } from 'postcss';
 	// laden der Daten
 	export let data;
 
@@ -57,8 +58,7 @@
 			updateAuftragnr,
 			updateFahrzeugid,
 			updateLieferschein,
-			ausgewählteZahlungsart,
-			// [field]: value
+			ausgewählteZahlungsart
 		};
 		try {
 			const response = await fetch('/update-client', {
@@ -74,6 +74,18 @@
 			console.error(error);
 		}
 		console.log(auftragDaten);
+	}
+
+	// Funktion zum zurücksetzen des Updateformulars
+	function resetupdateAuftrag(){
+		updateArbeiten = '';
+		updateBildSchaden = '';
+		updateBildFertig = '';
+		updateRechnung = '';
+		updateAuftragnr = '';
+		updateInfotext = '';
+		updateLieferschein = '';
+		showEditForm = false;
 	}
 
 	let auftragsdokument = false;
@@ -208,14 +220,14 @@
 	}
 
 	async function deleteArbeitszeit(ArbeitszeitId) {
-		if(confirm('Möchten Sie die Arbeitszeit wirklich löschen?')){
+		if (confirm('Möchten Sie die Arbeitszeit wirklich löschen?')) {
 			await pb.collection('Arbeitszeit').delete(ArbeitszeitId);
 			location.reload();
 		}
 	}
 
 	async function deleteErsatzteile(ErsatzteilId) {
-		if(confirm('Möchten Sie die Arbeitszeit wirklich löschen?')){
+		if (confirm('Möchten Sie die Arbeitszeit wirklich löschen?')) {
 			await pb.collection('Ersatzteile').delete(ErsatzteilId);
 			location.reload();
 		}
@@ -249,6 +261,7 @@
 		stundenFestpreis = 0;
 		showAddHourForm = false;
 	}
+
 	const Auftragdaten = {
 		Arbeiten: 'Arbeiten',
 		Auftragnummer: 'Auftragnummer',
@@ -267,10 +280,10 @@
 	// Funktion zum Löschen eines Auftrages mit den dazugehörigen Ersatzteilen und Abreitiszeiten mit Bestätigung
 
 	async function deleteAuftrag() {
-		const confirmed = confirm(
-			'Möchten Sie dieses Fahrzeug und alle zugehörigen und Aufträge wirklich löschen?'
-		);
-		if (!confirmed) return;
+		// const confirmed = confirm(
+		// 	'Möchten Sie dieses Fahrzeug und alle zugehörigen und Aufträge wirklich löschen?'
+		// );
+		// if (!confirmed) return;
 		try {
 			for (const ersatzteile of data.ersatzteile.items) {
 				console.log(ersatzteile.AuftragID);
@@ -291,18 +304,32 @@
 		}
 	}
 
+	let dateiURL = '';
+	let dateidetailid = '';
+
+
+	export async function createDatei() {
+		const dateiDaten = {
+			action: 'createDatei',
+			dateidetailid,
+			dateiURL: result.info.secure_url,
+			auftragid
+		
+	}
+}
+
 	onMount(() => {
 		ausgewählteZahlungsart = data.auftrag.Zahlungsart;
 	});
 </script>
 
 <!-- Dateien auf cloudinary hochladen -->
-<svelte:head>
+<!-- <svelte:head>
 	<script
 		src="https://upload-widget.cloudinary.com/latest/global/all.js"
 		type="text/javascript"
 	></script>
-</svelte:head>
+</svelte:head> -->
 
 <!-- links zu den verschiedenen Seiten -->
 <h1 class="text-base pl-5 flex items-center my-5">
@@ -400,17 +427,17 @@
 {/if}
 <div class="my-5"><hr /></div>
 
-<!-- Button zum öffnen des Cloudinary Widgets
+<!-- Button zum öffnen des Cloudinary Widgets -->
 <button on:click={openCloudinaryWidgetSchaden}
 	><iconify-icon icon="lucide:camera"></iconify-icon></button
-> -->
+>
 
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
 	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext' || item[0] === 'Lieferschein' || item[0] === 'Rechnung') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
-			<button class="mr-2" on:click={() =>  icons[key]?.action && icons[key].action()}>
+			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
 				<iconify-icon
 					icon={typeof icons[key] === 'object' ? icons[key].icon : icons[key]}
 					class="mr-2 text-2xl translate-y-1"
@@ -420,6 +447,37 @@
 			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
+	<!-- Dateien -->
+	{#if data.datei.items.length > 0}
+		{#each ['Rechnung', 'Lieferschein', 'BildSchaden', 'BildFertig'] as dateiArt}
+			<div class="mb-4">
+				<!-- Icon und Überschrift anzeigen -->
+				<div class="flex items-center ml-6">
+					<button class="mr-2" on:click={() => icons[dateiArt]?.action && icons[dateiArt].action()}>
+						<iconify-icon
+							icon={typeof icons[dateiArt] === 'object' ? icons[dateiArt].icon : icons[dateiArt]}
+							class="mr-2 text-2xl translate-y-1"
+						></iconify-icon>
+					</button>
+					<span class="font-bold">{dateiArt}:</span>
+				</div>
+
+				<!-- Alle Links für die entsprechende Dateiart anzeigen -->
+				{#each data.datei.items.filter((datei) => datei.expand.DateidetailID.Dateiart === dateiArt) as datei}
+					<div class="mb-4 flex items-center relative ml-6">
+						<a
+							class="absolute left-48 text-blue-500 underline"
+							href={datei.URL}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{datei.URL}
+						</a>
+					</div>
+				{/each}
+			</div>
+		{/each}
+	{/if}
 
 	<!-- Unterüberschrift 1 -->
 	<h2 class="text-lg font-bold mb-4">Ersatzteile</h2>
@@ -445,7 +503,7 @@
 						if (e.key === 'Enter' || e.key === ' ') deleteErsatzteile(Ersatzteile.id);
 					}}
 				>
-				<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 				</button>
 			</span>
 		{/each}
@@ -475,7 +533,7 @@
 						if (e.key === 'Enter' || e.key === ' ') deleteArbeitszeit(Arbeitszeit.id);
 					}}
 				>
-				<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 				</button>
 			</span>
 		{/each}
@@ -817,7 +875,7 @@
 			<Card.Footer class="flex justify-between">
 				<button
 					class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-					on:click={() => (showEditForm = false)}
+					on:click={resetupdateAuftrag}
 				>
 					Abbrechen
 				</button>

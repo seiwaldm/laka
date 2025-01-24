@@ -122,10 +122,6 @@ export async function POST({ request }) {
 			if (!data.ersatzteilBezeichnung) {
 				return new Response('Arbeiten fehlen', { status: 400 });
 			}
-			// if (!data.ersatzteilMenge) {
-			// 	return new Response('Arbeiten fehlen', { status: 400 });
-			// }
-
 			// berechnung der Marge
 			let marge = 0;
 			if (data.ersatzteilEKPreis && data.ersatzteilVKPreisNetto) {
@@ -177,6 +173,7 @@ export async function POST({ request }) {
 		}
 		let nettosumme = 0;
 		let bruttosumme = 0;
+
 		// Arbeitszeit erstellen
 		if (action === 'createArbeitszeit') {
 			// berechnen der Nettosumme
@@ -245,6 +242,17 @@ export async function POST({ request }) {
 			response.url = request.headers.get('referer') + `/${response.id}`;
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
+
+		// Datei erstellen
+		if (action === 'createDatei') {
+			const datei = await pb.collection('Datei').create({
+				URL: data.dateiURL,
+				DateidetailID: data.dateidetailid,
+				AuftragID: data.auftragid
+			});
+			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
+		}
+
 		return new Response('Action not found', { status: 400 });
 	} catch (error) {
 		return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });

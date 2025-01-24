@@ -17,10 +17,11 @@ export async function load() {
 	// kunden.arbeitszeit = arbeitszeit;
 
 	for (let kunde of kunden) {
+		kunde.fahrzeuge = fahrzeuge.filter((fahrzeug) => fahrzeug.KundenID === kunde.id);
 		for (let fahrzeug of fahrzeuge) {
 			fahrzeug.auftrag = auftragsliste.filter((auftrag) => auftrag.FahrzeugID === fahrzeug.id);
 		}
-		kunde.fahrzeuge = fahrzeuge.filter((fahrzeug) => fahrzeug.KundenID === kunde.id);
+		
 	}
 	return { kunden };
 }
