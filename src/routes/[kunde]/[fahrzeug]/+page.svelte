@@ -51,15 +51,36 @@
 		}
 	};
 
+	let datenfeldbasis = [
+		'Kennzeichen',
+		'FIN',
+		'Nat_Code',
+		'Marke',
+		'Modell',
+		'Erstzulassung',
+		'Pickerl'
+	]
+
 	// Objekt für die Fahrzeugdatenbenennung
-	const Fahrzeugdaten = {
-		Erstzulassung: 'Erstzulassung',
-		FIN: 'FIN',
+	const fahrzeugbasisdaten = {
 		Kennzeichen: 'Kennzeichen',
+		FIN: 'FIN',
+		Nat_Code: 'Nationaler Code',
 		Marke: 'Marke',
 		Modell: 'Modell',
-		Nat_Code: 'Nationaler Code',
-		Pickerl: 'Pickerl',
+		Erstzulassung: 'Erstzulassung',
+		Pickerl: 'Pickerl'
+	};
+
+	let datenfeldtechnik = [
+		'Farbcode',
+		'Hubraum',
+		'KW',
+		'Kraftstoff',
+		'Motorcode'
+	]
+
+	const fahrzeugtechnikdaten = {
 		Farbcode: 'Farbcode',
 		Hubraum: 'Hubraum',
 		KMStand: 'Kilometerstand',
@@ -248,27 +269,25 @@
 	<h1 class="my-5 pl-2 text-2xl font-bold">Fahrzeuginformationen</h1>
 	<!-- Unterüberschrift 1 -->
 	<h2 class="text-lg font-bold mb-4">Basisdaten</h2>
-	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'FIN' || item[0] === 'Nat_Code' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung' || item[0] === 'Pickerl') as [key, value]}
+	{#each Object.entries(data.fahrzeuge)
+		.filter((item) => datenfeldbasis.includes(item[0]))
+		.sort((a, b) => datenfeldbasis.indexOf(a[0]) - datenfeldbasis.indexOf(b[0])) as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
-			<span class="font-bold">{Fahrzeugdaten[key]}:</span>
+			<span class="font-bold">{fahrzeugbasisdaten[key]}:</span>
 			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
 
 	<!-- Unterüberschrift 2 -->
 	<h2 class="text-lg font-bold mt-6 mb-4">Technik</h2>
-	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'KMStand' || item[0] === 'Hubraum' || item[0] === 'KW' || item[0] === 'Farbcode' || item[0] === 'Motorcode' || item[0] === 'Kraftstoff') as [key, value]}
+	{#each Object.entries(data.fahrzeuge)
+		.filter((item) => datenfeldtechnik.includes(item[0]))
+		.sort((a, b) => datenfeldtechnik.indexOf(a[0]) - datenfeldtechnik.indexOf(b[0])) as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
-			<span class="font-bold">{key}:</span>
-			<span class="absolute left-48">
-				{#if key === 'KW'}
-					{value} ({data.fahrzeuge.PS} PS)
-				{:else}
-					{value}
-				{/if}
-			</span>
+			<span class="font-bold">{fahrzeugtechnikdaten[key]}:</span>
+			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
 

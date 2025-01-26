@@ -290,6 +290,16 @@
 		isSubmittedArbeitszeit = false;
 	}
 
+	let datenfeld = [
+		'Auftragnummer',
+		'Arbeiten',
+		'Infotext',
+		'BildSchaden',
+		'BildFertig',
+		'Lieferschein',
+		'Rechnung'
+	];
+
 	const Auftragdaten = {
 		Arbeiten: 'Arbeiten',
 		Auftragnummer: 'Auftragnummer',
@@ -461,7 +471,9 @@
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
-	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext' || item[0] === 'Lieferschein' || item[0] === 'Rechnung') as [key, value]}
+	{#each Object.entries(data.auftrag)
+		.filter((item) => datenfeld.includes(item[0]))
+		.sort((a, b) => datenfeld.indexOf(a[0]) - datenfeld.indexOf(b[0])) as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
 				<iconify-icon
