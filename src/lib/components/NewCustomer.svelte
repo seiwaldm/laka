@@ -17,6 +17,22 @@
 		{ id: 2, Geschlecht: 'Weiblich' }
 	];
 	let ausgewähltesGeschlecht = '';
+	let isSubmitted = false;
+
+	// Überprüfen, ob die Felder leer sind
+	const validateField = (field) => field.trim() === '';
+
+	const handleSubmit = async (event) => {
+		event.preventDefault(); // Verhindert das Standardverhalten (z.B. Neuladen)
+		isSubmitted = true;
+
+		// Überprüfen, ob die erforderlichen Felder ausgefüllt sind
+		if (!validateField(vorname) && !validateField(nachname)) {
+			// Wenn die Felder gültig sind, das Daten speichern
+			await createKunde();
+			alert('Kunde erfolgreich angelegt!');
+		}
+	};
 
 	const emit = createEventDispatcher();
 
@@ -51,9 +67,6 @@
 	}
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	class="absolute top-0 left-0 w-screen min-h-screen h-max grid justify-center items-start bg-black bg-opacity-70 py-10"
 >
@@ -64,36 +77,59 @@
 			<Card.Title class="text-xl font-semibold">Neuen Kunden anlegen</Card.Title>
 		</Card.Header>
 		<Card.Content>
-			<form>
+			<form on:submit={handleSubmit}>
 				<div class="grid w-full items-center gap-6">
 					<div class="flex flex-col space-y-1.5">
 						<Label for="firma">Firma</Label>
-						<Input type="firma" bind:value={firma} placeholder="Musterfirma" class="max-w-xs" />
-					</div>
-					<div class="flex flex-col space-y-1.5">
-						<Label for="vorname">Vorname</Label>
-						<Input type="vorname" bind:value={vorname} placeholder="Max" class="max-w-xs" />
-					</div>
-					<div class="flex flex-col space-y-1.5">
-						<Label for="<nachname>">Nachname</Label>
 						<Input
-							type="nachname"
-							bind:value={nachname}
-							placeholder="Mustermann"
+							id="firma"
+							type="text"
+							bind:value={firma}
+							placeholder="Musterfirma"
 							class="max-w-xs"
 						/>
 					</div>
 					<div class="flex flex-col space-y-1.5">
-						<Label for="ort">Geschlecht</Label>
+						<Label for="vorname">Vorname</Label>
+						<Input
+							id="vorname"
+							type="text"
+							bind:value={vorname}
+							placeholder="Max"
+							class="max-w-xs {isSubmitted && validateField(vorname)
+								? 'border border-red-500'
+								: ''}"
+						/>
+						{#if isSubmitted && validateField(vorname)}
+							<span class="text-sm text-red-500">Bitte geben Sie einen Vornamen ein.</span>
+						{/if}
+					</div>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="<nachname>">Nachname</Label>
+						<Input
+							id="nachname"
+							type="text"
+							bind:value={nachname}
+							placeholder="Mustermann"
+							class="max-w-xs {isSubmitted && validateField(nachname)
+								? 'border border-red-500'
+								: ''}"
+						/>
+						{#if isSubmitted && validateField(nachname)}
+							<span class="text-sm text-red-500">Bitte geben Sie einen Nachnamen ein.</span>
+						{/if}
+					</div>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="geschlecht">Geschlecht</Label>
 						<select
 							id="geschlecht"
 							bind:value={ausgewähltesGeschlecht}
 							placeholder="Dropdown"
 							class="flex flex-col p-2 rounded-lg"
 						>
-							<option class="max-w-xs" value="" disabled selected
-								>Bitte wähle das Geschlecht aus</option
-							>
+							<option class="max-w-xs" value="" disabled selected>
+								Bitte wähle das Geschlecht aus
+							</option>
 							{#each geschlecht as geschlecht}
 								<option value={geschlecht.Geschlecht}>{geschlecht.Geschlecht}</option>
 							{/each}
@@ -102,6 +138,7 @@
 					<div class="flex flex-col space-y-1.5">
 						<Label for="email">E-Mail</Label>
 						<Input
+							id="email"
 							type="email"
 							bind:value={email}
 							placeholder="maxmustermann@gmail.com"
@@ -111,6 +148,7 @@
 					<div class="flex flex-col space-y-1.5">
 						<Label for="telefonnummer">Telefonnummer</Label>
 						<Input
+							id="telefonnummer"
 							type="telefonnummer"
 							bind:value={telefonnummer}
 							placeholder="0664 123456"
@@ -120,7 +158,8 @@
 					<div class="flex flex-col space-y-1.5">
 						<Label for="strasse">Straße</Label>
 						<Input
-							type="strasse"
+							id="strasse"
+							type="text"
 							bind:value={strasse}
 							placeholder="Musterstraße 1"
 							class="max-w-xs"
@@ -128,32 +167,34 @@
 					</div>
 					<div class="flex flex-col space-y-1.5">
 						<Label for="plz">Postleitzahl</Label>
-						<Input type="plz" bind:value={plz} placeholder="Musterplz" class="max-w-xs" />
+						<Input
+							id="plz"
+							type="number"
+							bind:value={plz}
+							placeholder="Musterplz"
+							class="max-w-xs"
+						/>
 					</div>
 					<div class="flex flex-col space-y-1.5">
 						<Label for="ort">Ort</Label>
-						<Input type="ort" bind:value={ort} placeholder="Musterort" class="max-w-xs" />
+						<Input id="ort" type="text" bind:value={ort} placeholder="Musterort" class="max-w-xs" />
 					</div>
 				</div>
+				<Card.Footer class="flex justify-between mt-4">
+					<button
+						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={() => emit('hide')}
+					>
+						Abbrechen
+					</button>
+					<button
+						type="submit"
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+					>
+						Speichern
+					</button>
+				</Card.Footer>
 			</form>
 		</Card.Content>
-
-		<Card.Footer class="flex justify-between">
-			<button
-				class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-				on:click={() => emit('hide')}
-			>
-				Abbrechen
-			</button>
-			<button
-				class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-				on:click={() => {
-					createKunde();
-					emit('hide');
-				}}
-			>
-				Speichern
-			</button>
-		</Card.Footer>
 	</Card.Root>
 </div>

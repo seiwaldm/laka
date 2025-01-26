@@ -34,6 +34,22 @@
 	let rechnung = '';
 	let lieferschein = '';
 	let fahrzeugid = $page.params.fahrzeug;
+	let isSubmitted = false;
+
+	// Überprüfung, ob das Feld leer ist
+	const validateField = (field) => field.trim() === '';
+
+	// Funktion zur Verarbeitung des Formulars
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		isSubmitted = true;
+
+		// Überprüfung: Das Feld "Arbeiten" darf nicht leer sein
+		if (!validateField(arbeiten)) {
+			await createAuftrag(); // Auftrag speichern
+			alert('Auftrag erfolgreich gespeichert!');
+		}
+	};
 
 	// Objekt für die Fahrzeugdatenbenennung
 	const Fahrzeugdaten = {
@@ -88,6 +104,7 @@
 		rechnung = '';
 		lieferschein = '';
 		showCard = false;
+		isSubmitted = false;
 	}
 
 	// Variablen für die update Funktion
@@ -148,7 +165,7 @@
 	}
 
 	// Funktion zum Zurücksetzen des Bearbeitungsformulars
-	function resetupdateFahrzeug(){
+	function resetupdateFahrzeug() {
 		updateKennzeichen = '';
 		updateFin = '';
 		updateNatCode = '';
@@ -327,7 +344,7 @@
 					<Card.Title>Neuen Auftrag anlegen</Card.Title>
 				</Card.Header>
 				<Card.Content>
-					<form>
+					<form on:submit={handleSubmit}>
 						<div class="grid w-full items-center gap-4">
 							<div class="grid w-full items-center gap-4">
 								<div class="flex flex-col space-y-1.5">
@@ -336,8 +353,13 @@
 										type="arbeiten"
 										bind:value={arbeiten}
 										placeholder="Arbeiten an..."
-										class="max-w-xs"
+										class="max-w-xs {isSubmitted && validateField(arbeiten)
+											? 'border border-red-500'
+											: ''}"
 									/>
+									{#if isSubmitted && validateField(arbeiten)}
+										<span class="text-sm text-red-500">Bitte geben Sie die Arbeiten ein.</span>
+									{/if}
 								</div>
 
 								<div class="flex flex-col space-y-1.5">
@@ -385,7 +407,7 @@
 					</button>
 					<button
 						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={createAuftrag}
+						on:click={handleSubmit}
 					>
 						Speichern
 					</button>
