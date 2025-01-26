@@ -34,16 +34,53 @@
 	let rechnung = '';
 	let lieferschein = '';
 	let fahrzeugid = $page.params.fahrzeug;
+	let isSubmitted = false;
+
+	// Überprüfung, ob das Feld leer ist
+	const validateField = (field) => field.trim() === '';
+
+	// Funktion zur Verarbeitung des Formulars
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		isSubmitted = true;
+
+		// Überprüfung: Das Feld "Arbeiten" darf nicht leer sein
+		if (!validateField(arbeiten)) {
+			await createAuftrag(); // Auftrag speichern
+			alert('Auftrag erfolgreich gespeichert!');
+		}
+	};
+
+	let datenfeldbasis = [
+		'Kennzeichen',
+		'FIN',
+		'Nat_Code',
+		'Marke',
+		'Modell',
+		'Erstzulassung',
+		'Pickerl'
+	]
 
 	// Objekt für die Fahrzeugdatenbenennung
-	const Fahrzeugdaten = {
-		Erstzulassung: 'Erstzulassung',
-		FIN: 'FIN',
+	const fahrzeugbasisdaten = {
 		Kennzeichen: 'Kennzeichen',
+		FIN: 'FIN',
+		Nat_Code: 'Nationaler Code',
 		Marke: 'Marke',
 		Modell: 'Modell',
-		Nat_Code: 'Nationaler Code',
-		Pickerl: 'Pickerl',
+		Erstzulassung: 'Erstzulassung',
+		Pickerl: 'Pickerl'
+	};
+
+	let datenfeldtechnik = [
+		'Farbcode',
+		'Hubraum',
+		'KW',
+		'Kraftstoff',
+		'Motorcode'
+	]
+
+	const fahrzeugtechnikdaten = {
 		Farbcode: 'Farbcode',
 		Hubraum: 'Hubraum',
 		KMStand: 'Kilometerstand',
@@ -88,6 +125,7 @@
 		rechnung = '';
 		lieferschein = '';
 		showCard = false;
+		isSubmitted = false;
 	}
 
 	// Variablen für die update Funktion
@@ -231,27 +269,25 @@
 	<h1 class="my-5 pl-2 text-2xl font-bold">Fahrzeuginformationen</h1>
 	<!-- Unterüberschrift 1 -->
 	<h2 class="text-lg font-bold mb-4">Basisdaten</h2>
-	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'Kennzeichen' || item[0] === 'FIN' || item[0] === 'Nat_Code' || item[0] === 'Marke' || item[0] === 'Modell' || item[0] === 'Erstzulassung' || item[0] === 'Pickerl') as [key, value]}
+	{#each Object.entries(data.fahrzeuge)
+		.filter((item) => datenfeldbasis.includes(item[0]))
+		.sort((a, b) => datenfeldbasis.indexOf(a[0]) - datenfeldbasis.indexOf(b[0])) as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
-			<span class="font-bold">{Fahrzeugdaten[key]}:</span>
+			<span class="font-bold">{fahrzeugbasisdaten[key]}:</span>
 			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
 
 	<!-- Unterüberschrift 2 -->
 	<h2 class="text-lg font-bold mt-6 mb-4">Technik</h2>
-	{#each Object.entries(data.fahrzeuge).filter((item) => item[0] === 'KMStand' || item[0] === 'Hubraum' || item[0] === 'KW' || item[0] === 'Farbcode' || item[0] === 'Motorcode' || item[0] === 'Kraftstoff') as [key, value]}
+	{#each Object.entries(data.fahrzeuge)
+		.filter((item) => datenfeldtechnik.includes(item[0]))
+		.sort((a, b) => datenfeldtechnik.indexOf(a[0]) - datenfeldtechnik.indexOf(b[0])) as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
-			<span class="font-bold">{key}:</span>
-			<span class="absolute left-48">
-				{#if key === 'KW'}
-					{value} ({data.fahrzeuge.PS} PS)
-				{:else}
-					{value}
-				{/if}
-			</span>
+			<span class="font-bold">{fahrzeugtechnikdaten[key]}:</span>
+			<span class="absolute left-48">{value}</span>
 		</div>
 	{/each}
 
@@ -322,6 +358,7 @@
 	>
 	<div>
 		{#if showCard}
+<<<<<<< HEAD
 			<!-- Overlay -->
 			<button
 				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
@@ -339,14 +376,29 @@
 					<Card.Content class="flex-1 overflow-y-auto p-4">
 						<form>
 							<div class="grid gap-4">
+=======
+			<Card.Root class="lg:w-[700px]">
+				<Card.Header>
+					<Card.Title>Neuen Auftrag anlegen</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					<form on:submit={handleSubmit}>
+						<div class="grid w-full items-center gap-4">
+							<div class="grid w-full items-center gap-4">
+>>>>>>> 32f4246b264a7c292ff9563bd69cf1dda1cdfcf9
 								<div class="flex flex-col space-y-1.5">
 									<Label for="arbeiten">Arbeiten</Label>
 									<Input
 										type="arbeiten"
 										bind:value={arbeiten}
 										placeholder="Arbeiten an..."
-										class="max-w-xs"
+										class="max-w-xs {isSubmitted && validateField(arbeiten)
+											? 'border border-red-500'
+											: ''}"
 									/>
+									{#if isSubmitted && validateField(arbeiten)}
+										<span class="text-sm text-red-500">Bitte geben Sie die Arbeiten ein.</span>
+									{/if}
 								</div>
 
 								<div class="flex flex-col space-y-1.5">
@@ -384,6 +436,7 @@
 						</form>
 					</Card.Content>
 
+<<<<<<< HEAD
 					<Card.Footer class="p-4 border-t flex justify-between">
 						<button
 							class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
@@ -400,6 +453,23 @@
 					</Card.Footer>
 				</Card.Root>
 			</div>
+=======
+				<Card.Footer class="flex justify-between">
+					<button
+						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={resetAuftrag}
+					>
+						Abbrechen
+					</button>
+					<button
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={handleSubmit}
+					>
+						Speichern
+					</button>
+				</Card.Footer>
+			</Card.Root>
+>>>>>>> 32f4246b264a7c292ff9563bd69cf1dda1cdfcf9
 		{/if}
 	</div>
 
