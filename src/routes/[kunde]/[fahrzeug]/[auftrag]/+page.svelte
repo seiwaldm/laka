@@ -379,16 +379,20 @@
 	<div class="hidden lg:flex items-center">
 		<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/" class="hover:underline">Startseite </a>
+
 		<iconify-icon icon="lucide:chevron-right" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/{$page.params.kunde}" class="hover:underline">Kunde {data.Nachname}</a>
+
 		<iconify-icon icon="lucide:chevron-right" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/{$page.params.kunde}/{$page.params.fahrzeug}" class="hover:underline">
 			Fahrzeug {data.fahrzeuge.Marke}
 		</a>
+
 		<iconify-icon icon="lucide:chevron-right" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		Auftrag {data.auftrag.Arbeiten}
 	</div>
 </h1>
+
 <!-- Icon mit 3 Punkten für das Dropdown-Menü -->
 <div class="absolute top-32 lg:top-10 right-10">
 	<DropdownMenu.Root>
