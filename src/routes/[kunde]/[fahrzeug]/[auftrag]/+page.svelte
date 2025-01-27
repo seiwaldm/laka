@@ -131,6 +131,26 @@
 	let ersatzteilEKPreis = '';
 	let ersatzteilVKPreisBrutto = '';
 	let auftragid = $page.params.auftrag;
+	let isSubmittedErsatzteil = false;
+
+	//überprüfen ob die Felder leer sind
+	const validateField = (field) => (field.trim && field.trim() === '') || field <= 0;
+
+	// Ersatzteil speichern
+	const handleSubmitErsatzteil = async (event) => {
+		event.preventDefault();
+		isSubmittedErsatzteil = true;
+
+		if (
+			!validateField(ersatzteilBezeichnung) &&
+			!validateField(ersatzteilMenge) &&
+			!validateField(ersatzteilVKPreisNetto)
+		) {
+			await createErsatzteil();
+			alert('Ersatzteil erfolgreich hinzugefügt!');
+			// API-Aufruf oder weitere Logik hier einfügen
+		}
+	};
 
 	// Funktion zum Erstellen eines Ersatzteils
 	async function createErsatzteil() {
@@ -170,6 +190,7 @@
 		ersatzteilEKPreis = '';
 		ersatzteilVKPreisBrutto = '';
 		showAddPartForm = false;
+		isSubmittedErsatzteil = false;
 	}
 
 	// Variablen für die Felder des Formulars Arbeitsstunden
@@ -181,6 +202,19 @@
 	let stundenFestpreis = 0;
 	let stundenNettosumme = '';
 	let stundenBruttosumme = '';
+	let isSubmittedArbeitszeit = false;
+
+	// Arbeitszeit speichern
+	const handleSubmitArbeitszeit = async (event) => {
+		event.preventDefault();
+		isSubmittedArbeitszeit = true;
+
+		if (!validateField(stundenArbeit) && !validateField(stundenMenge)) {
+			await createArbeitszeit();
+			alert('Arbeitszeit erfolgreich hinzugefügt!');
+			// API-Aufruf oder weitere Logik hier einfügen
+		}
+	};
 
 	// Funktion zum Hinzufügen eines Arbeitszeit
 	async function createArbeitszeit() {
@@ -197,7 +231,6 @@
 			stundenBruttosumme: parseFloat(stundenBruttosumme),
 			auftragid
 		};
-		console.log(arbeitszeitDaten);
 		try {
 			const response = await fetch('/create-client', {
 				method: 'POST',
@@ -206,13 +239,7 @@
 				},
 				body: JSON.stringify(arbeitszeitDaten)
 			});
-			if (response.ok) {
-				alert('Arbeitszeit erfolgreich hinzugefügt!');
-				location.reload();
-			} else {
-				const error = await response.text();
-				alert(`Fehler: ${error}`);
-			}
+			location.reload();
 		} catch (error) {
 			console.error('Fehler beim Hinzufügen der Arbeitszeit:', error);
 			alert('Ein unerwarteter Fehler ist aufgetreten.');
@@ -260,7 +287,18 @@
 		stundenRabatt = '';
 		stundenFestpreis = 0;
 		showAddHourForm = false;
+		isSubmittedArbeitszeit = false;
 	}
+
+	let datenfeld = [
+		'Auftragnummer',
+		'Arbeiten',
+		'Infotext',
+		'BildSchaden',
+		'BildFertig',
+		'Lieferschein',
+		'Rechnung'
+	];
 
 	const Auftragdaten = {
 		Arbeiten: 'Arbeiten',
@@ -433,7 +471,9 @@
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
-	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext' || item[0] === 'Lieferschein' || item[0] === 'Rechnung') as [key, value]}
+	{#each Object.entries(data.auftrag)
+		.filter((item) => datenfeld.includes(item[0]))
+		.sort((a, b) => datenfeld.indexOf(a[0]) - datenfeld.indexOf(b[0])) as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
 				<iconify-icon
@@ -542,248 +582,285 @@
 {#if showAddPartForm}
 	<div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
 		<h3 class="text-lg font-semibold mb-2">Ersatzteil hinzufügen</h3>
-		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-			<div>
-				<label for="ersatzteilName" class="block text-sm font-medium mb-1">Artikelnummer</label>
-				<input
-					id="ersatzteilArtikelnummer"
-					type="text"
-					bind:value={ersatzteilArtikelnummer}
-					placeholder="Artikelnummer"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
+		<form on:submit={handleSubmitErsatzteil}>
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+				<div>
+					<label for="ersatzteilName" class="block text-sm font-medium mb-1">Artikelnummer</label>
+					<input
+						id="ersatzteilArtikelnummer"
+						type="text"
+						bind:value={ersatzteilArtikelnummer}
+						placeholder="Artikelnummer"
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					/>
+				</div>
+				<div>
+					<label for="ersatzteilName" class="block text-sm font-medium mb-1">Bezeichnung</label>
+					<input
+						id="ersatzteilName"
+						type="text"
+						bind:value={ersatzteilBezeichnung}
+						placeholder="Ersatzteil Name"
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 {isSubmittedErsatzteil &&
+						validateField(ersatzteilBezeichnung)
+							? 'border-red-500'
+							: ''}"
+					/>
+					{#if isSubmittedErsatzteil && validateField(ersatzteilBezeichnung)}
+						<span class="text-sm text-red-500">Bezeichnung ist erforderlich.</span>
+					{/if}
+				</div>
+				<div>
+					<label for="ersatzteilMenge" class="block text-sm font-medium mb-1">Menge</label>
+					<input
+						id="ersatzteilMenge"
+						type="number"
+						bind:value={ersatzteilMenge}
+						placeholder="Stück"
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 {isSubmittedErsatzteil &&
+						validateField(ersatzteilMenge)
+							? 'border-red-500'
+							: ''}"
+					/>
+					{#if isSubmittedErsatzteil && validateField(ersatzteilMenge)}
+						<span class="text-sm text-red-500">Menge muss größer als 0 sein.</span>
+					{/if}
+				</div>
+				<div>
+					<label for="gesamtpreis" class="block text-sm font-medium mb-1">Marge in %</label>
+					<input
+						id="marge"
+						type="number"
+						value={(
+							((ersatzteilVKPreisNetto - ersatzteilEKPreis) / ersatzteilVKPreisNetto) *
+							100
+						).toFixed(2)}
+						placeholder="Gesamtpreis (wird berechnet)"
+						class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+						disabled
+					/>
+				</div>
+				<div>
+					<label for="einzelpreis" class="block text-sm font-medium mb-1">Rabatt in %</label>
+					<input
+						id="rabatt"
+						type="number"
+						bind:value={ersatzteilRabatt}
+						placeholder=""
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					/>
+				</div>
+				<div>
+					<label for="einzelpreis" class="block text-sm font-medium mb-1">Verkaufspreis Netto</label
+					>
+					<input
+						id="einzelpreis"
+						type="number"
+						bind:value={ersatzteilVKPreisNetto}
+						placeholder="Einzelpreis"
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 {isSubmittedErsatzteil &&
+						validateField(ersatzteilVKPreisNetto)
+							? 'border-red-500'
+							: ''}"
+					/>
+					{#if isSubmittedErsatzteil && validateField(ersatzteilVKPreisNetto)}
+						<span class="text-sm text-red-500">Verkaufspreis Netto ist erforderlich.</span>
+					{/if}
+				</div>
+				<div>
+					<label for="einzelpreis" class="block text-sm font-medium mb-1">Einkaufspreis Netto</label
+					>
+					<input
+						id="einzelpreis"
+						type="number"
+						bind:value={ersatzteilEKPreis}
+						placeholder="Einzelpreis"
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					/>
+				</div>
+				<div>
+					<label for="einzelpreis" class="block text-sm font-medium mb-1"
+						>Verkaufspreis Brutto</label
+					>
+					<input
+						id="einzelpreis"
+						type="number"
+						value={parseFloat(ersatzteilVKPreisNetto * 1.2).toFixed(2)}
+						placeholder="Einzelpreis"
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					/>
+				</div>
+				<div>
+					<label for="gesamtpreis" class="block text-sm font-medium mb-1">Nettosumme</label>
+					<input
+						id="gesamtpreis"
+						type="number"
+						value={parseFloat(
+							((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * ersatzteilMenge
+						).toFixed(2)}
+						placeholder="Gesamtpreis (wird berechnet)"
+						class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+						disabled
+					/>
+				</div>
+				<div>
+					<label for="gesamtpreis" class="block text-sm font-medium mb-1">Bruttosumme</label>
+					<input
+						id="gesamtpreis"
+						type="number"
+						value={parseFloat(
+							((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * ersatzteilMenge * 1.2
+						).toFixed(2)}
+						placeholder="Gesamtpreis (wird berechnet)"
+						class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+						disabled
+					/>
+				</div>
 			</div>
-			<div>
-				<label for="ersatzteilName" class="block text-sm font-medium mb-1">Bezeichnung</label>
-				<input
-					id="ersatzteilName"
-					type="text"
-					bind:value={ersatzteilBezeichnung}
-					placeholder="Ersatzteil Name"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
+			<div class="mt-4 flex justify-end gap-2">
+				<button
+					type="reset"
+					class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
+					on:click={resetErsatzteil}
+				>
+					Abbrechen
+				</button>
+				<button
+					class="bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-4 py-2"
+					on:click={handleSubmitErsatzteil}
+				>
+					Hinzufügen
+				</button>
 			</div>
-			<div>
-				<label for="ersatzteilStück" class="block text-sm font-medium mb-1">Menge</label>
-				<input
-					id="ersatzteilStück"
-					type="number"
-					bind:value={ersatzteilMenge}
-					placeholder="Stück"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-			</div>
-			<div>
-				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Marge in %</label>
-				<input
-					id="marge"
-					type="number"
-					value={(
-						((ersatzteilVKPreisNetto - ersatzteilEKPreis) / ersatzteilVKPreisNetto) *
-						100
-					).toFixed(2)}
-					placeholder="Gesamtpreis (wird berechnet)"
-					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
-					disabled
-				/>
-			</div>
-			<div>
-				<label for="einzelpreis" class="block text-sm font-medium mb-1">Rabatt in %</label>
-				<input
-					id="rabatt"
-					type="number"
-					bind:value={ersatzteilRabatt}
-					placeholder=""
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-			</div>
-			<div>
-				<label for="einzelpreis" class="block text-sm font-medium mb-1">Verkaufspreis Netto</label>
-				<input
-					id="einzelpreis"
-					type="number"
-					bind:value={ersatzteilVKPreisNetto}
-					placeholder="Einzelpreis"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-			</div>
-			<div>
-				<label for="einzelpreis" class="block text-sm font-medium mb-1">Einkaufspreis Netto</label>
-				<input
-					id="einzelpreis"
-					type="number"
-					bind:value={ersatzteilEKPreis}
-					placeholder="Einzelpreis"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-			</div>
-			<div>
-				<label for="einzelpreis" class="block text-sm font-medium mb-1">Verkaufspreis Brutto</label>
-				<input
-					id="einzelpreis"
-					type="number"
-					value={parseFloat(ersatzteilVKPreisNetto * 1.2).toFixed(2)}
-					placeholder="Einzelpreis"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-			</div>
-			<div>
-				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Nettosumme</label>
-				<input
-					id="gesamtpreis"
-					type="number"
-					value={parseFloat(
-						((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * ersatzteilMenge
-					).toFixed(2)}
-					placeholder="Gesamtpreis (wird berechnet)"
-					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
-					disabled
-				/>
-			</div>
-			<div>
-				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Bruttosumme</label>
-				<input
-					id="gesamtpreis"
-					type="number"
-					value={parseFloat(
-						((ersatzteilVKPreisNetto * (100 - ersatzteilRabatt)) / 100) * ersatzteilMenge * 1.2
-					).toFixed(2)}
-					placeholder="Gesamtpreis (wird berechnet)"
-					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
-					disabled
-				/>
-			</div>
-		</div>
-		<div class="mt-4 flex justify-end gap-2">
-			<button
-				type="reset"
-				class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
-				on:click={resetErsatzteil}
-			>
-				Abbrechen
-			</button>
-			<button
-				class="bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-4 py-2"
-				on:click={createErsatzteil}
-			>
-				Hinzufügen
-			</button>
-		</div>
+		</form>
 	</div>
 {/if}
 <!-- Formular zum Hinzufügen von Arbeitsstunden -->
 {#if showAddHourForm}
 	<div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
 		<h3 class="text-lg font-semibold mb-2">Arbeitsstunden hinzufügen</h3>
-		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-			<!-- Arbeitname Dropdown -->
-			<div>
-				<label for="arbeitName" class="block text-sm font-medium mb-1">Arbeit</label>
-				<select
-					id="arbeitName"
-					bind:value={stundenArbeit}
-					placeholder="Dropdown"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-					on:change={updateArbeitswerte}
+		<form on:submit={handleSubmitArbeitszeit}>
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+				<!-- Arbeitname Dropdown -->
+				<div>
+					<label for="arbeitName" class="block text-sm font-medium mb-1">Arbeit</label>
+					<select
+						id="arbeitName"
+						bind:value={stundenArbeit}
+						on:change={updateArbeitswerte}
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 {isSubmittedArbeitszeit &&
+						validateField(stundenArbeit)
+							? 'border-red-500'
+							: ''} "
+					>
+						<option value="" disabled selected>Bitte wählen</option>
+						{#each data.arbeitswerte as arbeit}
+							<option value={arbeit.id}>{arbeit.Leistungsbezeichnung}</option>
+						{/each}
+					</select>
+					{#if isSubmittedArbeitszeit && validateField(stundenArbeit)}
+						<span class="text-sm text-red-500">Bitte wählen Sie eine Arbeit aus.</span>
+					{/if}
+				</div>
+				<div>
+					<label for="kuerzel" class="block text-sm font-medium mb-1">Kürzel</label>
+					<input
+						id="kuerzel"
+						type="text"
+						bind:value={stundenKuerzel}
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+						readonly
+					/>
+				</div>
+				<div>
+					<label for="stundenMenge" class="block text-sm font-medium mb-1">Stunden</label>
+					<input
+						id="stundenMenge"
+						type="number"
+						bind:value={stundenMenge}
+						placeholder="Stunden"
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 {isSubmittedArbeitszeit &&
+						validateField(stundenMenge)
+							? 'border-red-500'
+							: ''}"
+					/>
+					{#if isSubmittedArbeitszeit && validateField(stundenMenge)}
+						<span class="text-sm text-red-500">Bitte geben Sie die Stunden an.</span>
+					{/if}
+				</div>
+				<div>
+					<label for="stundenMenge" class="block text-sm font-medium mb-1">Infotext</label>
+					<input
+						id="geleisteteArbeit"
+						type="text"
+						bind:value={stundenInfotext}
+						placeholder="geleistete Arbeit"
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					/>
+				</div>
+				<div>
+					<label for="rabatt" class="block text-sm font-medium mb-1">Rabatt</label>
+					<input
+						id="rabatt"
+						type="number"
+						bind:value={stundenRabatt}
+						placeholder="Rabatt"
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					/>
+				</div>
+				<div>
+					<label for="festpreis" class="block text-sm font-medium mb-1">Festpreis</label>
+					<input
+						id="festpreis"
+						type="number"
+						bind:value={stundenFestpreis}
+						placeholder=""
+						class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+						readonly
+					/>
+				</div>
+				<div>
+					<label for="gesamtpreis" class="block text-sm font-medium mb-1">Nettosumme</label>
+					<input
+						id="stundenGesamtpreis"
+						type="text"
+						value={parseFloat(
+							((stundenFestpreis * (100 - stundenRabatt)) / 100) * stundenMenge
+						).toFixed(2)}
+						placeholder="Gesamtpreis (wird berechnet)"
+						class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+						disabled
+					/>
+				</div>
+				<div>
+					<label for="gesamtpreis" class="block text-sm font-medium mb-1">Bruttosumme</label>
+					<input
+						id="stundenGesamtpreis"
+						type="text"
+						value={parseFloat(
+							((stundenFestpreis * (100 - stundenRabatt)) / 100) * stundenMenge * 1.2
+						).toFixed(2)}
+						placeholder="Gesamtpreis (wird berechnet)"
+						class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+						disabled
+					/>
+				</div>
+			</div>
+			<div class="mt-4 flex justify-end gap-2">
+				<button
+					class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
+					on:click={resetArbeitszeit}
 				>
-					<option value="" disabled selected>Bitte wählen</option>
-					{#each data.arbeitswerte as arbeit}
-						<option value={arbeit.id}>{arbeit.Leistungsbezeichnung}</option>
-					{/each}
-				</select>
+					Abbrechen
+				</button>
+				<button
+					class="bg-slate-600 text-white hover:bg-salte-900 rounded-lg px-4 py-2"
+					on:click={handleSubmitArbeitszeit}
+				>
+					Hinzufügen
+				</button>
 			</div>
-			<div>
-				<label for="kuerzel" class="block text-sm font-medium mb-1">Kürzel</label>
-				<input
-					id="kuerzel"
-					type="text"
-					bind:value={stundenKuerzel}
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-					readonly
-				/>
-			</div>
-			<div>
-				<label for="stundenMenge" class="block text-sm font-medium mb-1">Stunden</label>
-				<input
-					id="stundenMenge"
-					type="number"
-					bind:value={stundenMenge}
-					placeholder="Stunden"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-			</div>
-			<div>
-				<label for="stundenMenge" class="block text-sm font-medium mb-1">Infotext</label>
-				<input
-					id="geleisteteArbeit"
-					type="text"
-					bind:value={stundenInfotext}
-					placeholder="geleistete Arbeit"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-			</div>
-			<div>
-				<label for="rabatt" class="block text-sm font-medium mb-1">Rabatt</label>
-				<input
-					id="rabatt"
-					type="number"
-					bind:value={stundenRabatt}
-					placeholder="Rabatt"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-			</div>
-			<div>
-				<label for="festpreis" class="block text-sm font-medium mb-1">Festpreis</label>
-				<input
-					id="festpreis"
-					type="number"
-					bind:value={stundenFestpreis}
-					placeholder=""
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-					readonly
-				/>
-			</div>
-			<div>
-				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Nettosumme</label>
-				<input
-					id="stundenGesamtpreis"
-					type="text"
-					value={parseFloat(
-						((stundenFestpreis * (100 - stundenRabatt)) / 100) * stundenMenge
-					).toFixed(2)}
-					placeholder="Gesamtpreis (wird berechnet)"
-					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
-					disabled
-				/>
-			</div>
-			<div>
-				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Bruttosumme</label>
-				<input
-					id="stundenGesamtpreis"
-					type="text"
-					value={parseFloat(
-						((stundenFestpreis * (100 - stundenRabatt)) / 100) * stundenMenge * 1.2
-					).toFixed(2)}
-					placeholder="Gesamtpreis (wird berechnet)"
-					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
-					disabled
-				/>
-			</div>
-		</div>
-		<div class="mt-4 flex justify-end gap-2">
-			<button
-				class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
-				on:click={resetArbeitszeit}
-			>
-				Abbrechen
-			</button>
-			<button
-				class="bg-slate-600 text-white hover:bg-salte-900 rounded-lg px-4 py-2"
-				on:click={createArbeitszeit}
-			>
-				Hinzufügen
-			</button>
-		</div>
+		</form>
 	</div>
 {/if}
 
