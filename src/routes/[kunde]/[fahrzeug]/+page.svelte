@@ -35,6 +35,23 @@
 	let lieferschein = '';
 	let fahrzeugid = $page.params.fahrzeug;
 
+	let isSubmitted = false;
+
+	// Überprüfung, ob das Feld leer ist
+	const validateField = (field) => field.trim() === '';
+
+	// Funktion zur Verarbeitung des Formulars
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		isSubmitted = true;
+
+		// Überprüfung: Das Feld "Arbeiten" darf nicht leer sein
+		if (!validateField(arbeiten)) {
+			await createAuftrag(); // Auftrag speichern
+			alert('Auftrag erfolgreich gespeichert!');
+		}
+	};
+
 	// Objekt für die Fahrzeugdatenbenennung
 	const Fahrzeugdaten = {
 		Erstzulassung: 'Erstzulassung',
