@@ -69,6 +69,7 @@
 						</p>
 						<p class="text-gray-600">{data.Strasse}</p>
 						<p class="text-gray-600">{data.PLZ} {data.Ort}</p>
+						<p class="text-gray-600">{data.auftrag.Zahlungsart}</p>
 					</div>
 
 					<div class="mt-8">
@@ -214,16 +215,20 @@
 						</p>
 						<p class="text-lg text-right text-gray-800 font-bold">
 							<strong>Gesamtbetrag:</strong>
-
 							{data.rechnung.Bruttosumme} €
 						</p>
+						<!-- <p class="text-lg text-right text-gray-800 font-bold">
+							<strong>Gesamtbetrag:</strong>
+							{zahlungsart} €
+						</p>
+					</div> -->
 					</div>
 				</div>
 			</section>
 		</main>
 	</div>
-	<p class="text-center text-gray-600 text-lg mt-4">Vielen Dank für Ihren Auftrag!</p>
-	<p class="text-center text-gray-600 text-lg mb-6">{data.auftrag.Zahlungsart}</p>
+	<p class="text-center text-gray-600 text-lg mt-4 mb-6">Vielen Dank für Ihren Auftrag!</p>
+	<p>QR Code!!!!!</p>
 
 	<footer class="text-center text-sm text-gray-600 pt-4 border-t mb-10">
 		<div>

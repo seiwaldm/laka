@@ -263,14 +263,12 @@
 	<div class="hidden lg:flex items-center">
 		<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/" class="hover:underline">Startseite </a>
-
 		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
 		Kunde {data.Nachname}
 	</div>
 </h1>
 <hr />
 
-<!-- Kundeninformationen -->
 <div class="pl-5">
 	<h1 class=" my-5 pl-2 text-2xl font-bold">Kundeninformationen</h1>
 	{#each Object.entries(data)
@@ -294,7 +292,7 @@
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content>
 				<DropdownMenu.Group class="mt-2 w-48 bg-white shadow-md rounded-md p-2" s>
-					<!-- Bestätigungsdialog -->
+					<!-- Neu: Bestätigungsdialog -->
 					<DropdownMenu.Label class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2">
 						<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
 					</DropdownMenu.Label>
@@ -327,7 +325,7 @@
 					>
 						Abbrechen
 					</button>
-
+					<!-- svelte-ignore a11y-invalid-attribute -->
 					<a href="/">
 						<button
 							class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
@@ -345,12 +343,13 @@
 	<!-- Fahrzeuganlegung Button -->
 	<button
 		type="button"
-		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2"
+		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2 mb-"
 		on:click={() => (showCard = true)}>Fahrzeuganlegung</button
 	>
 	<!-- Fahrzeuganlegung -->
 	<div>
 		{#if showCard}
+<<<<<<< HEAD
 			<!-- Overlay -->
 			<button
 				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
@@ -358,7 +357,6 @@
 				on:keydown={(e) => e.key === 'Enter' && (showCard = false)}
 				tabindex="0"
 			></button>
-
 			<div class="fixed inset-0 flex items-center justify-center z-50">
 				<Card.Root
 					class="lg:w-[700px] bg-white rounded-lg shadow-lg max-h-[90vh] overflow-hidden flex flex-col"
@@ -420,6 +418,85 @@
 										class="max-w-xs"
 									/>
 								</div>
+=======
+			<Card.Root class="lg:w-[700px]">
+				<Card.Header>
+					<Card.Title>Neues Fahrzeug anlegen</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					<form on:submit={handleSubmit}>
+						<div class="grid w-full items-center gap-4">
+							<div class="flex flex-col space-y-1.5">
+								<Label for="erstzulassung">Erstzulassung</Label>
+								<Input type="date" bind:value={erstzulassung} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="fin">FIN</Label>
+								<Input type="fin" bind:value={fin} placeholder="J123456789P" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kennzeichen">Kennzeichen</Label>
+								<Input
+									type="kennzeichen"
+									bind:value={kennzeichen}
+									placeholder="JO-123AB"
+									class="max-w-xs {isSubmitted && validateField(kennzeichen)
+										? 'border border-red-500'
+										: ''}"
+								/>
+								{#if isSubmitted && validateField(kennzeichen)}
+									<span class="text-sm text-red-500">Bitte geben Sie ein Kennzeichen ein.</span>
+								{/if}
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="marke">Marke</Label>
+								<Input
+									type="marke"
+									bind:value={marke}
+									placeholder="VW"
+									class="max-w-xs {isSubmitted && validateField(marke)
+										? 'border border-red-500'
+										: ''}"
+								/>
+								{#if isSubmitted && validateField(marke)}
+									<span class="text-sm text-red-500">Bitte geben Sie eine Marke ein.</span>
+								{/if}
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="modell">Modell</Label>
+								<Input
+									type="modell"
+									bind:value={modell}
+									placeholder="Golf 7"
+									class="max-w-xs {isSubmitted && validateField(modell)
+										? 'border border-red-500'
+										: ''}"
+								/>
+								{#if isSubmitted && validateField(modell)}
+									<span class="text-sm text-red-500">Bitte geben Sie ein Modell ein.</span>
+								{/if}
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="natcode">Nationaler Code</Label>
+								<Input type="natcode" bind:value={natCode} placeholder="J189P" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="pickerl">Pickerl</Label>
+								<Input type="date" bind:value={pickerl} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="farbcode">Farbcode</Label>
+								<Input type="farbcode" bind:value={farbcode} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="hubraum">Hubraum</Label>
+								<Input type="hubraum" bind:value={hubraum} placeholder="80" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kmstand">Kilometer Stand</Label>
+								<Input type="kmstand" bind:value={kmstand} placeholder="100000" class="max-w-xs" />
+							</div>
+>>>>>>> 32f4246b264a7c292ff9563bd69cf1dda1cdfcf9
 
 								<div class="flex flex-col space-y-1.5">
 									<Label for="kw">KW</Label>
@@ -428,27 +505,18 @@
 
 								<div class="flex flex-col space-y-1.5">
 									<Label for="kraftstoff">Kraftstoff</Label>
-									<Input
-										type="kraftstoff"
-										bind:value={kraftstoff}
-										placeholder="Diesel/Benzin"
-										class="max-w-xs"
-									/>
+									<Input type="kraftstoff" bind:value={kraftstoff} class="max-w-xs" />
 								</div>
 
 								<div class="flex flex-col space-y-1.5">
 									<Label for="motorcode">Motorcode</Label>
-									<Input
-										type="motorcode"
-										bind:value={motorcode}
-										placeholder="123456"
-										class="max-w-xs"
-									/>
+									<Input type="motorcode" bind:value={motorcode} class="max-w-xs" />
 								</div>
 							</div>
 						</form>
 					</Card.Content>
 
+<<<<<<< HEAD
 					<Card.Footer class="p-4 border-t flex justify-between">
 						<button
 							type="reset"
@@ -466,6 +534,25 @@
 					</Card.Footer>
 				</Card.Root>
 			</div>
+=======
+				<Card.Footer class="flex justify-between">
+					<button
+						type="reset"
+						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={resetFahrzeugdaten}
+					>
+						Abbrechen
+					</button>
+					<button
+						type="submit"
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={handleSubmit}
+					>
+						Speichern
+					</button>
+				</Card.Footer>
+			</Card.Root>
+>>>>>>> 32f4246b264a7c292ff9563bd69cf1dda1cdfcf9
 		{/if}
 	</div>
 

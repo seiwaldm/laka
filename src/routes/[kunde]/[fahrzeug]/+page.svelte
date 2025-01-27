@@ -59,7 +59,7 @@
 		'Modell',
 		'Erstzulassung',
 		'Pickerl'
-	];
+	]
 
 	// Objekt für die Fahrzeugdatenbenennung
 	const fahrzeugbasisdaten = {
@@ -72,7 +72,13 @@
 		Pickerl: 'Pickerl'
 	};
 
-	let datenfeldtechnik = ['Farbcode', 'Hubraum', 'KW', 'Kraftstoff', 'Motorcode'];
+	let datenfeldtechnik = [
+		'Farbcode',
+		'Hubraum',
+		'KW',
+		'Kraftstoff',
+		'Motorcode'
+	]
 
 	const fahrzeugtechnikdaten = {
 		Farbcode: 'Farbcode',
@@ -240,7 +246,7 @@
 	}
 </script>
 
-<!-- Link zu den verschiedenen Seiten -->
+<!-- Link zu den Seiten -->
 <h1 class="text-base pl-5 flex items-center my-5">
 	<!-- Mobile und Tablet Design -->
 	<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block lg:hidden"></iconify-icon>
@@ -253,6 +259,7 @@
 		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
 		<a href="/{$page.params.kunde}" class="hover:underline">Kunde {data.Nachname}</a>
 		<iconify-icon icon="lucide:chevron-right" class="mt-0.5 mx-1"></iconify-icon>
+
 		Fahrzeug {data.fahrzeuge.Marke}
 	</div>
 </h1>
@@ -295,7 +302,7 @@
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content>
 				<DropdownMenu.Group class="mt-2 w-48 bg-white shadow-md rounded-md p-2" s>
-					<!-- Bestätigungsdialog -->
+					<!-- Neu: Bestätigungsdialog -->
 					<DropdownMenu.Label class="text-black text-base hover:bg-salte-600 rounded-lg px-4 py-2">
 						<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
 					</DropdownMenu.Label>
@@ -342,15 +349,16 @@
 	{/if}
 
 	<div class="my-5"><hr /></div>
-	<!-- Auftraganlegung Button -->
+
+	<!-- Auftraganlegung -->
 	<button
 		type="button"
-		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2"
+		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2 mb-"
 		on:click={() => (showCard = true)}>Auftraganlegung</button
 	>
-	<!-- Auftraganlegung -->
 	<div>
 		{#if showCard}
+<<<<<<< HEAD
 			<!-- Overlay -->
 			<button
 				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
@@ -368,6 +376,16 @@
 					<Card.Content class="flex-1 overflow-y-auto p-4">
 						<form>
 							<div class="grid gap-4">
+=======
+			<Card.Root class="lg:w-[700px]">
+				<Card.Header>
+					<Card.Title>Neuen Auftrag anlegen</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					<form on:submit={handleSubmit}>
+						<div class="grid w-full items-center gap-4">
+							<div class="grid w-full items-center gap-4">
+>>>>>>> 32f4246b264a7c292ff9563bd69cf1dda1cdfcf9
 								<div class="flex flex-col space-y-1.5">
 									<Label for="arbeiten">Arbeiten</Label>
 									<Input
@@ -418,6 +436,7 @@
 						</form>
 					</Card.Content>
 
+<<<<<<< HEAD
 					<Card.Footer class="p-4 border-t flex justify-between">
 						<button
 							class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
@@ -434,6 +453,23 @@
 					</Card.Footer>
 				</Card.Root>
 			</div>
+=======
+				<Card.Footer class="flex justify-between">
+					<button
+						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={resetAuftrag}
+					>
+						Abbrechen
+					</button>
+					<button
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={handleSubmit}
+					>
+						Speichern
+					</button>
+				</Card.Footer>
+			</Card.Root>
+>>>>>>> 32f4246b264a7c292ff9563bd69cf1dda1cdfcf9
 		{/if}
 	</div>
 
