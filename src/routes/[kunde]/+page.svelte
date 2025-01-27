@@ -67,6 +67,21 @@
 	let tachostand = '';
 	let tatKilometer = '';
 	let farbcode = '';
+	let isSubmitted = false;
+
+	// Überprüfung, ob ein Feld leer ist
+	const validateField = (field) => field.trim() === '';
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		isSubmitted = true;
+
+		// Überprüfung: Felder "Kennzeichen", "Modell" und "Marke" dürfen nicht leer sein
+		if (!validateField(kennzeichen) && !validateField(modell) && !validateField(marke)) {
+			await createFahrzeug(); // Fahrzeugdaten speichern
+			alert('Fahrzeug erfolgreich gespeichert!');
+		}
+	};
 
 	// Funktion zum Erstellen eines Fahrzeugs
 	async function createFahrzeug() {
@@ -128,6 +143,7 @@
 		tatKilometer = '';
 		farbcode = '';
 		showCard = false;
+		isSubmitted = false;
 	}
 
 	let geschlecht = [
@@ -202,10 +218,6 @@
 
 	// Funktion zum Löschen eines Kunden mit Bestätigung
 	async function deleteKunde() {
-		// const confirmed = confirm(
-		// 	'Möchten Sie diesen Kunden und alle zugehörigen Fahrzeuge und Aufträge wirklich löschen?'
-		// );
-		// if (!confirmed) return;
 		try {
 			for (const fahrzeuge of data.fahrzeuge.items) {
 				if (fahrzeuge.KundenID === $page.params.kunde) {
@@ -337,6 +349,7 @@
 	<!-- Fahrzeuganlegung -->
 	<div>
 		{#if showCard}
+<<<<<<< HEAD
 			<!-- Overlay -->
 			<button
 				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
@@ -405,6 +418,85 @@
 										class="max-w-xs"
 									/>
 								</div>
+=======
+			<Card.Root class="lg:w-[700px]">
+				<Card.Header>
+					<Card.Title>Neues Fahrzeug anlegen</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					<form on:submit={handleSubmit}>
+						<div class="grid w-full items-center gap-4">
+							<div class="flex flex-col space-y-1.5">
+								<Label for="erstzulassung">Erstzulassung</Label>
+								<Input type="date" bind:value={erstzulassung} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="fin">FIN</Label>
+								<Input type="fin" bind:value={fin} placeholder="J123456789P" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kennzeichen">Kennzeichen</Label>
+								<Input
+									type="kennzeichen"
+									bind:value={kennzeichen}
+									placeholder="JO-123AB"
+									class="max-w-xs {isSubmitted && validateField(kennzeichen)
+										? 'border border-red-500'
+										: ''}"
+								/>
+								{#if isSubmitted && validateField(kennzeichen)}
+									<span class="text-sm text-red-500">Bitte geben Sie ein Kennzeichen ein.</span>
+								{/if}
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="marke">Marke</Label>
+								<Input
+									type="marke"
+									bind:value={marke}
+									placeholder="VW"
+									class="max-w-xs {isSubmitted && validateField(marke)
+										? 'border border-red-500'
+										: ''}"
+								/>
+								{#if isSubmitted && validateField(marke)}
+									<span class="text-sm text-red-500">Bitte geben Sie eine Marke ein.</span>
+								{/if}
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="modell">Modell</Label>
+								<Input
+									type="modell"
+									bind:value={modell}
+									placeholder="Golf 7"
+									class="max-w-xs {isSubmitted && validateField(modell)
+										? 'border border-red-500'
+										: ''}"
+								/>
+								{#if isSubmitted && validateField(modell)}
+									<span class="text-sm text-red-500">Bitte geben Sie ein Modell ein.</span>
+								{/if}
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="natcode">Nationaler Code</Label>
+								<Input type="natcode" bind:value={natCode} placeholder="J189P" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="pickerl">Pickerl</Label>
+								<Input type="date" bind:value={pickerl} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="farbcode">Farbcode</Label>
+								<Input type="farbcode" bind:value={farbcode} class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="hubraum">Hubraum</Label>
+								<Input type="hubraum" bind:value={hubraum} placeholder="80" class="max-w-xs" />
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="kmstand">Kilometer Stand</Label>
+								<Input type="kmstand" bind:value={kmstand} placeholder="100000" class="max-w-xs" />
+							</div>
+>>>>>>> 32f4246b264a7c292ff9563bd69cf1dda1cdfcf9
 
 								<div class="flex flex-col space-y-1.5">
 									<Label for="kw">KW</Label>
@@ -424,6 +516,7 @@
 						</form>
 					</Card.Content>
 
+<<<<<<< HEAD
 					<Card.Footer class="p-4 border-t flex justify-between">
 						<button
 							type="reset"
@@ -441,6 +534,25 @@
 					</Card.Footer>
 				</Card.Root>
 			</div>
+=======
+				<Card.Footer class="flex justify-between">
+					<button
+						type="reset"
+						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={resetFahrzeugdaten}
+					>
+						Abbrechen
+					</button>
+					<button
+						type="submit"
+						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
+						on:click={handleSubmit}
+					>
+						Speichern
+					</button>
+				</Card.Footer>
+			</Card.Root>
+>>>>>>> 32f4246b264a7c292ff9563bd69cf1dda1cdfcf9
 		{/if}
 	</div>
 
