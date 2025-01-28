@@ -43,38 +43,46 @@
 			'Möchten Sie diesen Kunden und alle zugehörigen Fahrzeuge und Aufträge wirklich löschen?'
 		);
 		if (!confirmed) return;
+
 		try {
-			for (const fahrzeuge of data.fahrzeuge.items) {
-				console.log(data.fahrzeuge.items);
-				if (fahrzeuge.KundenID === kundeId) {
-					for (const auftrag of data.auftrag.items) {
-						if (auftrag.FahrzeugID === fahrzeuge.id) {
-							console.log(auftrag.id);
-							let auftragid = auftrag.id;
-							for (const ersatzteile of data.ersatzteile.items) {
-								console.log(ersatzteile.AuftragID);
-								if (ersatzteile.AuftragID === auftragid) {
-									await pb.collection('Ersatzteile').delete(ersatzteile.id);
-									console.log(ersatzteile.id);
+			// Finde den Kunden, der gelöscht werden soll
+			const kundeToDelete = data.kunden.find((kunde) => kunde.id === kundeId);
+
+			if (!kundeToDelete) {
+				console.error('Kunde nicht gefunden');
+				return;
+			}
+
+			// Lösche alle Fahrzeuge und deren Aufträge für den Kunden
+			if (kundeToDelete.fahrzeuge && kundeToDelete.fahrzeuge.length > 0) {
+				for (const fahrzeug of kundeToDelete.fahrzeuge) {
+					if (fahrzeug.auftrag && fahrzeug.auftrag.length > 0) {
+						for (const auftrag of fahrzeug.auftrag) {
+							// Lösche Ersatzteile separat
+							if (auftrag.ersatzteile?.length > 0) {
+								for (const ersatzteil of auftrag.ersatzteile) {
+									await pb.collection('Ersatzteile').delete(ersatzteil.id);
 								}
 							}
-							for (const arbeitszeiten of data.arbeitszeit.items) {
-								if (arbeitszeiten.AuftragID === auftrag.id) {
-									await pb.collection('Arbeitszeit').delete(arbeitszeiten.id);
+							// Lösche Arbeitszeiten separat
+							if (auftrag.arbeitszeiten?.length > 0) {
+								for (const arbeitszeit of auftrag.arbeitszeiten) {
+									await pb.collection('Arbeitszeit').delete(arbeitszeit.id);
 								}
 							}
+							// Lösche den Auftrag
 							await pb.collection('Auftrag').delete(auftrag.id);
 						}
 					}
-					// Delete Fahrzeug
-					await pb.collection('Fahrzeug').delete(fahrzeuge.id);
+					// Lösche das Fahrzeug
+					await pb.collection('Fahrzeug').delete(fahrzeug.id);
 				}
 			}
-			// Delete Kunde
+			// Lösche den Kunden
 			await pb.collection('Kunde').delete(kundeId);
 			location.reload();
 		} catch (error) {
-			console.error(error);
+			console.error('Fehler beim Löschen:', error);
 		}
 	}
 

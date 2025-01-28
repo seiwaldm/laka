@@ -120,12 +120,16 @@ export async function POST({ request }) {
 		if (action === 'createErsatzteil') {
 			// überprüfe ob Arbeiten vorhanden sind
 			if (!data.ersatzteilBezeichnung) {
-				return new Response('Arbeiten fehlen', { status: 400 });
+				return new Response('Bezeichnung fehlt', { status: 400 });
 			}
-			// if (!data.ersatzteilMenge) {
-			// 	return new Response('Arbeiten fehlen', { status: 400 });
-			// }
 
+			if (!data.ersatzteilVKPreisNetto) {
+				return new Response('Verkaufspreis fehlt', { status: 400 });
+			}
+
+			if (!data.ersatzteilMenge) {
+				return new Response('Menge fehlt', { status: 400 });
+			}
 			// berechnung der Marge
 			let marge = 0;
 			if (data.ersatzteilEKPreis && data.ersatzteilVKPreisNetto) {
@@ -177,6 +181,7 @@ export async function POST({ request }) {
 		}
 		let nettosumme = 0;
 		let bruttosumme = 0;
+		
 		// Arbeitszeit erstellen
 		if (action === 'createArbeitszeit') {
 			// berechnen der Nettosumme
