@@ -14,6 +14,8 @@
 	// laden der Daten
 	export let data;
 
+	let showSuccessMessage = false;
+
 	// Funktion zum öffnen des Cloudinary Widgets, so dass sie in icons verwendet werden kann
 
 	// Zustand für die Sichbarkeit der Card definieren
@@ -184,6 +186,7 @@
 
 	// Funktion zum Hinzufügen eines Arbeitszeit
 	async function createArbeitszeit() {
+		showSuccessMessage = true;
 		// Berechnung des Gesamtpreises
 		const arbeitszeitDaten = {
 			action: 'createArbeitszeit',
@@ -630,18 +633,24 @@
 	</div>
 {/if}
 <!-- Formular zum Hinzufügen von Arbeitsstunden -->
+{#if showSuccessMessage}
+	<div
+		class="fixed bottom-4 left-4 p-3 text-sm text-green-700 bg-green-100 border border-green-200 rounded-lg shadow-lg z-50 max-w-xs"
+	>
+		Erfolgreich gespeichert!
+	</div>
+{/if}
+
 {#if showAddHourForm}
-	<div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
-		<h3 class="text-lg font-semibold mb-2">Arbeitsstunden hinzufügen</h3>
-		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-			<!-- Arbeitname Dropdown -->
+	<div class="bg-white p-6 rounded-2xl shadow-lg max-w-3xl mx-auto my-6">
+		<h3 class="text-xl font-bold text-gray-700 mb-4">Arbeitsstunden hinzufügen</h3>
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 			<div>
-				<label for="arbeitName" class="block text-sm font-medium mb-1">Arbeit</label>
+				<label for="arbeitName" class="block text-sm font-medium text-gray-600 mb-1">Arbeit</label>
 				<select
 					id="arbeitName"
 					bind:value={stundenArbeit}
-					placeholder="Dropdown"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 					on:change={updateArbeitswerte}
 				>
 					<option value="" disabled selected>Bitte wählen</option>
@@ -651,92 +660,95 @@
 				</select>
 			</div>
 			<div>
-				<label for="kuerzel" class="block text-sm font-medium mb-1">Kürzel</label>
+				<label for="kuerzel" class="block text-sm font-medium text-gray-600 mb-1">Kürzel</label>
 				<input
 					id="kuerzel"
 					type="text"
 					bind:value={stundenKuerzel}
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 					readonly
 				/>
 			</div>
 			<div>
-				<label for="stundenMenge" class="block text-sm font-medium mb-1">Stunden</label>
+				<label for="stundenMenge" class="block text-sm font-medium text-gray-600 mb-1"
+					>Stunden</label
+				>
 				<input
 					id="stundenMenge"
 					type="number"
 					bind:value={stundenMenge}
-					placeholder="Stunden"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 				/>
 			</div>
 			<div>
-				<label for="stundenMenge" class="block text-sm font-medium mb-1">Infotext</label>
+				<label for="geleisteteArbeit" class="block text-sm font-medium text-gray-600 mb-1"
+					>Infotext</label
+				>
 				<input
 					id="geleisteteArbeit"
 					type="text"
 					bind:value={stundenInfotext}
-					placeholder="geleistete Arbeit"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 				/>
 			</div>
 			<div>
-				<label for="rabatt" class="block text-sm font-medium mb-1">Rabatt</label>
+				<label for="rabatt" class="block text-sm font-medium text-gray-600 mb-1">Rabatt</label>
 				<input
 					id="rabatt"
 					type="number"
 					bind:value={stundenRabatt}
-					placeholder="Rabatt"
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 				/>
 			</div>
 			<div>
-				<label for="festpreis" class="block text-sm font-medium mb-1">Festpreis</label>
+				<label for="festpreis" class="block text-sm font-medium text-gray-600 mb-1">Festpreis</label
+				>
 				<input
 					id="festpreis"
 					type="number"
 					bind:value={stundenFestpreis}
-					placeholder=""
-					class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+					class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
 					readonly
 				/>
 			</div>
 			<div>
-				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Nettosumme</label>
+				<label for="stundenGesamtpreisNetto" class="block text-sm font-medium text-gray-600 mb-1"
+					>Nettosumme</label
+				>
 				<input
-					id="stundenGesamtpreis"
+					id="stundenGesamtpreisNetto"
 					type="text"
 					value={parseFloat(
 						((stundenFestpreis * (100 - stundenRabatt)) / 100) * stundenMenge
 					).toFixed(2)}
-					placeholder="Gesamtpreis (wird berechnet)"
-					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+					class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100"
 					disabled
 				/>
 			</div>
 			<div>
-				<label for="gesamtpreis" class="block text-sm font-medium mb-1">Bruttosumme</label>
+				<label for="stundenGesamtpreisBrutto" class="block text-sm font-medium text-gray-600 mb-1"
+					>Bruttosumme</label
+				>
 				<input
-					id="stundenGesamtpreis"
+					id="stundenGesamtpreisBrutto"
 					type="text"
 					value={parseFloat(
 						((stundenFestpreis * (100 - stundenRabatt)) / 100) * stundenMenge * 1.2
 					).toFixed(2)}
-					placeholder="Gesamtpreis (wird berechnet)"
-					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
+					class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100"
 					disabled
 				/>
 			</div>
 		</div>
-		<div class="mt-4 flex justify-end gap-2">
+		<div class="mt-6 flex justify-end gap-4">
 			<button
-				class="bg-gray-300 text-black hover:bg-gray-400 rounded-lg px-4 py-2"
+				class="bg-gray-300 text-gray-700 hover:bg-gray-400 rounded-lg px-5 py-2"
 				on:click={resetArbeitszeit}
 			>
 				Abbrechen
 			</button>
 			<button
-				class="bg-slate-600 text-white hover:bg-salte-900 rounded-lg px-4 py-2"
+				class="bg-blue-600 text-white hover:bg-blue-800 rounded-lg px-5 py-2"
 				on:click={createArbeitszeit}
 			>
 				Hinzufügen
