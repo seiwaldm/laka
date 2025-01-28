@@ -123,20 +123,24 @@ export async function POST({ request }) {
 				return new Response('Bezeichnung fehlt', { status: 400 });
 			}
 
-			if (!data.ersatzteilVKPreisNetto) {
+			if (!data.ersatzteilVKPreisNetto || data.ersatzteilVKPreisNetto <= 0) {
 				return new Response('Verkaufspreis fehlt', { status: 400 });
 			}
 
-			if (!data.ersatzteilMenge) {
+			if (!data.ersatzteilMenge || data.ersatzteilMenge <= 0) {
 				return new Response('Menge fehlt', { status: 400 });
 			}
+
+			data.ersatzteilRabatt = data.ersatzteilRabatt || 0; // Standardwert für Rabatt
+			data.ersatzteilEKPreis = data.ersatzteilEKPreis || 0; // Standardwert für Einkaufspreis
+
 			// berechnung der Marge
 			let marge = 0;
-			if (data.ersatzteilEKPreis && data.ersatzteilVKPreisNetto) {
-				marge = parseFloat(
+			if (data.ersatzteilEKPreis > 0 && data.ersatzteilVKPreisNetto > 0) {
+				marge = 
 					((data.ersatzteilVKPreisNetto - data.ersatzteilEKPreis) / data.ersatzteilVKPreisNetto) *
-						100
-				).toFixed(2);
+					100
+				
 			}
 
 			// berechnung des Bruttoverkaufspreises
@@ -181,7 +185,7 @@ export async function POST({ request }) {
 		}
 		let nettosumme = 0;
 		let bruttosumme = 0;
-		
+
 		// Arbeitszeit erstellen
 		if (action === 'createArbeitszeit') {
 			// berechnen der Nettosumme
@@ -245,7 +249,7 @@ export async function POST({ request }) {
 				Umsatzsteuer: (gesamtnettosumme * 0.2).toFixed(2),
 				Bruttosumme: (gesamtnettosumme * 1.2).toFixed(2),
 				Auftragsdokument: data.auftragsdokument,
-				Zahlungsart: data.zahlungsart,
+				Zahlungsart: data.zahlungsart
 			});
 			response.url = request.headers.get('referer') + `/${response.id}`;
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });

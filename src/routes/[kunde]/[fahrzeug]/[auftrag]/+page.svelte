@@ -522,10 +522,11 @@
 				<input
 					id="marge"
 					type="number"
-					value={(
-						((ersatzteilVKPreisNetto - ersatzteilEKPreis) / ersatzteilVKPreisNetto) *
-						100
-					).toFixed(2)}
+					value={ersatzteilVKPreisNetto > 0
+						? (
+							((ersatzteilVKPreisNetto - ersatzteilEKPreis) / ersatzteilVKPreisNetto) * 100
+						).toFixed(2)
+						: 0}
 					placeholder="Gesamtpreis (wird berechnet)"
 					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
 					disabled
