@@ -5,11 +5,12 @@
 	import { pb } from '$lib/pocketbase';
 
 	let email = '';
-	let passwort = '';
+	let password = '';
 
 	async function login() {
-		const authData = await pb.collection('users').authWithPassword(email, passwort);
+		const authData = await pb.collection('users').authWithPassword(email, password);
 		console.log(authData);
+		window.location.href = '/';
 	}
 </script>
 
@@ -29,10 +30,16 @@
 					<div class="flex flex-col space-y-1.5">
 						<Label for="<passwort>">Passwort</Label>
 
-						<Input type="password" id="passwort" bind:value={passwort} class="max-w-xs" />
+						<Input type="password" id="passwort" bind:value={password} class="max-w-xs" />
 					</div>
-				</div>
-			</form>
+				<!-- Link zu Registrierung -->
+				<p class="text-sm text-gray-600">
+					Noch kein Konto? <a href="/register" class="text-blue-500 hover:underline"
+						>Hier Registrieren</a
+					>
+				</p>
+			</div>
+		</form>
 		</Card.Content>
 
 		<Card.Footer class="flex justify-between">

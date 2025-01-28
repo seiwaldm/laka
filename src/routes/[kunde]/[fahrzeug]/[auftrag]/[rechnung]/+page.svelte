@@ -74,7 +74,7 @@
 
 					<div class="mt-8">
 						<p class="flex text-gray-700">
-							<strong class="w-40 font-bold"
+							<strong class="w-60 font-bold"
 								>{data.rechnung.Auftragsdokument ? 'Auftrags-Nr.:' : 'Rechnungs-Nr.:'}</strong
 							>
 							{data.rechnung.Auftragsdokument
@@ -83,15 +83,15 @@
 						</p>
 						<div>
 							<p class="flex text-gray-700">
-								<span class="w-40 font-bold">Datum:</span>
+								<span class="w-60 font-bold">Datum:</span>
 								<span>{formatDate(data.auftrag.created)}</span>
 							</p>
 							<p class="flex text-gray-700">
-								<span class="w-40 font-bold">Liefer-/Leistungsdatum:</span>
+								<span class="w-60 font-bold">Liefer-/Leistungsdatum:</span>
 								<span>{formatDate(data.rechnung.created)}</span>
 							</p>
 							<p class="flex text-gray-700">
-								<span class="w-40 font-bold">Kunden-Nr.:</span>
+								<span class="w-60 font-bold">Kunden-Nr.:</span>
 								<span>{data.Kundennr}</span>
 							</p>
 						</div>
