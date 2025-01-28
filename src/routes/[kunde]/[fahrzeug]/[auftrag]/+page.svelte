@@ -57,7 +57,7 @@
 			updateAuftragnr,
 			updateFahrzeugid,
 			updateLieferschein,
-			ausgewählteZahlungsart,
+			ausgewählteZahlungsart
 			// [field]: value
 		};
 		try {
@@ -220,14 +220,14 @@
 	}
 
 	async function deleteArbeitszeit(ArbeitszeitId) {
-		if(confirm('Möchten Sie die Arbeitszeit wirklich löschen?')){
+		if (confirm('Möchten Sie die Arbeitszeit wirklich löschen?')) {
 			await pb.collection('Arbeitszeit').delete(ArbeitszeitId);
 			location.reload();
 		}
 	}
 
 	async function deleteErsatzteile(ErsatzteilId) {
-		if(confirm('Möchten Sie die Arbeitszeit wirklich löschen?')){
+		if (confirm('Möchten Sie die Arbeitszeit wirklich löschen?')) {
 			await pb.collection('Ersatzteile').delete(ErsatzteilId);
 			location.reload();
 		}
@@ -324,16 +324,20 @@
 	<div class="hidden lg:flex items-center">
 		<iconify-icon icon="lucide:arrow-left" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/" class="hover:underline">Startseite </a>
+
 		<iconify-icon icon="lucide:chevron-right" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/{$page.params.kunde}" class="hover:underline">Kunde {data.Nachname}</a>
+
 		<iconify-icon icon="lucide:chevron-right" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		<a href="/{$page.params.kunde}/{$page.params.fahrzeug}" class="hover:underline">
 			Fahrzeug {data.fahrzeuge.Marke}
 		</a>
+
 		<iconify-icon icon="lucide:chevron-right" class="mx-3 text-xl mt-0.5 block"></iconify-icon>
 		Auftrag {data.auftrag.Arbeiten}
 	</div>
 </h1>
+
 <!-- Icon mit 3 Punkten für das Dropdown-Menü -->
 <div class="absolute top-32 lg:top-10 right-10">
 	<DropdownMenu.Root>
@@ -418,7 +422,7 @@
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
 	{#each Object.entries(data.auftrag).filter((item) => item[0] === 'Auftragnummer' || item[0] === 'Arbeiten' || item[0] === 'BildSchaden' || item[0] === 'BildFertig' || item[0] === 'Infotext' || item[0] === 'Lieferschein' || item[0] === 'Rechnung') as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
-			<button class="mr-2" on:click={() =>  icons[key]?.action && icons[key].action()}>
+			<button class="mr-2" on:click={() => icons[key]?.action && icons[key].action()}>
 				<iconify-icon
 					icon={typeof icons[key] === 'object' ? icons[key].icon : icons[key]}
 					class="mr-2 text-2xl translate-y-1"
@@ -453,7 +457,7 @@
 						if (e.key === 'Enter' || e.key === ' ') deleteErsatzteile(Ersatzteile.id);
 					}}
 				>
-				<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 				</button>
 			</span>
 		{/each}
@@ -483,7 +487,7 @@
 						if (e.key === 'Enter' || e.key === ' ') deleteArbeitszeit(Arbeitszeit.id);
 					}}
 				>
-				<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 				</button>
 			</span>
 		{/each}
@@ -532,8 +536,9 @@
 					type="number"
 					value={ersatzteilVKPreisNetto > 0
 						? (
-							((ersatzteilVKPreisNetto - ersatzteilEKPreis) / ersatzteilVKPreisNetto) * 100
-						).toFixed(2)
+								((ersatzteilVKPreisNetto - ersatzteilEKPreis) / ersatzteilVKPreisNetto) *
+								100
+							).toFixed(2)
 						: 0}
 					placeholder="Gesamtpreis (wird berechnet)"
 					class="w-full px-3 py-2 border rounded-lg bg-gray-100"
@@ -763,33 +768,45 @@
 	</p>
 </div>
 <hr />
-<!-- Bearbeitungsfeld -->
-<div class="flex flex-col items-center">
+<!-- Auftragbearbeitungsfeld -->
+<div>
 	{#if showEditForm}
-		<Card.Root class="lg:w-[700px]">
-			<Card.Header>
-				<Card.Title>Auftragsdaten bearbeiten</Card.Title>
-			</Card.Header>
-			<Card.Content>
-				<form>
-					<div class="flex flex-col space-y-1.5">
-						<Label for="auftragnr">Auftragnummer</Label>
-						<Input
-							type="auftragnr"
-							bind:value={updateAuftragnr}
-							placeholder={data.auftrag.Auftragnummer}
-							class="max-w-xs"
-						/>
-					</div>
-					<div class="flex flex-col space-y-1.5">
-						<Label for="arbeiten">Arbeiten</Label>
-						<Input
-							type="arbeiten"
-							bind:value={updateArbeiten}
-							placeholder={data.auftrag.Arbeiten}
-							class="max-w-xs"
-						/>
-						<!-- <div class="flex flex-col space-y-1.5">
+		<!-- Overlay -->
+		<button
+			class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
+			on:click={() => (showEditForm = false)}
+			on:keydown={(e) => e.key === 'Enter' && (showEditForm = false)}
+			tabindex="0"
+		></button>
+
+		<div class="fixed inset-0 flex items-center justify-center z-50">
+			<Card.Root
+				class="lg:w-[700px] bg-white rounded-lg shadow-lg max-h-[90vh] overflow-hidden flex flex-col"
+			>
+				<Card.Header class="p-4 border-b">
+					<Card.Title class="text-lg font-bold">Auftragsdaten bearbeiten</Card.Title>
+				</Card.Header>
+				<Card.Content class="flex-1 overflow-y-auto p-4">
+					<form>
+						<div class="grid gap-4">
+							<div class="flex flex-col space-y-1.5">
+								<Label for="auftragnr">Auftragnummer</Label>
+								<Input
+									type="auftragnr"
+									bind:value={updateAuftragnr}
+									placeholder={data.auftrag.Auftragnummer}
+									class="max-w-xs"
+								/>
+							</div>
+							<div class="flex flex-col space-y-1.5">
+								<Label for="arbeiten">Arbeiten</Label>
+								<Input
+									type="arbeiten"
+									bind:value={updateArbeiten}
+									placeholder={data.auftrag.Arbeiten}
+									class="max-w-xs"
+								/>
+								<!-- <div class="flex flex-col space-y-1.5">
 							<Label for="bildSchaden">Bild vom Schaden</Label>
 							<Input id="bildSchaden" bind:value={bildSchaden} type="file" class="max-w-xs" />
 						</div>
@@ -810,33 +827,35 @@
 								class="max-w-xs"
 							/>
 						</div> -->
-						<div class="flex flex-col space-y-1.5">
-							<Label for="arbeiten">Infotext</Label>
-							<Input
-								type="arbeiten"
-								bind:value={updateInfotext}
-								placeholder={data.auftrag.Infotext}
-								class="max-w-xs"
-							/>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="arbeiten">Infotext</Label>
+									<Input
+										type="arbeiten"
+										bind:value={updateInfotext}
+										placeholder={data.auftrag.Infotext}
+										class="max-w-xs"
+									/>
+								</div>
+							</div>
 						</div>
-					</div>
-				</form>
-			</Card.Content>
+					</form>
+				</Card.Content>
 
-			<Card.Footer class="flex justify-between">
-				<button
-					class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-					on:click={resetupdateAuftrag}
-				>
-					Abbrechen
-				</button>
-				<button
-					class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-					on:click={updateAuftrag}
-				>
-					Speichern
-				</button>
-			</Card.Footer>
-		</Card.Root>
+				<Card.Footer class="p-4 border-t flex justify-between">
+					<button
+						class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
+						on:click={resetupdateAuftrag}
+					>
+						Abbrechen
+					</button>
+					<button
+						class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900"
+						on:click={updateAuftrag}
+					>
+						Speichern
+					</button>
+				</Card.Footer>
+			</Card.Root>
+		</div>
 	{/if}
 </div>

@@ -6,6 +6,23 @@
 	// Zustand für die Sichbarkeit der Card definieren
 	let showCard = false;
 
+	let showDeleteConfirm = null; // Speichert die ID des Kunden, für den das Bestätigungsdialog angezeigt wird
+
+	function confirmDelete(kundeId) {
+		showDeleteConfirm = kundeId; // Setzt den aktuellen Kunden, der gelöscht werden soll
+	}
+
+	function cancelDelete() {
+		showDeleteConfirm = null; // Schließt das Bestätigungsdialog
+	}
+
+	function deleteKundeConfirmed() {
+		if (showDeleteConfirm !== null) {
+			deleteKunde(showDeleteConfirm); // Führt die Löschfunktion aus
+			showDeleteConfirm = null; // Schließt das Dialog nach dem Löschen
+		}
+	}
+
 	// Zustand für die Suche
 	let searchQuery = '';
 	let filteredData = [];
@@ -132,9 +149,9 @@
 				<button
 					type="button"
 					class="absolute right-0 pr-10 text-black rounded-lg"
-					on:click|stopPropagation|preventDefault={() => deleteKunde(kunde.id)}
+					on:click|stopPropagation|preventDefault={() => confirmDelete(kunde.id)}
 					on:keydown={(e) => {
-						if (e.key === 'Enter' || e.key === ' ') deleteKunde(kunde.id);
+						if (e.key === 'Enter' || e.key === ' ') confirmDelete(kunde.id);
 					}}
 				>
 					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
@@ -142,5 +159,29 @@
 			</span>
 		</a>
 	{/each}
+
+	<!-- Bestätigungsdialog für Löschen -->
+	{#if showDeleteConfirm !== null}
+		<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+			<div class="bg-white p-6 rounded-lg shadow-md">
+				<h2 class="text-lg font-bold">Sind Sie sicher?</h2>
+				<p>Möchten Sie diesen Kunden wirklich löschen?</p>
+				<div class="mt-4 flex justify-end gap-4">
+					<button
+						class="text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-lg px-2 py-1"
+						on:click={cancelDelete}
+					>
+						Abbrechen
+					</button>
+					<button
+						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+						on:click={deleteKundeConfirmed}
+					>
+						Löschen
+					</button>
+				</div>
+			</div>
+		</div>
+	{/if}
 	<hr />
 </main>

@@ -65,11 +65,6 @@
 					<iconify-icon icon="lucide:user-plus" class="mx-3 text-xl"></iconify-icon>
 					Neue Kunden
 				</button>
-				<!-- <li
-					class="text-xl mt-80 pl-2 hover:bg-slate-900 cursor-pointer rounded-lg flex items-center"
-				>
-					Ausloggen
-				</li> -->
 			</ul>
 		</div>
 	</div>
