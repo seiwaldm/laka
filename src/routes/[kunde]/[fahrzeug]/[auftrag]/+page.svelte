@@ -76,6 +76,18 @@
 		console.log(auftragDaten);
 	}
 
+	// Funktion zum zurücksetzen des Updateformulars
+	function resetupdateAuftrag() {
+		updateArbeiten = '';
+		updateBildSchaden = '';
+		updateBildFertig = '';
+		updateRechnung = '';
+		updateAuftragnr = '';
+		updateInfotext = '';
+		updateLieferschein = '';
+		showEditForm = false;
+	}
+
 	let auftragsdokument = false;
 	let zahlungsart = [
 		{ id: 1, Zahlungsart: 'Barverkauf' },
@@ -818,7 +830,7 @@
 			<Card.Footer class="flex justify-between">
 				<button
 					class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-					on:click={() => (showEditForm = false)}
+					on:click={resetupdateAuftrag}
 				>
 					Abbrechen
 				</button>

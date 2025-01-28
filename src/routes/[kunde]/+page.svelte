@@ -107,6 +107,30 @@
 		console.log(fahrzeugDaten);
 	}
 
+	// Funktion zum Zurücksetzen der Fahrzeugdaten
+	function resetFahrzeugdaten() {
+		kennzeichen = '';
+		fin = '';
+		natCode = '';
+		marke = '';
+		modell = '';
+		erstzulassung = '';
+		kmstand = '';
+		hubraum = '';
+		kw = '';
+		ps = '';
+		pickerl = '';
+		zulassungschein = '';
+		kundenid = '';
+		motorcode = '';
+		kraftstoff = '';
+		tachostand = '';
+		tatKilometer = '';
+		farbcode = '';
+		showCard = false;
+		// isSubmitted = false;
+	}
+
 	let geschlecht = [
 		{ id: 1, Geschlecht: 'Männlich' },
 		{ id: 2, Geschlecht: 'Weiblich' }
@@ -154,6 +178,21 @@
 			console.error(error);
 		}
 		console.log(kundeDaten);
+	}
+
+	// Funktion zum Zurücksetzen der Bearbeitungsfelder
+	function resetupdateKunde() {
+		updateKundennr = '';
+		updateFirma = '';
+		updateVorname = '';
+		updateNachname = '';
+		updateEmail = '';
+		updateTelefonnr = '';
+		updateStrasse = '';
+		updatePlz = '';
+		updateOrt = '';
+		updateGeschlecht = '';
+		showEditForm = false;
 	}
 
 	// Funktion zum Schließen des Bestätigungsdialogs
@@ -372,8 +411,9 @@
 
 				<Card.Footer class="flex justify-between">
 					<button
+					type="reset"
 						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={() => (showCard = false)}
+						on:click={resetFahrzeugdaten}
 					>
 						Abbrechen
 					</button>
@@ -492,7 +532,7 @@
 				<Card.Footer class="flex justify-between">
 					<button
 						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={() => (showEditForm = false)}
+						on:click={resetupdateKunde}
 					>
 						Abbrechen
 					</button>

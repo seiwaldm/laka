@@ -78,6 +78,18 @@
 		console.log(auftragDaten);
 	}
 
+	// Funktion zum Zurücksetzen des Auftragsformulars
+	function resetAuftrag() {
+		arbeiten = '';
+		infotext = '';
+		bildSchaden = '';
+		bildFertig = '';
+		rechnung = '';
+		lieferschein = '';
+		showCard = false;
+		// isSubmitted = false;
+	}
+
 	// Variablen für die update Funktion
 	let updateFahrzeugid = $page.params.fahrzeug;
 	let updateKennzeichen = '';
@@ -133,6 +145,27 @@
 			console.error(error);
 		}
 		console.log(fahrzeugDaten);
+	}
+
+	// Funktion zum Zurücksetzen des Bearbeitungsformulars
+	function resetupdateFahrzeug() {
+		updateKennzeichen = '';
+		updateFin = '';
+		updateNatCode = '';
+		updateMarke = '';
+		updateModell = '';
+		updateErstzulassung = '';
+		updateKmstand = '';
+		updateHubraum = '';
+		updateKw = '';
+		updatePs = '';
+		updatePickerl = '';
+		updateZulassungschein = '';
+		updateKundenid = '';
+		updateFarbcode = '';
+		updateMotorcode = '';
+		updateKraftstoff = '';
+		showEditForm = false;
 	}
 
 	// Funktion zum Schließen des Bestätigungsdialogs
@@ -346,7 +379,7 @@
 				<Card.Footer class="flex justify-between">
 					<button
 						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={() => (showCard = false)}
+						on:click={resetAuftrag}
 					>
 						Abbrechen
 					</button>
@@ -523,7 +556,7 @@
 					<div class="p-4 border-t flex justify-between">
 						<button
 							class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
-							on:click={() => (showEditForm = false)}
+							on:click={resetupdateFahrzeug}
 						>
 							Abbrechen
 						</button>
