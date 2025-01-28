@@ -279,10 +279,6 @@
 	// Funktion zum Löschen eines Auftrages mit den dazugehörigen Ersatzteilen und Abreitiszeiten mit Bestätigung
 
 	async function deleteAuftrag() {
-		const confirmed = confirm(
-			'Möchten Sie dieses Fahrzeug und alle zugehörigen und Aufträge wirklich löschen?'
-		);
-		if (!confirmed) return;
 		try {
 			for (const ersatzteile of data.ersatzteile.items) {
 				console.log(ersatzteile.AuftragID);

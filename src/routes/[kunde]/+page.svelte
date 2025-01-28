@@ -202,10 +202,6 @@
 
 	// Funktion zum Löschen eines Kunden mit Bestätigung
 	async function deleteKunde() {
-		const confirmed = confirm(
-			'Möchten Sie diesen Kunden und alle zugehörigen Fahrzeuge und Aufträge wirklich löschen?'
-		);
-		if (!confirmed) return;
 		try {
 			for (const fahrzeuge of data.fahrzeuge.items) {
 				if (fahrzeuge.KundenID === $page.params.kunde) {
