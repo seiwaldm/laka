@@ -123,6 +123,14 @@ export async function POST({ request }) {
 				return new Response('Bezeichnung fehlt', { status: 400 });
 			}
 
+			if (!data.ersatzteilVKPreisNetto) {
+				return new Response('Verkaufspreis fehlt', { status: 400 });
+			}
+
+			if (!data.ersatzteilMenge) {
+				return new Response('Menge fehlt', { status: 400 });
+			}
+
 			if (!data.ersatzteilVKPreisNetto || data.ersatzteilVKPreisNetto <= 0) {
 				return new Response('Verkaufspreis fehlt', { status: 400 });
 			}

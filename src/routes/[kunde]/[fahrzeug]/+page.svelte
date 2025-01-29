@@ -34,6 +34,22 @@
 	let rechnung = '';
 	let lieferschein = '';
 	let fahrzeugid = $page.params.fahrzeug;
+	let isSubmitted = false;
+
+		// Überprüfung, ob das Feld leer ist
+		const validateField = (field) => field.trim() === '';
+
+// Funktion zur Verarbeitung des Formulars
+const handleSubmit = async (event) => {
+	event.preventDefault();
+	isSubmitted = true;
+
+	// Überprüfung: Das Feld "Arbeiten" darf nicht leer sein
+	if (!validateField(arbeiten)) {
+		await createAuftrag(); // Auftrag speichern
+		alert('Auftrag erfolgreich gespeichert!');
+	}
+};
 
 	const Fahrzeugdaten = {
 		Erstzulassung: 'Erstzulassung',
@@ -87,7 +103,7 @@
 		rechnung = '';
 		lieferschein = '';
 		showCard = false;
-		// isSubmitted = false;
+		isSubmitted = false;
 	}
 
 	// Variablen für die update Funktion
@@ -332,9 +348,9 @@
 						<Card.Title class="text-lg font-bold">Neuen Auftrag anlegen</Card.Title>
 					</Card.Header>
 					<Card.Content class="flex-1 overflow-y-auto p-4">
-						<form>
+						<form on:submit={handleSubmit}>
 							<div class="grid gap-4">
-								<!-- <div class="flex flex-col space-y-1.5">
+								<div class="flex flex-col space-y-1.5">
 									<Label for="arbeiten">Arbeiten</Label>
 									<Input
 										type="arbeiten"
@@ -347,7 +363,7 @@
 									{#if isSubmitted && validateField(arbeiten)}
 										<span class="text-sm text-red-500">Bitte geben Sie die Arbeiten ein.</span>
 									{/if}
-								</div> -->
+								</div>
 
 								<div class="flex flex-col space-y-1.5">
 									<Label for="bildSchaden">Bild vom Schaden</Label>
@@ -393,7 +409,6 @@
 						</button>
 						<button
 							class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900"
-							on:click={createAuftrag}
 						>
 							Speichern
 						</button>

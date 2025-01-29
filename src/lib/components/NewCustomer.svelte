@@ -17,6 +17,22 @@
 		{ id: 2, Geschlecht: 'Weiblich' }
 	];
 	let ausgewähltesGeschlecht = '';
+	let isSubmitted = false;
+
+	// Überprüfen, ob die Felder leer sind
+	const validateField = (field) => field.trim() === '';
+
+	const handleSubmit = async (event) => {
+		event.preventDefault(); // Verhindert das Standardverhalten (z.B. Neuladen)
+		isSubmitted = true;
+
+		// Überprüfen, ob die erforderlichen Felder ausgefüllt sind
+		if (!validateField(vorname) && !validateField(nachname)) {
+			// Wenn die Felder gültig sind, das Daten speichern
+			await createKunde();
+			alert('Kunde erfolgreich angelegt!');
+		}
+	};
 
 	const emit = createEventDispatcher();
 
@@ -57,7 +73,7 @@
 
 <!-- Kundenalegungsformular -->
 
-<!-- <div
+<div
 	class="fixed inset-0 w-screen min-h-screen h-max grid justify-center items-start bg-gray-700 bg-opacity-50 py-10 overflow-y-auto"
 >
 	<Card.Root
@@ -66,8 +82,8 @@
 		<Card.Header>
 			<Card.Title class="text-xl font-semibold">Neuen Kunden anlegen</Card.Title>
 		</Card.Header>
-		<Card.Content> -->
-<!-- <form on:submit={handleSubmit}>
+		<Card.Content>
+			<form on:submit={handleSubmit}>
 				<div class="grid w-full items-center gap-6">
 					<div class="flex flex-col space-y-1.5">
 						<Label for="firma">Firma</Label>
@@ -78,8 +94,8 @@
 							placeholder="Musterfirma"
 							class="max-w-xs"
 						/>
-					</div> -->
-<!-- <div class="flex flex-col space-y-1.5">
+					</div>
+					<div class="flex flex-col space-y-1.5">
 						<Label for="vorname">Vorname</Label>
 						<Input
 							id="vorname"
@@ -93,8 +109,8 @@
 						{#if isSubmitted && validateField(vorname)}
 							<span class="text-sm text-red-500">Bitte geben Sie einen Vornamen ein.</span>
 						{/if}
-					</div> -->
-<!-- <div class="flex flex-col space-y-1.5">
+					</div>
+					<div class="flex flex-col space-y-1.5">
 						<Label for="<nachname>">Nachname</Label>
 						<Input
 							id="nachname"
@@ -108,8 +124,8 @@
 						{#if isSubmitted && validateField(nachname)}
 							<span class="text-sm text-red-500">Bitte geben Sie einen Nachnamen ein.</span>
 						{/if}
-					</div> -->
-<!-- <div class="flex flex-col space-y-1.5">
+					</div>
+					<div class="flex flex-col space-y-1.5">
 						<Label for="geschlecht">Geschlecht</Label>
 						<select
 							id="geschlecht"
@@ -187,4 +203,4 @@
 			</form>
 		</Card.Content>
 	</Card.Root>
-</div> -->
+</div>

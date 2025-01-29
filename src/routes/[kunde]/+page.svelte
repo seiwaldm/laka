@@ -67,6 +67,21 @@
 	let tachostand = '';
 	let tatKilometer = '';
 	let farbcode = '';
+	let isSubmitted = false;
+
+	// Überprüfung, ob ein Feld leer ist
+	const validateField = (field) => field.trim() === '';
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		isSubmitted = true;
+
+		// Überprüfung: Felder "Kennzeichen", "Modell" und "Marke" dürfen nicht leer sein
+		if (!validateField(modell) && !validateField(marke)) {
+			await createFahrzeug(); // Fahrzeugdaten speichern
+			alert('Fahrzeug erfolgreich gespeichert!');
+		}
+	};
 
 	// Funktion zum Erstellen eines Fahrzeugs
 	async function createFahrzeug() {
@@ -128,7 +143,7 @@
 		tatKilometer = '';
 		farbcode = '';
 		showCard = false;
-		// isSubmitted = false;
+		isSubmitted = false;
 	}
 
 	let geschlecht = [
@@ -350,7 +365,7 @@
 						<Card.Title class="text-lg font-bold">Neues Fahrzeug anlegen</Card.Title>
 					</Card.Header>
 					<Card.Content class="flex-1 overflow-y-auto p-4">
-						<form>
+						<form on:submit={handleSubmit}>
 							<div class="grid gap-4">
 								<div class="flex flex-col space-y-1.5">
 									<Label for="erstzulassung">Erstzulassung</Label>
@@ -372,11 +387,21 @@
 
 								<div class="flex flex-col space-y-1.5">
 									<Label for="marke">Marke</Label>
-									<Input type="marke" bind:value={marke} placeholder="VW" class="max-w-xs" />
+									<Input type="marke" bind:value={marke} placeholder="VW" class="max-w-xs {isSubmitted && validateField(marke)
+								? 'border border-red-500'
+								: ''}" />
+								{#if isSubmitted && validateField(marke)}
+								<span class="text-sm text-red-500">Bitte geben Sie die Marke ein.</span>
+							{/if}
 								</div>
 								<div class="flex flex-col space-y-1.5">
 									<Label for="modell">Modell</Label>
-									<Input type="modell" bind:value={modell} placeholder="Golf 7" class="max-w-xs" />
+									<Input type="modell" bind:value={modell} placeholder="Golf 7" class="max-w-xs {isSubmitted && validateField(modell)
+								? 'border border-red-500'
+								: ''}" />
+								{#if isSubmitted && validateField(modell)}
+								<span class="text-sm text-red-500">Bitte geben Sie das Modell ein.</span>
+							{/if}
 								</div>
 								<div class="flex flex-col space-y-1.5">
 									<Label for="natcode">Nationaler Code</Label>
@@ -440,9 +465,8 @@
 						>
 							Abbrechen
 						</button>
-						<button
+						<button type="submit"
 							class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900"
-							on:click={createFahrzeug}
 						>
 							Speichern
 						</button>
