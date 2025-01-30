@@ -79,10 +79,10 @@
 	<Card.Root
 		class="lg:w-[700px] bg-white rounded-lg shadow-lg p-6 max-h-[90vh] overflow-y-auto flex flex-col"
 	>
-		<Card.Header>
-			<Card.Title class="text-xl font-semibold">Neuen Kunden anlegen</Card.Title>
+		<Card.Header class="p-4 border-b">
+			<Card.Title class="text-lg font-bold">Neuen Kunden anlegen</Card.Title>
 		</Card.Header>
-		<Card.Content>
+		<Card.Content class="flex-1 overflow-y-auto p-4">
 			<form on:submit={handleSubmit}>
 				<div class="grid w-full items-center gap-6">
 					<div class="flex flex-col space-y-1.5">
@@ -186,21 +186,18 @@
 						<Input id="ort" type="text" bind:value={ort} placeholder="Musterort" class="max-w-xs" />
 					</div>
 				</div>
-				<Card.Footer class="flex justify-between mt-4">
-					<button
-						class="text-black bg-gray-300 hover:bg-gray-400 rounded-lg px-3 py-2 me-2 mb-2"
-						on:click={() => emit('hide')}
-					>
-						Abbrechen
-					</button>
-					<button
-						type="submit"
-						class="text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-3 py-2 me-2 mb-2"
-					>
-						Speichern
-					</button>
-				</Card.Footer>
 			</form>
 		</Card.Content>
+		<Card.Footer class="p-4 border-t flex justify-between">
+			<button
+				class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
+				on:click={() => emit('hide')}
+			>
+				Abbrechen
+			</button>
+			<button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900">
+				Speichern
+			</button>
+		</Card.Footer>
 	</Card.Root>
 </div>
