@@ -46,18 +46,8 @@
 		});
 	}
 
-	// Funktion zum Löschen eines Kunden
-	async function deleteAll(kundeId) {
-		if (confirm('Möchtest du das Fahrzeug wirklich löschen?')) {
-			await pb.collection('Kunde').delete(kundeId);
-			location.reload();
-		}
-	}
-
 	// Funktion zum Löschen eines Kunden mit Bestätigung
 	async function deleteKunde(kundeId) {
-		if (!confirmed) return;
-
 		try {
 			// Finde den Kunden, der gelöscht werden soll
 			const kundeToDelete = data.kunden.find((kunde) => kunde.id === kundeId);

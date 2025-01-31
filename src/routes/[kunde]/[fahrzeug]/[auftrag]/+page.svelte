@@ -30,11 +30,41 @@
 	// Zustand für die Sichtbarkeit des Bestätigungsdialogs definieren
 	let showDeleteConfirm = false;
 
+	// Zustand für die Sichtbarkeit des Bestätigungsdialogs für Ersatzteile definieren
+	let showDeleteConfirmErsatzteil = false;
+
+	// Zustand für die Sichtbarkeit des Bestätigungsdialogs für Arbeitszeit definieren
+	let showDeleteConfirmArbeitszeit = false;
+
 	// Zustand für die Sichtbarkeit des Formulars "Ersatzteile hinzufügen"
 	let showAddPartForm = false;
 
 	// Zustand für die Sichtbarkeit des Formulars "Arbeitsstunden hinzufügen"
 	let showAddHourForm = false;
+
+	// Setze das aktuelle Ersatzteil das gelöscht werden soll
+	function confirmDeleteErsatzteil(ErsatzteilId) {
+		showDeleteConfirmErsatzteil = ErsatzteilId;
+	}
+
+	// Setze die aktuelle Arbeitszeit die gelöscht werden soll
+	function confirmDeleteArbeitszeit(ArbeitszeitId) {
+		showDeleteConfirmArbeitszeit = ArbeitszeitId;
+	}
+
+	function deleteErsatzteileConfirmed() {
+		if (showDeleteConfirmErsatzteil !== null) {
+			deleteErsatzteile(showDeleteConfirmErsatzteil); // Führt die Löschfunktion aus
+			showDeleteConfirmErsatzteil = null; // Schließt das Dialog nach dem Löschen
+		}
+	}
+
+	function deleteArbeitszeitConfirmed() {
+		if (showDeleteConfirmArbeitszeit !== null) {
+			deleteArbeitszeit(showDeleteConfirmArbeitszeit); // Führt die Löschfunktion aus
+			showDeleteConfirmArbeitszeit = null; // Schließt das Dialog nach dem Löschen
+		}
+	}
 
 	// Variablen für die update Funktion
 	let updateAuftragid = $page.params.auftrag;
@@ -258,17 +288,13 @@
 	}
 
 	async function deleteArbeitszeit(ArbeitszeitId) {
-		if (confirm('Möchten Sie die Arbeitszeit wirklich löschen?')) {
 			await pb.collection('Arbeitszeit').delete(ArbeitszeitId);
 			location.reload();
-		}
 	}
 
 	async function deleteErsatzteile(ErsatzteilId) {
-		if (confirm('Möchten Sie die Arbeitszeit wirklich löschen?')) {
 			await pb.collection('Ersatzteile').delete(ErsatzteilId);
 			location.reload();
-		}
 	}
 
 	// Funktion zum Aktualisieren des Festpreises basierend auf der Auswahl der arbeitswerte
@@ -324,6 +350,8 @@
 	// Funktion zum Schließen des Bestätigungsdialogs
 	function cancelDelete() {
 		showDeleteConfirm = false;
+		showDeleteConfirmErsatzteil = false;
+		showDeleteConfirmArbeitszeit = false;
 	}
 
 	// Funktion zum Löschen eines Auftrages mit den dazugehörigen Ersatzteilen und Abreitiszeiten mit Bestätigung
@@ -460,6 +488,50 @@
 		</div>
 	</div>
 {/if}
+{#if showDeleteConfirmErsatzteil}
+	<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+		<div class="bg-white p-6 rounded-lg shadow-md">
+			<h2 class="text-lg font-bold">Sind Sie sicher?</h2>
+			<p>Möchten Sie das Ersatzteil wirklich löschen?</p>
+			<div class="mt-4 flex justify-end gap-4">
+				<button
+					class="text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-lg px-2 py-1"
+					on:click={cancelDelete}
+				>
+					Abbrechen
+				</button>
+					<button
+						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+						on:click={deleteErsatzteileConfirmed}
+					>
+						Löschen
+					</button>
+			</div>
+		</div>
+	</div>
+{/if}
+{#if showDeleteConfirmArbeitszeit}
+	<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+		<div class="bg-white p-6 rounded-lg shadow-md">
+			<h2 class="text-lg font-bold">Sind Sie sicher?</h2>
+			<p>Möchten Sie diese Arbeitszeit wirklich löschen?</p>
+			<div class="mt-4 flex justify-end gap-4">
+				<button
+					class="text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-lg px-2 py-1"
+					on:click={cancelDelete}
+				>
+					Abbrechen
+				</button>
+					<button
+						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+						on:click={deleteArbeitszeitConfirmed}
+					>
+						Löschen
+					</button>
+			</div>
+		</div>
+	</div>
+{/if}
 <div class="my-5"><hr /></div>
 
 <!-- Button zum öffnen des Cloudinary Widgets
@@ -503,9 +575,9 @@
 				<button
 					type="button"
 					class="absolute right-0 pr-10 text-black rounded-lg"
-					on:click|stopPropagation|preventDefault={() => deleteErsatzteile(Ersatzteile.id)}
+					on:click|stopPropagation|preventDefault={() => confirmDeleteErsatzteil(Ersatzteile.id)}
 					on:keydown={(e) => {
-						if (e.key === 'Enter' || e.key === ' ') deleteErsatzteile(Ersatzteile.id);
+						if (e.key === 'Enter' || e.key === ' ') confirmDeleteErsatzteil(Ersatzteile.id);
 					}}
 				>
 					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
@@ -532,9 +604,9 @@
 				<button
 					type="button"
 					class="absolute right-0 pr-10 text-black rounded-lg"
-					on:click|stopPropagation|preventDefault={() => deleteArbeitszeit(Arbeitszeit.id)}
+					on:click|stopPropagation|preventDefault={() => confirmDeleteArbeitszeit(Arbeitszeit.id)}
 					on:keydown={(e) => {
-						if (e.key === 'Enter' || e.key === ' ') deleteArbeitszeit(Arbeitszeit.id);
+						if (e.key === 'Enter' || e.key === ' ') confirmDeleteArbeitszeit(Arbeitszeit.id);
 					}}
 				>
 					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
