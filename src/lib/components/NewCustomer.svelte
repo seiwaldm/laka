@@ -30,7 +30,6 @@
 		if (!validateField(vorname) && !validateField(nachname)) {
 			// Wenn die Felder gültig sind, das Daten speichern
 			await createKunde();
-			alert('Kunde erfolgreich angelegt!');
 		}
 	};
 

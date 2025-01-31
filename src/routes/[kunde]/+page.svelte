@@ -79,7 +79,6 @@
 		// Überprüfung: Felder "Kennzeichen", "Modell" und "Marke" dürfen nicht leer sein
 		if (!validateField(modell) && !validateField(marke)) {
 			await createFahrzeug(); // Fahrzeugdaten speichern
-			alert('Fahrzeug erfolgreich gespeichert!');
 		}
 	};
 

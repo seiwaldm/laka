@@ -47,7 +47,6 @@
 		// Überprüfung: Das Feld "Arbeiten" darf nicht leer sein
 		if (!validateField(arbeiten)) {
 			await createAuftrag(); // Auftrag speichern
-			alert('Auftrag erfolgreich gespeichert!');
 		}
 	};
 

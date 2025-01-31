@@ -179,7 +179,6 @@
 			!validateField(ersatzteilVKPreisNetto)
 		) {
 			await createErsatzteil();
-			alert('Ersatzteil erfolgreich hinzugefügt!');
 			// API-Aufruf oder weitere Logik hier einfügen
 		}
 	};
@@ -244,7 +243,6 @@
 
 		if (!validateField(stundenArbeit) && !validateField(stundenMenge)) {
 			await createArbeitszeit();
-			alert('Arbeitszeit erfolgreich hinzugefügt!');
 			// API-Aufruf oder weitere Logik hier einfügen
 		}
 	};
@@ -275,7 +273,6 @@
 				body: JSON.stringify(arbeitszeitDaten)
 			});
 			if (response.ok) {
-				alert('Arbeitszeit erfolgreich hinzugefügt!');
 				location.reload();
 			} else {
 				const error = await response.text();
