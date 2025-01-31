@@ -83,7 +83,7 @@
 						<div>
 							<p class="flex text-gray-700">
 								<span class="w-60 font-bold">Datum:</span>
-								<span>{formatDate(data.auftrag.created)}</span>
+								<span>{formatDate(data.rechnung.created)}</span>
 							</p>
 							<p class="flex text-gray-700">
 								<span class="w-60 font-bold">Liefer-/Leistungsdatum:</span>

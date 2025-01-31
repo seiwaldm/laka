@@ -15,6 +15,7 @@ export async function POST({ request }) {
 			if (!data.nachname) {
 				return new Response('Nachname fehlt', { status: 400 });
 			}
+
 			// sortieren nach der Kundennummer
 			const kunden = await pb.collection('Kunde').getFullList({ sort: '-Kundennr' });
 			// letzte Kundennummer wird ermittelt
@@ -35,7 +36,7 @@ export async function POST({ request }) {
 				EMail: data.email,
 				Telefonnr: data.telefonnummer,
 				Strasse: data.strasse,
-				PLZ: data.plz,
+				PLZ: data.plz || "", //Falls data.plz nicht vorhanden ist, wird null zurückgegeben
 				Ort: data.ort,
 				Geschlecht: data.ausgewähltesGeschlecht
 			});
@@ -46,10 +47,7 @@ export async function POST({ request }) {
 		// Fahrzeug erstellen
 		if (action === 'createFahrzeug') {
 			// const fahrzeugDaten = await request.json();
-			// überprüfe ob Kennzeichen, Marke und Modell vorhanden sind
-			if (!data.kennzeichen) {
-				return new Response('Kennzeichen fehlt', { status: 400 });
-			}
+			// überprüfe ob Marke und Modell vorhanden sind
 
 			if (!data.marke) {
 				return new Response('Marke fehlt', { status: 400 });
@@ -145,10 +143,9 @@ export async function POST({ request }) {
 			// berechnung der Marge
 			let marge = 0;
 			if (data.ersatzteilEKPreis > 0 && data.ersatzteilVKPreisNetto > 0) {
-				marge = 
+				marge =
 					((data.ersatzteilVKPreisNetto - data.ersatzteilEKPreis) / data.ersatzteilVKPreisNetto) *
-					100
-				
+					100;
 			}
 
 			// berechnung des Bruttoverkaufspreises
