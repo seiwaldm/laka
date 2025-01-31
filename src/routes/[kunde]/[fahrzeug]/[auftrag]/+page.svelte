@@ -90,7 +90,6 @@
 			updateFahrzeugid,
 			updateLieferschein,
 			ausgewählteZahlungsart
-			// [field]: value
 		};
 		try {
 			const response = await fetch('/update-client', {
@@ -179,7 +178,6 @@
 			!validateField(ersatzteilVKPreisNetto)
 		) {
 			await createErsatzteil();
-			// API-Aufruf oder weitere Logik hier einfügen
 		}
 	};
 
@@ -531,10 +529,10 @@
 {/if}
 <div class="my-5"><hr /></div>
 
-<!-- Button zum öffnen des Cloudinary Widgets
+<!-- Button zum öffnen des Cloudinary Widgets -->
 <button on:click={openCloudinaryWidgetSchaden}
 	><iconify-icon icon="lucide:camera"></iconify-icon></button
-> -->
+>
 
 <!-- Auftraginformationen  -->
 <div class="pl-5">

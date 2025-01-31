@@ -46,7 +46,6 @@ export async function POST({ request }) {
 
 		// Fahrzeug erstellen
 		if (action === 'createFahrzeug') {
-			// const fahrzeugDaten = await request.json();
 			// überprüfe ob Marke und Modell vorhanden sind
 
 			if (!data.marke) {
@@ -264,3 +263,4 @@ export async function POST({ request }) {
 		return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
 	}
 }
+
