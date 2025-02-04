@@ -1,13 +1,13 @@
 <script>
 	import { pb } from '$lib/pocketbase.js';
 	import { page } from '$app/stores';
-	import Attribute from '$lib/components/Attribute.svelte';
+	
 	import { icons } from '$lib/icons';
-	import { openCloudinaryWidgetSchaden } from '$lib/cloudinary.js';
+	import { openCloudinaryWidget } from '$lib/cloudinary.js';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import { writable } from 'svelte/store';
+	
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import 'iconify-icon';
 	import { onMount } from 'svelte';
@@ -530,7 +530,7 @@
 <div class="my-5"><hr /></div>
 
 <!-- Button zum öffnen des Cloudinary Widgets -->
-<button on:click={openCloudinaryWidgetSchaden}
+<button on:click={openCloudinaryWidget($page.params.auftrag, "schaden")}
 	><iconify-icon icon="lucide:camera"></iconify-icon></button
 >
 

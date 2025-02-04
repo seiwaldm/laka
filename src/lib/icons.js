@@ -1,8 +1,5 @@
-import { openCloudinaryWidgetSchaden } from './cloudinary';
-import { openCloudinaryWidgetFertig } from './cloudinary';
-import { openCloudinaryWidgetRechnung } from './cloudinary';
-import { openCloudinaryWidgetAuftrag } from './cloudinary';
-import { openCloudinaryWidgetLieferschein } from './cloudinary';
+
+
 // wir definieren für jedes anzuzeigende Datenfeld aus Pocketbase ein Icon mit dem String "lucide-<Iconname>"
 export const icons = {
 	Vorname: 'lucide-user',
@@ -17,11 +14,11 @@ export const icons = {
 	Erstzulassung: 'lucide-calendar',
 	Zulassungsschein: 'lucide-check-circle',
 	Arbeiten: 'lucide-wrench',
-	BildSchaden: { icon: 'lucide:camera', action: () => openCloudinaryWidgetSchaden(updateAuftrag, 'updateBildSchaden') },
-	BildFertig: { icon: 'lucide:camera', action: () => openCloudinaryWidgetFertig() },
-	Rechnung: { icon: 'lucide:euro', action: () => openCloudinaryWidgetRechnung() },
-	Auftrag: { icon: 'lucide:euro', action: () => openCloudinaryWidgetAuftrag() },
-	Lieferschein: {icon: 'lucide-package',  action: () => openCloudinaryWidgetLieferschein() },
+	BildSchaden: 'lucide:camera',
+	BildFertig: 'lucide:camera',
+	Rechnung:'lucide:euro',
+	Auftrag:'lucide:euro', 
+	Lieferschein: 'lucide-package',
 	Kundennr: 'lucide-hash',
 	Firma: 'lucide-building-2',
 	PLZ: 'lucide-house',
