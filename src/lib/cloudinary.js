@@ -1,6 +1,4 @@
 import { pb } from '$lib/pocketbase';
-// import { updateAuftrag} from '$routes/kunde/fahrzeug/auftrag';
-
 
 export function openCloudinaryWidget(auftragsId, fototyp) {
 	if (!window.cloudinary) {
@@ -10,7 +8,7 @@ export function openCloudinaryWidget(auftragsId, fototyp) {
 	let cloudinaryWidget = cloudinary.createUploadWidget(
 		{
 			cloudName: 'duauohpob',
-			uploadPreset: 'Schaden'
+			uploadPreset: 'bilder'
 		},
 		async (error, result) => {
 			if (error) {
@@ -18,17 +16,20 @@ export function openCloudinaryWidget(auftragsId, fototyp) {
 				return;
 			}
 			if (result && result.event === 'success') {
-				console.log('Bild erfolgreich hochgeladen: ', result.info.secure_url);
+				console.log('Bild erfolgreich hochgeladen: ', result.info);
 
 				// Datei in der Datenbank speichern (falls gewünscht)
 				try {
 					const data = {
-						"URL": result.info.secure_url,
-						"AuftragID": auftragsId,
-						"Fototyp": fototyp
+						URL: result.info.secure_url,
+						AuftragID: auftragsId,
+						Fototyp: fototyp,
+						Public_id: result.info.public_id
 					};
-					
+
 					const record = await pb.collection('Datei').create(data);
+					console.log('Datei in der DB gespeichert:', record);
+					// location.reload();
 				} catch (dbError) {
 					console.error('Fehler beim Speichern des Bildes in der DB:', dbError);
 				}

@@ -1,13 +1,13 @@
 <script>
 	import { pb } from '$lib/pocketbase.js';
 	import { page } from '$app/stores';
-	
+
 	import { icons } from '$lib/icons';
 	import { openCloudinaryWidget } from '$lib/cloudinary.js';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	
+
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import 'iconify-icon';
 	import { onMount } from 'svelte';
@@ -78,7 +78,7 @@
 	let updateLieferschein = '';
 
 	// funktion zum aktualisieren des Auftrags
-	async function updateAuftrag(field, value) {
+	async function updateAuftrag() {
 		const auftragDaten = {
 			action: 'updateAuftrag',
 			updateAuftragid,
@@ -283,13 +283,13 @@
 	}
 
 	async function deleteArbeitszeit(ArbeitszeitId) {
-			await pb.collection('Arbeitszeit').delete(ArbeitszeitId);
-			location.reload();
+		await pb.collection('Arbeitszeit').delete(ArbeitszeitId);
+		location.reload();
 	}
 
 	async function deleteErsatzteile(ErsatzteilId) {
-			await pb.collection('Ersatzteile').delete(ErsatzteilId);
-			location.reload();
+		await pb.collection('Ersatzteile').delete(ErsatzteilId);
+		location.reload();
 	}
 
 	// Funktion zum Aktualisieren des Festpreises basierend auf der Auswahl der arbeitswerte
@@ -347,6 +347,7 @@
 		showDeleteConfirm = false;
 		showDeleteConfirmErsatzteil = false;
 		showDeleteConfirmArbeitszeit = false;
+		showDeleteConfirmBild = false;
 	}
 
 	// Funktion zum Löschen eines Auftrages mit den dazugehörigen Ersatzteilen und Abreitiszeiten mit Bestätigung
@@ -368,6 +369,29 @@
 			await pb.collection('Auftrag').delete($page.params.auftrag);
 		} catch (error) {
 			// location.reload();
+			console.error(error);
+		}
+	}
+
+	async function deleteBild(id, publicId) {
+		try {
+			console.log(id, publicId);
+			if (!publicId) {
+				throw new Error('publicId fehlt!');
+			}
+			// Cloudinary-Bild löschen
+			const cloudinaryResponse = await fetch('/delete-bild', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ publicId })
+			});
+			if (!cloudinaryResponse.ok) {
+				throw new Error('Fehler beim Löschen des Bildes auf Cloudinary');
+			}
+			// Bild aus der Datenbank löschen
+			await pb.collection('Datei').delete(id);
+			location.reload();
+		} catch (error) {
 			console.error(error);
 		}
 	}
@@ -495,12 +519,12 @@
 				>
 					Abbrechen
 				</button>
-					<button
-						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-						on:click={deleteErsatzteileConfirmed}
-					>
-						Löschen
-					</button>
+				<button
+					class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+					on:click={deleteErsatzteileConfirmed}
+				>
+					Löschen
+				</button>
 			</div>
 		</div>
 	</div>
@@ -517,20 +541,42 @@
 				>
 					Abbrechen
 				</button>
-					<button
-						class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-						on:click={deleteArbeitszeitConfirmed}
-					>
-						Löschen
-					</button>
+				<button
+					class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+					on:click={deleteArbeitszeitConfirmed}
+				>
+					Löschen
+				</button>
 			</div>
 		</div>
 	</div>
 {/if}
+<!-- {#if showDeleteConfirmBild}
+	<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+		<div class="bg-white p-6 rounded-lg shadow-md">
+			<h2 class="text-lg font-bold">Sind Sie sicher?</h2>
+			<p>Möchten Sie das Bild wirklich löschen?</p>
+			<div class="mt-4 flex justify-end gap-4">
+				<button
+					class="text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-lg px-2 py-1"
+					on:click={cancelDelete}
+				>
+					Abbrechen
+				</button>
+				<button
+					class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+					on:click={deleteBild}
+				>
+					Löschen
+				</button>
+			</div>
+		</div>
+	</div>
+{/if} -->
 <div class="my-5"><hr /></div>
 
 <!-- Button zum öffnen des Cloudinary Widgets -->
-<button on:click={openCloudinaryWidget($page.params.auftrag, "schaden")}
+<button on:click={openCloudinaryWidget($page.params.auftrag, 'schaden')}
 	><iconify-icon icon="lucide:camera"></iconify-icon></button
 >
 
@@ -607,6 +653,71 @@
 					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 				</button>
 			</span>
+		{/each}
+	{/if}
+
+	<h2 class="text-lg font-bold mt-6 mb-4">Bild Schaden</h2>
+	<button
+		class=" bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 mb-2 py-1"
+		on:click={openCloudinaryWidget($page.params.auftrag, 'schaden')}
+	>
+		+ Hinzufügen
+	</button>
+	{#if data.datei.items.length > 0}
+		{#each data.datei.items as Datei (Datei.id)}
+			{#if Datei.URL}
+				{#if Datei.Fototyp === 'schaden'}
+					<span class="flex items-center ml-4 gap-2 leading-tight">
+						<a href={Datei.URL} target="_blank" rel="noopener noreferrer">
+							<img
+								src={Datei.URL}
+								alt="Bild Schaden"
+								class="w-20 h-20 object-cover rounded-lg shadow-md"
+							/>
+						</a>
+						<!-- Lösch-Button -->
+						<button
+							type="button"
+							class="absolute right-0 pr-10 text-black rounded-lg"
+							on:click={() => deleteBild(Datei.id, Datei.Public_id)}
+						>
+							<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+						</button>
+					</span>
+				{/if}
+			{/if}
+		{/each}
+	{/if}
+
+	<h2 class="text-lg font-bold mt-6 mb-4">Bild Fertig</h2>
+	<button
+		class=" bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 mb-2 py-1"
+		on:click={openCloudinaryWidget($page.params.auftrag, 'fertig')}
+	>
+		+ Hinzufügen
+	</button>
+	{#if data.datei.items.length > 0}
+		{#each data.datei.items as Datei (Datei.id)}
+			{#if Datei.URL}
+				{#if Datei.Fototyp === 'fertig'}
+					<span class="flex items-center ml-4 gap-2 leading-tight"
+						><a href={Datei.URL} target="_blank" rel="noopener noreferrer">
+							<img
+								src={Datei.URL}
+								alt="Bild Fertig"
+								class="w-20 h-20 object-cover rounded-lg shadow-md"
+							/>
+						</a>
+						<button
+							type="button"
+							class="absolute right-0 pr-10 text-black rounded-lg"
+							on:click={() => deleteBild(Datei.id, Datei.Public_id)}
+						>
+							<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+						</button>
+					</span>
+				{/if}
+			{/if}
 		{/each}
 	{/if}
 </div>

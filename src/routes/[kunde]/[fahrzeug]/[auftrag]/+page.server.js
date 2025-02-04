@@ -24,11 +24,16 @@ export async function load({ params }) {
 	// Arbeitswerte abrufen
 	const arbeitswerte = await pb.collection('Arbeitswerte').getFullList()
 
+	const datei = await pb.collection('Datei').getList(1, 50, {
+		filter: `AuftragID~"${params.auftrag}"`
+	})
+
 	kunde.fahrzeuge = fahrzeuge;
 	kunde.auftrag = auftrag;
 	kunde.rechnung = rechnung;
 	kunde.arbeitszeit = arbeitszeit;
 	kunde.ersatzteile = ersatzteile;
 	kunde.arbeitswerte = arbeitswerte;
+	kunde.datei = datei;
 	return kunde;
 }
