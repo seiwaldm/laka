@@ -404,6 +404,7 @@
 			formData.append('Dateien', file);
 			const record = await pb.collection('Auftrag').update($page.params.auftrag, formData);
 			console.log(record);
+			location.reload();
 		}
 	}
 
@@ -732,8 +733,20 @@
 		{/each}
 	{/if}
 
-	<form on:submit={uploadFile} class="flex flex-col">
-		<label class="text-lg font-bold mt-6 mb-4" for="fileInput">Dateiupload</label>
+	<form on:submit={uploadFile} class="flex flex-col items-start">
+		<h2 class="text-lg font-bold mt-6 mb-4">Dateiupload</h2>
+		<ul>
+			{#each data.auftrag.Dateien as datei}
+				<li>
+					<a
+						href={'https://laka.seiwald.club/api/files/Auftrag/' +
+							$page.params.auftrag +
+							'/' +
+							datei}>{datei}</a
+					>
+				</li>
+			{/each}
+		</ul>
 		<input type="file" name="fileInput" id="fileInput" />
 		<button class=" bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 mb-2 py-1"
 			>Upload</button
