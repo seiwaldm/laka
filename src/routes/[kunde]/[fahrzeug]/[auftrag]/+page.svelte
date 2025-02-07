@@ -396,6 +396,17 @@
 		}
 	}
 
+	async function uploadFile() {
+		const fileInput = document.getElementById('fileInput');
+		const file = fileInput.files[0];
+		if (file) {
+			const formData = new FormData();
+			formData.append('Dateien', file);
+			const record = await pb.collection('Auftrag').update($page.params.auftrag, formData);
+			console.log(record);
+		}
+	}
+
 	onMount(() => {
 		ausgewählteZahlungsart = data.auftrag.Zahlungsart;
 	});
@@ -720,6 +731,14 @@
 			{/if}
 		{/each}
 	{/if}
+
+	<form on:submit={uploadFile} class="flex flex-col">
+		<label class="text-lg font-bold mt-6 mb-4" for="fileInput">Dateiupload</label>
+		<input type="file" name="fileInput" id="fileInput" />
+		<button class=" bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 mb-2 py-1"
+			>Upload</button
+		>
+	</form>
 </div>
 
 <!-- Formular zum Hinzufügen der Ersatzteile -->
