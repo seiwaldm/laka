@@ -29,10 +29,6 @@
 	// Variablen für die Auftragserstellung
 	let arbeiten = '';
 	let infotext = '';
-	let bildSchaden = '';
-	let bildFertig = '';
-	let rechnung = '';
-	let lieferschein = '';
 	let fahrzeugid = $page.params.fahrzeug;
 	let isSubmitted = false;
 
@@ -88,11 +84,7 @@
 			action: 'createAuftrag',
 			arbeiten,
 			infotext,
-			bildSchaden,
-			bildFertig,
-			rechnung,
-			fahrzeugid,
-			lieferschein
+			fahrzeugid
 		};
 		try {
 			const response = await fetch('/create-client', {
@@ -113,10 +105,6 @@
 	function resetAuftrag() {
 		arbeiten = '';
 		infotext = '';
-		bildSchaden = '';
-		bildFertig = '';
-		rechnung = '';
-		lieferschein = '';
 		showCard = false;
 		isSubmitted = false;
 	}
@@ -377,15 +365,6 @@
 										<span class="text-sm text-red-500">Bitte geben Sie die Arbeiten ein.</span>
 									{/if}
 								</div>
-
-								<div class="flex flex-col space-y-1.5">
-									<Label for="bildSchaden">Bild vom Schaden</Label>
-									<Input id="bildSchaden" bind:value={bildSchaden} type="file" class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="bildFertig">Bild vom reparierten Schaden</Label>
-									<Input id="bildFertig" bind:value={bildFertig} type="file" class="max-w-xs" />
-								</div>
 								<div class="flex flex-col space-y-1.5">
 									<Label for="arbeiten">Infotext</Label>
 									<Input
@@ -395,26 +374,12 @@
 										class="max-w-xs"
 									/>
 								</div>
-
-								<div class="flex flex-col space-y-1.5">
-									<Label for="lieferschein">Lieferschein</Label>
-									<Input id="lieferschien" bind:value={lieferschein} type="file" class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="rechnung">Rechnung</Label>
-									<Input
-										bind:value={rechnung}
-										placeholder="Rechnung erstellen"
-										type="file"
-										class="max-w-xs"
-									/>
-								</div>
-							</div>
 						</form>
 					</Card.Content>
 
 					<Card.Footer class="p-4 border-t flex justify-between">
 						<button
+						type="reset"
 							class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
 							on:click={resetAuftrag}
 						>
