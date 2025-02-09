@@ -282,15 +282,37 @@
 		}
 	}
 
+	// Funktion zum Löschen eines Ersatzteils
 	async function deleteArbeitszeit(ArbeitszeitId) {
 		await pb.collection('Arbeitszeit').delete(ArbeitszeitId);
 		location.reload();
 	}
 
+	// Funktion zum Löschen eines Ersatzteils
 	async function deleteErsatzteile(ErsatzteilId) {
 		await pb.collection('Ersatzteile').delete(ErsatzteilId);
 		location.reload();
 	}
+
+	// Funktion zum Löschen einer Datei
+	async function deleteSingleFile(auftragId, fileName) {
+    try {
+        // Bestehende Datei-Liste abrufen
+        const auftrag = await pb.collection("Auftrag").getOne(auftragId);
+        let files = auftrag.Dateien || []; // Falls leer, Array setzen
+
+        // Datei aus dem Array entfernen
+        files = files.filter(file => file !== fileName);
+
+        // Aktualisierte Datei-Liste in PocketBase speichern
+        await pb.collection("Auftrag").update(auftragId, { Dateien: files });
+
+        console.log(`Datei "${fileName}" erfolgreich gelöscht!`);
+        location.reload(); // UI aktualisieren
+    } catch (error) {
+        console.error("Fehler beim Löschen der Datei:", error);
+    }
+}
 
 	// Funktion zum Aktualisieren des Festpreises basierend auf der Auswahl der arbeitswerte
 	async function updateArbeitswerte(event) {
@@ -744,6 +766,13 @@
 							'/' +
 							datei}>{datei}</a
 					>
+					<button
+							type="button"
+							class="absolute right-0 pr-10 text-black rounded-lg"
+							on:click={() => deleteSingleFile($page.params.auftrag, datei)}
+						>
+							<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+						</button>
 				</li>
 			{/each}
 		</ul>
