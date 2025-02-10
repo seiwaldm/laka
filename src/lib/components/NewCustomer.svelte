@@ -172,13 +172,7 @@
 					</div>
 					<div class="flex flex-col space-y-1.5">
 						<Label for="plz">Postleitzahl</Label>
-						<Input
-							id="plz"
-							type="number"
-							bind:value={plz}
-							placeholder="Musterplz"
-							class="max-w-xs"
-						/>
+						<Input id="plz" type="text" bind:value={plz} placeholder="Musterplz" class="max-w-xs" />
 					</div>
 					<div class="flex flex-col space-y-1.5">
 						<Label for="ort">Ort</Label>
@@ -194,8 +188,11 @@
 			>
 				Abbrechen
 			</button>
-			<button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900"
-				on:click={handleSubmit}>
+			<button
+				type="submit"
+				class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900"
+				on:click={handleSubmit}
+			>
 				Speichern
 			</button>
 		</Card.Footer>

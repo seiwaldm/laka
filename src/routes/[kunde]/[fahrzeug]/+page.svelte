@@ -32,6 +32,12 @@
 	let fahrzeugid = $page.params.fahrzeug;
 	let isSubmitted = false;
 
+	// Funktion zur Formatierung des Datums
+	function formatDate(dateString) {
+		const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+		return new Date(dateString).toLocaleDateString(undefined, options);
+	}
+
 	// Überprüfung, ob das Feld leer ist
 	const validateField = (field) => field.trim() === '';
 
@@ -423,7 +429,7 @@
 									<Input
 										type="erstzulassung"
 										bind:value={updateErstzulassung}
-										placeholder={data.fahrzeuge.Erstzulassung}
+										placeholder={formatDate(data.fahrzeuge.Erstzulassung)}
 										class="max-w-xs"
 									/>
 								</div>
@@ -461,7 +467,7 @@
 								<div class="flex flex-col space-y-1.5">
 									<Label for="modell">Modell</Label>
 									<Input
-										type="mddell"
+										type="modell"
 										bind:value={updateModell}
 										placeholder={data.fahrzeuge.Modell}
 										class="max-w-xs"
@@ -481,7 +487,7 @@
 										<Input
 											type="pickerl"
 											bind:value={updatePickerl}
-											placeholder={data.fahrzeuge.Pickerl}
+											placeholder={formatDate(data.fahrzeuge.Pickerl)}
 											class="max-w-xs"
 										/>
 									</div>

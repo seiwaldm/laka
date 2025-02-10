@@ -66,6 +66,12 @@
 		}
 	}
 
+	// Funktion zur Formatierung des Datums
+	function formatDate(dateString) {
+		const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+		return new Date(dateString).toLocaleDateString(undefined, options);
+	}
+
 	// Variablen für die update Funktion
 	let updateAuftragid = $page.params.auftrag;
 	let updateArbeiten = '';
@@ -609,11 +615,6 @@
 {/if} -->
 <div class="my-5"><hr /></div>
 
-<!-- Button zum öffnen des Cloudinary Widgets -->
-<button on:click={openCloudinaryWidget($page.params.auftrag, 'schaden')}
-	><iconify-icon icon="lucide:camera"></iconify-icon></button
->
-
 <!-- Auftraginformationen  -->
 <div class="pl-5">
 	<h1 class=" my-5 text-2xl font-bold">Auftraginformationen</h1>
@@ -690,7 +691,7 @@
 		{/each}
 	{/if}
 
-	<h2 class="text-lg font-bold mt-6 mb-4">Bild Schaden</h2>
+	<h2 class="text-lg font-bold mt-6 mb-4">Bild vom Schaden</h2>
 	<button
 		class=" bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 mb-2 py-1"
 		on:click={openCloudinaryWidget($page.params.auftrag, 'schaden')}
@@ -723,13 +724,14 @@
 		{/each}
 	{/if}
 
-	<h2 class="text-lg font-bold mt-6 mb-4">Bild Fertig</h2>
+	<h2 class="text-lg font-bold mt-6 mb-4">Bild vom fertigen Auto</h2>
 	<button
 		class=" bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 mb-2 py-1"
 		on:click={openCloudinaryWidget($page.params.auftrag, 'fertig')}
 	>
 		+ Hinzufügen
 	</button>
+
 	{#if data.datei.items.length > 0}
 		{#each data.datei.items as Datei (Datei.id)}
 			{#if Datei.URL}
@@ -754,6 +756,7 @@
 			{/if}
 		{/each}
 	{/if}
+
 	<form on:submit={uploadFile} class="flex flex-col items-start space-y-4">
 		<h2 class="text-lg font-bold mt-6">Dateiupload</h2>
 		<ul class="space-y-2 w-full">
@@ -781,7 +784,7 @@
 			>
 				Durchsuchen
 			</label>
-			<input type="file" name="fileInput" id="fileInput" class="hidden" />
+			<input type="file" name="fileInput" id="fileInput"/>
 			<button
 				class="bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-4 py-2 w-full sm:w-auto"
 			>
