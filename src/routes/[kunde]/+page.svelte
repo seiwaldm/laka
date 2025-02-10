@@ -386,21 +386,31 @@
 
 								<div class="flex flex-col space-y-1.5">
 									<Label for="marke">Marke</Label>
-									<Input type="marke" bind:value={marke} placeholder="VW" class="max-w-xs {isSubmitted && validateField(marke)
-								? 'border border-red-500'
-								: ''}" />
-								{#if isSubmitted && validateField(marke)}
-								<span class="text-sm text-red-500">Bitte geben Sie die Marke ein.</span>
-							{/if}
+									<Input
+										type="marke"
+										bind:value={marke}
+										placeholder="VW"
+										class="max-w-xs {isSubmitted && validateField(marke)
+											? 'border border-red-500'
+											: ''}"
+									/>
+									{#if isSubmitted && validateField(marke)}
+										<span class="text-sm text-red-500">Bitte geben Sie die Marke ein.</span>
+									{/if}
 								</div>
 								<div class="flex flex-col space-y-1.5">
 									<Label for="modell">Modell</Label>
-									<Input type="modell" bind:value={modell} placeholder="Golf 7" class="max-w-xs {isSubmitted && validateField(modell)
-								? 'border border-red-500'
-								: ''}" />
-								{#if isSubmitted && validateField(modell)}
-								<span class="text-sm text-red-500">Bitte geben Sie das Modell ein.</span>
-							{/if}
+									<Input
+										type="modell"
+										bind:value={modell}
+										placeholder="Golf 7"
+										class="max-w-xs {isSubmitted && validateField(modell)
+											? 'border border-red-500'
+											: ''}"
+									/>
+									{#if isSubmitted && validateField(modell)}
+										<span class="text-sm text-red-500">Bitte geben Sie das Modell ein.</span>
+									{/if}
 								</div>
 								<div class="flex flex-col space-y-1.5">
 									<Label for="natcode">Nationaler Code</Label>
@@ -464,7 +474,8 @@
 						>
 							Abbrechen
 						</button>
-						<button type="submit"
+						<button
+							type="submit"
 							class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900"
 							on:click={handleSubmit}
 						>

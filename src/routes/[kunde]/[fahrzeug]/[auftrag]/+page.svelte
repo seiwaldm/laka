@@ -296,23 +296,23 @@
 
 	// Funktion zum Löschen einer Datei
 	async function deleteSingleFile(auftragId, fileName) {
-    try {
-        // Bestehende Datei-Liste abrufen
-        const auftrag = await pb.collection("Auftrag").getOne(auftragId);
-        let files = auftrag.Dateien || []; // Falls leer, Array setzen
+		try {
+			// Bestehende Datei-Liste abrufen
+			const auftrag = await pb.collection('Auftrag').getOne(auftragId);
+			let files = auftrag.Dateien || []; // Falls leer, Array setzen
 
-        // Datei aus dem Array entfernen
-        files = files.filter(file => file !== fileName);
+			// Datei aus dem Array entfernen
+			files = files.filter((file) => file !== fileName);
 
-        // Aktualisierte Datei-Liste in PocketBase speichern
-        await pb.collection("Auftrag").update(auftragId, { Dateien: files });
+			// Aktualisierte Datei-Liste in PocketBase speichern
+			await pb.collection('Auftrag').update(auftragId, { Dateien: files });
 
-        console.log(`Datei "${fileName}" erfolgreich gelöscht!`);
-        location.reload(); // UI aktualisieren
-    } catch (error) {
-        console.error("Fehler beim Löschen der Datei:", error);
-    }
-}
+			console.log(`Datei "${fileName}" erfolgreich gelöscht!`);
+			location.reload(); // UI aktualisieren
+		} catch (error) {
+			console.error('Fehler beim Löschen der Datei:', error);
+		}
+	}
 
 	// Funktion zum Aktualisieren des Festpreises basierend auf der Auswahl der arbeitswerte
 	async function updateArbeitswerte(event) {
@@ -701,7 +701,7 @@
 		{#each data.datei.items as Datei (Datei.id)}
 			{#if Datei.URL}
 				{#if Datei.Fototyp === 'schaden'}
-					<span class="flex items-center ml-4 gap-2 leading-tight">
+					<span class="flex items-center ml-4 gap-2 leading-tight pb-4">
 						<a href={Datei.URL} target="_blank" rel="noopener noreferrer">
 							<img
 								src={Datei.URL}
@@ -734,7 +734,7 @@
 		{#each data.datei.items as Datei (Datei.id)}
 			{#if Datei.URL}
 				{#if Datei.Fototyp === 'fertig'}
-					<span class="flex items-center ml-4 gap-2 leading-tight"
+					<span class="flex items-center ml-4 gap-2 leading-tight pb-4"
 						><a href={Datei.URL} target="_blank" rel="noopener noreferrer">
 							<img
 								src={Datei.URL}
@@ -754,32 +754,40 @@
 			{/if}
 		{/each}
 	{/if}
-
-	<form on:submit={uploadFile} class="flex flex-col items-start">
-		<h2 class="text-lg font-bold mt-6 mb-4">Dateiupload</h2>
-		<ul>
+	<form on:submit={uploadFile} class="flex flex-col items-start space-y-4">
+		<h2 class="text-lg font-bold mt-6">Dateiupload</h2>
+		<ul class="space-y-2 w-full">
 			{#each data.auftrag.Dateien as datei}
-				<li>
+				<li class="flex items-center justify-between w-full">
 					<a
 						href={'https://laka.seiwald.club/api/files/Auftrag/' +
 							$page.params.auftrag +
 							'/' +
-							datei}>{datei}</a
+							datei}
+						class="text-blue-600 hover:underline truncate"
 					>
-					<button
-							type="button"
-							class="absolute right-0 pr-10 text-black rounded-lg"
-							on:click={() => deleteSingleFile($page.params.auftrag, datei)}
-						>
-							<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
-						</button>
+						{datei}
+					</a>
+					<button type="button" on:click={() => deleteSingleFile($page.params.auftrag, datei)}>
+						<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
+					</button>
 				</li>
 			{/each}
 		</ul>
-		<input type="file" name="fileInput" id="fileInput" />
-		<button class=" bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 mb-2 py-1"
-			>Upload</button
-		>
+		<div class="w-full flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+			<label
+				for="fileInput"
+				class="bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg px-4 py-2 cursor-pointer text-center w-full sm:w-auto"
+			>
+				Durchsuchen
+			</label>
+			<input type="file" name="fileInput" id="fileInput" class="hidden" />
+			<button
+				class="bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-4 py-2 w-full sm:w-auto"
+			>
+				Upload
+			</button>
+		</div>
 	</form>
 </div>
 
