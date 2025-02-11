@@ -34,10 +34,12 @@
 
 	// Funktion zur Formatierung des Datums
 	function formatDate(dateString) {
-		const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-		return new Date(dateString).toLocaleDateString(undefined, options);
+		if (!dateString) return '-';
+		else {
+			const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+			return new Date(dateString).toLocaleDateString(undefined, options);
+		}
 	}
-
 	// Überprüfung, ob das Feld leer ist
 	const validateField = (field) => field.trim() === '';
 
@@ -257,7 +259,7 @@
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
 			<span class="font-bold">{fahrzeugbasisdaten[key]}:</span>
-			<span class="absolute left-48">{value}</span>
+			<span class="absolute left-48"> {key === 'Erstzulassung' || key === 'Pickerl' ? formatDate(value) : value}</span>
 		</div>
 	{/each}
 

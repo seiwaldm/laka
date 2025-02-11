@@ -7,8 +7,11 @@
 
 	// Funktion zur Formatierung des Datums
 	function formatDate(dateString) {
-		const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-		return new Date(dateString).toLocaleDateString(undefined, options);
+		if (!dateString) return '-';
+		else {
+			const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+			return new Date(dateString).toLocaleDateString(undefined, options);
+		}
 	}
 
 	function getGeschlechtBezeichnung(geschlecht) {

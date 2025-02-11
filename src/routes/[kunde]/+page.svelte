@@ -82,6 +82,15 @@
 		}
 	};
 
+	// Funktion zur Formatierung des Datums
+	function formatDate(dateString) {
+		if (!dateString) return '-';
+		else {
+			const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+			return new Date(dateString).toLocaleDateString(undefined, options);
+		}
+	}
+
 	// Funktion zum Erstellen eines Fahrzeugs
 	async function createFahrzeug() {
 		const fahrzeugDaten = {
@@ -621,7 +630,7 @@
 			<a href="/{$page.params.kunde}/{fahrzeug.id}" class="flex items-center gap-2 leading-tight">
 				<iconify-icon icon="lucide-car" class="text-4xl"></iconify-icon>
 				{fahrzeug.Marke}
-				{fahrzeug.Modell} <br />EZ: {fahrzeug.Erstzulassung}</a
+				{fahrzeug.Modell} <br />EZ: {formatDate(fahrzeug.Erstzulassung)}</a
 			>
 		{/each}
 	{/if}

@@ -36,6 +36,14 @@
 	// Zustand für die Sichtbarkeit des Bestätigungsdialogs für Arbeitszeit definieren
 	let showDeleteConfirmArbeitszeit = false;
 
+	// Zustand für die Sichtbarkeit des Bestätigungsdialogs für Bilder definieren
+	let showDeleteConfirmBildDatei = false;
+	let showDeleteConfirmBildPublic = false;
+
+	// Zustand für die Sichtbarkeit des Betstätigungsdialogs für Dateien definieren
+	let showDeleteConfirmDatei = false;
+	let showDeleteConfirmDateiAuftrag = false;
+
 	// Zustand für die Sichtbarkeit des Formulars "Ersatzteile hinzufügen"
 	let showAddPartForm = false;
 
@@ -52,6 +60,19 @@
 		showDeleteConfirmArbeitszeit = ArbeitszeitId;
 	}
 
+	// Setze das aktuelle Bild das gelöscht werden soll
+	function confirmDeleteBild(DateiId, publicId) {
+		showDeleteConfirmBildDatei = DateiId;
+		showDeleteConfirmBildPublic = publicId;
+	}
+
+	// Setze die aktuelle Datei die gelöscht werden soll
+	function confirmDeleteDatei(AuftragId, DateiId) {
+		showDeleteConfirmDatei = DateiId;
+		showDeleteConfirmDateiAuftrag = AuftragId;
+	}
+
+	// Funktion zum Löschen eines Ersatzteils
 	function deleteErsatzteileConfirmed() {
 		if (showDeleteConfirmErsatzteil !== null) {
 			deleteErsatzteile(showDeleteConfirmErsatzteil); // Führt die Löschfunktion aus
@@ -59,6 +80,7 @@
 		}
 	}
 
+	// Funktion zum Löschen einer Arbeitszeit
 	function deleteArbeitszeitConfirmed() {
 		if (showDeleteConfirmArbeitszeit !== null) {
 			deleteArbeitszeit(showDeleteConfirmArbeitszeit); // Führt die Löschfunktion aus
@@ -66,10 +88,22 @@
 		}
 	}
 
-	// Funktion zur Formatierung des Datums
-	function formatDate(dateString) {
-		const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-		return new Date(dateString).toLocaleDateString(undefined, options);
+	// Funktion zum Löschen eines Bildes
+	function deleteBildConfirmed() {
+		if (showDeleteConfirmBildDatei !== null || showDeleteConfirmBildPublic !== null) {
+			deleteBild(showDeleteConfirmBildDatei, showDeleteConfirmBildPublic); // Führt die Löschfunktion aus
+			showDeleteConfirmBildDatei = null; // Schließt das Dialog nach dem Löschen
+			showDeleteConfirmBildPublic = null;
+		}
+	}
+
+	// Funktion zum Löschen einer Datei
+	function deleteDateiConfirmed() {
+		if (showDeleteConfirmDatei !== null || showDeleteConfirmDateiAuftrag !== null) {
+			deleteSingleFile(showDeleteConfirmDateiAuftrag, showDeleteConfirmDatei); // Führt die Löschfunktion aus
+			showDeleteConfirmDatei = null; // Schließt das Dialog nach dem Löschen
+			showDeleteConfirmDateiAuftrag = null;
+		}
 	}
 
 	// Variablen für die update Funktion
@@ -375,7 +409,10 @@
 		showDeleteConfirm = false;
 		showDeleteConfirmErsatzteil = false;
 		showDeleteConfirmArbeitszeit = false;
-		showDeleteConfirmBild = false;
+		showDeleteConfirmBildDatei = false;
+		showDeleteConfirmBildPublic = false;
+		showDeleteConfirmDatei = false;
+		showDeleteConfirmDateiAuftrag = false;
 	}
 
 	// Funktion zum Löschen eines Auftrages mit den dazugehörigen Ersatzteilen und Abreitiszeiten mit Bestätigung
@@ -591,7 +628,8 @@
 		</div>
 	</div>
 {/if}
-<!-- {#if showDeleteConfirmBild}
+
+{#if showDeleteConfirmBildDatei}
 	<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
 		<div class="bg-white p-6 rounded-lg shadow-md">
 			<h2 class="text-lg font-bold">Sind Sie sicher?</h2>
@@ -605,14 +643,38 @@
 				</button>
 				<button
 					class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
-					on:click={deleteBild}
+					on:click={deleteBildConfirmed}
 				>
 					Löschen
 				</button>
 			</div>
 		</div>
 	</div>
-{/if} -->
+{/if}
+
+{#if showDeleteConfirmDatei}
+	<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+		<div class="bg-white p-6 rounded-lg shadow-md">
+			<h2 class="text-lg font-bold">Sind Sie sicher?</h2>
+			<p>Möchten Sie die Datei wirklich löschen?</p>
+			<div class="mt-4 flex justify-end gap-4">
+				<button
+					class="text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-lg px-2 py-1"
+					on:click={cancelDelete}
+				>
+					Abbrechen
+				</button>
+				<button
+					class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
+					on:click={deleteDateiConfirmed}
+				>
+					Löschen
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
 <div class="my-5"><hr /></div>
 
 <!-- Auftraginformationen  -->
@@ -714,7 +776,8 @@
 						<button
 							type="button"
 							class="absolute right-0 pr-10 text-black rounded-lg"
-							on:click={() => deleteBild(Datei.id, Datei.Public_id)}
+							on:click|stopPropagation|preventDefault={() =>
+								confirmDeleteBild(Datei.id, Datei.Public_id)}
 						>
 							<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 						</button>
@@ -747,7 +810,8 @@
 						<button
 							type="button"
 							class="absolute right-0 pr-10 text-black rounded-lg"
-							on:click={() => deleteBild(Datei.id, Datei.Public_id)}
+							on:click|stopPropagation|preventDefault={() =>
+								confirmDeleteBild(Datei.id, Datei.Public_id)}
 						>
 							<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 						</button>
@@ -771,7 +835,11 @@
 					>
 						{datei}
 					</a>
-					<button type="button" on:click={() => deleteSingleFile($page.params.auftrag, datei)}>
+					<button
+						type="button"
+						on:click|stopPropagation|preventDefault={() =>
+							confirmDeleteDatei($page.params.auftrag, datei)}
+					>
 						<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 					</button>
 				</li>
@@ -784,7 +852,7 @@
 			>
 				Durchsuchen
 			</label>
-			<input type="file" name="fileInput" id="fileInput"/>
+			<input type="file" name="fileInput" id="fileInput" />
 			<button
 				class="bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-4 py-2 w-full sm:w-auto"
 			>
