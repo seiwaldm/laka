@@ -82,6 +82,7 @@
 		Hubraum: 'Hubraum',
 		KMStand: 'Kilometerstand',
 		KW: 'KW',
+		PS: 'PS',
 		Kraftstoff: 'Kraftstoff',
 		Motorcode: 'Motorcode'
 	};
@@ -259,19 +260,29 @@
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
 			<span class="font-bold">{fahrzeugbasisdaten[key]}:</span>
-			<span class="absolute left-48"> {key === 'Erstzulassung' || key === 'Pickerl' ? formatDate(value) : value}</span>
+			<span class="absolute left-48">
+				{key === 'Erstzulassung' || key === 'Pickerl' ? formatDate(value) : value}</span
+			>
 		</div>
 	{/each}
 
 	<!-- Unterüberschrift 2 -->
 	<h2 class="text-lg font-bold mt-6 mb-4">Technik</h2>
+
 	{#each Object.entries(data.fahrzeuge)
-		.filter((item) => datenfeldtechnik.includes(item[0]))
+		.filter(([key]) => datenfeldtechnik.includes(key))
 		.sort((a, b) => datenfeldtechnik.indexOf(a[0]) - datenfeldtechnik.indexOf(b[0])) as [key, value]}
 		<div class="mb-4 flex items-center relative ml-6">
 			<iconify-icon icon={icons[key]} class="mr-2 text-2xl translate-y-1"></iconify-icon>
 			<span class="font-bold">{fahrzeugtechnikdaten[key]}:</span>
-			<span class="absolute left-48">{value}</span>
+
+			<span class="absolute left-48">
+				{#if key === 'KW' && data.fahrzeuge.PS}
+					{value} ({data.fahrzeuge.PS} PS)
+				{:else}
+					{value}
+				{/if}
+			</span>
 		</div>
 	{/each}
 
@@ -382,12 +393,13 @@
 										class="max-w-xs"
 									/>
 								</div>
+							</div>
 						</form>
 					</Card.Content>
 
 					<Card.Footer class="p-4 border-t flex justify-between">
 						<button
-						type="reset"
+							type="reset"
 							class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
 							on:click={resetAuftrag}
 						>

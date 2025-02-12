@@ -376,14 +376,6 @@
 						<form on:submit={handleSubmit}>
 							<div class="grid gap-4">
 								<div class="flex flex-col space-y-1.5">
-									<Label for="erstzulassung">Erstzulassung</Label>
-									<Input type="date" bind:value={erstzulassung} class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
-									<Label for="fin">FIN</Label>
-									<Input type="fin" bind:value={fin} placeholder="J123456789P" class="max-w-xs" />
-								</div>
-								<div class="flex flex-col space-y-1.5">
 									<Label for="kennzeichen">Kennzeichen</Label>
 									<Input
 										type="kennzeichen"
@@ -392,7 +384,14 @@
 										class="max-w-xs"
 									/>
 								</div>
-
+								<div class="flex flex-col space-y-1.5">
+									<Label for="fin">FIN</Label>
+									<Input type="fin" bind:value={fin} placeholder="J123456789P" class="max-w-xs" />
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="natcode">Nationaler Code</Label>
+									<Input type="natcode" bind:value={natCode} placeholder="J189P" class="max-w-xs" />
+								</div>
 								<div class="flex flex-col space-y-1.5">
 									<Label for="marke">Marke</Label>
 									<Input
@@ -422,9 +421,10 @@
 									{/if}
 								</div>
 								<div class="flex flex-col space-y-1.5">
-									<Label for="natcode">Nationaler Code</Label>
-									<Input type="natcode" bind:value={natCode} placeholder="J189P" class="max-w-xs" />
+									<Label for="erstzulassung">Erstzulassung</Label>
+									<Input type="date" bind:value={erstzulassung} class="max-w-xs" />
 								</div>
+
 								<div class="flex flex-col space-y-1.5">
 									<Label for="pickerl">Pickerl</Label>
 									<Input type="date" bind:value={pickerl} class="max-w-xs" />
@@ -438,6 +438,10 @@
 									<Input type="hubraum" bind:value={hubraum} placeholder="80" class="max-w-xs" />
 								</div>
 								<div class="flex flex-col space-y-1.5">
+									<Label for="kw">KW</Label>
+									<Input type="kw" bind:value={kw} placeholder="70" class="max-w-xs" />
+								</div>
+								<div class="flex flex-col space-y-1.5">
 									<Label for="kmstand">Kilometer Stand</Label>
 									<Input
 										type="kmstand"
@@ -445,11 +449,6 @@
 										placeholder="100000"
 										class="max-w-xs"
 									/>
-								</div>
-
-								<div class="flex flex-col space-y-1.5">
-									<Label for="kw">KW</Label>
-									<Input type="kw" bind:value={kw} placeholder="70" class="max-w-xs" />
 								</div>
 
 								<div class="flex flex-col space-y-1.5">

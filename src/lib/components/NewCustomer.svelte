@@ -13,8 +13,8 @@
 	let plz = '';
 	let ort = '';
 	let geschlecht = [
-		{ id: 1, Geschlecht: 'Männlich' },
-		{ id: 2, Geschlecht: 'Weiblich' }
+		{ id: 1, Geschlecht: 'männlich' },
+		{ id: 2, Geschlecht: 'weiblich' }
 	];
 	let ausgewähltesGeschlecht = '';
 	let isSubmitted = false;
@@ -130,7 +130,7 @@
 							id="geschlecht"
 							bind:value={ausgewähltesGeschlecht}
 							placeholder="Dropdown"
-							class="flex flex-col p-2 rounded-lg"
+							class="max-w-xs p-2 rounded-lg"
 						>
 							<option class="max-w-xs" value="" disabled selected>
 								Bitte wähle das Geschlecht aus

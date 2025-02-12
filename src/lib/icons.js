@@ -1,5 +1,3 @@
-
-
 // wir definieren für jedes anzuzeigende Datenfeld aus Pocketbase ein Icon mit dem String "lucide-<Iconname>"
 export const icons = {
 	Vorname: 'lucide-user',
@@ -16,8 +14,8 @@ export const icons = {
 	Arbeiten: 'lucide-wrench',
 	BildSchaden: 'lucide:camera',
 	BildFertig: 'lucide:camera',
-	Rechnung:'lucide:euro',
-	Auftrag:'lucide:euro', 
+	Rechnung: 'lucide:euro',
+	Auftrag: 'lucide:euro',
 	Lieferschein: 'lucide-package',
 	Kundennr: 'lucide-hash',
 	Firma: 'lucide-building-2',
@@ -27,13 +25,13 @@ export const icons = {
 	Hubraum: 'lucide-car-front',
 	Nat_Code: 'lucide-hash',
 	Pickerl: 'lucide-check-circle',
-	PS: 'lucide-car-front',
+
 	KW: 'lucide-car-front',
 	Motorcode: 'lucide-hash',
 	Kraftstoff: 'lucide-fuel',
 	Farbcode: 'lucide-hash',
 	Infotext: 'lucide-info',
 	Auftragnummer: 'lucide-hash',
-	
+
 	Geschlecht: 'lucide-user'
 };

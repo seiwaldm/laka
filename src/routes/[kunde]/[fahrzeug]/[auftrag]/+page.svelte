@@ -848,11 +848,12 @@
 		<div class="w-full flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
 			<label
 				for="fileInput"
-				class="bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg px-4 py-2 cursor-pointer text-center w-full sm:w-auto"
+				class="bg-gray-200 hover:bg-gray-300 rounded-lg px-4 py-2 text-center w-full sm:w-auto"
 			>
 				Durchsuchen
 			</label>
-			<input type="file" name="fileInput" id="fileInput" />
+
+			<input type="file" class="hidden" name="fileInput" id="fileInput" />
 			<button
 				class="bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-4 py-2 w-full sm:w-auto"
 			>
