@@ -75,7 +75,7 @@
 		Pickerl: 'Pickerl'
 	};
 
-	let datenfeldtechnik = ['Farbcode', 'Hubraum', 'KW', 'Kraftstoff', 'Motorcode'];
+	let datenfeldtechnik = ['Farbcode', 'Hubraum', 'KW', 'KMStand', 'Kraftstoff', 'Motorcode'];
 
 	const fahrzeugtechnikdaten = {
 		Farbcode: 'Farbcode',
