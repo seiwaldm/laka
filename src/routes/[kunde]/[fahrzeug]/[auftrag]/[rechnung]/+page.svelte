@@ -230,7 +230,7 @@
 			</section>
 		</main>
 	</div>
-	<p class="text-center text-gray-600 text-lg mt-4 mb-2">Vielen Dank für Ihren Auftrag!</p>
+	<p class="text-center text-gray-600 text-lg mt-4 mb-2">Vielen lieben Dank dafür Ihren Auftrag!</p>
 	<p class="text-gray-600 text-center mb-2">{data.auftrag.Zahlungsart}</p>
 
 	<footer class="text-center text-sm text-gray-600 pt-4 border-t mb-10">
