@@ -16,6 +16,9 @@
 
 	let showSuccessMessage = false;
 
+	//Datei für den Upload auf pocketbase als Anhang zum Auftrag
+	let file = null;
+
 	// Funktion zum öffnen des Cloudinary Widgets, so dass sie in icons verwendet werden kann
 
 	// Zustand für die Sichbarkeit der Card definieren
@@ -850,10 +853,10 @@
 				for="fileInput"
 				class="bg-gray-200 hover:bg-gray-300 rounded-lg px-4 py-2 text-center w-full sm:w-auto"
 			>
-				Durchsuchen
+				{file ? file[0].name : 'Datei auswählen'}
 			</label>
 
-			<input type="file" class="hidden" name="fileInput" id="fileInput" />
+			<input type="file" class="hidden" name="fileInput" id="fileInput" bind:files={file} />
 			<button
 				class="bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-4 py-2 w-full sm:w-auto"
 			>
