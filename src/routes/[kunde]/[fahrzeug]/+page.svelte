@@ -439,15 +439,14 @@
 						<form>
 							<div class="grid gap-4">
 								<div class="flex flex-col space-y-1.5">
-									<Label for="erstzulassung">Erstzulassung</Label>
+									<Label for="kennzeichen">Kennzeichen</Label>
 									<Input
-										type="erstzulassung"
-										bind:value={updateErstzulassung}
-										placeholder={formatDate(data.fahrzeuge.Erstzulassung)}
+										type="kennzeichen"
+										bind:value={updateKennzeichen}
+										placeholder={data.fahrzeuge.Kennzeichen}
 										class="max-w-xs"
 									/>
 								</div>
-
 								<div class="flex flex-col space-y-1.5">
 									<Label for="fin">FIN</Label>
 									<Input
@@ -457,17 +456,15 @@
 										class="max-w-xs"
 									/>
 								</div>
-
 								<div class="flex flex-col space-y-1.5">
-									<Label for="kennzeichen">Kennzeichen</Label>
+									<Label for="natcode">Nationaler Code</Label>
 									<Input
-										type="kennzeichen"
-										bind:value={updateKennzeichen}
-										placeholder={data.fahrzeuge.Kennzeichen}
+										type="NatCode"
+										bind:value={updateNatCode}
+										placeholder={data.fahrzeuge.Nat_Code}
 										class="max-w-xs"
 									/>
 								</div>
-
 								<div class="flex flex-col space-y-1.5">
 									<Label for="marke">Marke</Label>
 									<Input
@@ -487,79 +484,80 @@
 										class="max-w-xs"
 									/>
 								</div>
-
 								<div class="flex flex-col space-y-1.5">
-									<Label for="natcode">Nationaler Code</Label>
+									<Label for="erstzulassung">Erstzulassung</Label>
 									<Input
-										type="NatCode"
-										bind:value={updateNatCode}
-										placeholder={data.fahrzeuge.Nat_Code}
+										type="date"
+										bind:value={updateErstzulassung}
+										placeholder={formatDate(data.fahrzeuge.Erstzulassung)}
 										class="max-w-xs"
 									/>
-									<div class="flex flex-col space-y-1.5">
-										<Label for="picerkl">Pickerl</Label>
-										<Input
-											type="pickerl"
-											bind:value={updatePickerl}
-											placeholder={formatDate(data.fahrzeuge.Pickerl)}
-											class="max-w-xs"
-										/>
-									</div>
+								</div>
 
-									<div class="flex flex-col space-y-1.5">
-										<Label for="farbcode">Farbcode</Label>
-										<Input
-											type="farbcode"
-											bind:value={updateFarbcode}
-											placeholder={data.fahrzeuge.Farbcode}
-											class="max-w-xs"
-										/>
-									</div>
-									<div class="flex flex-col space-y-1.5">
-										<Label for="hubraum">Hubraum</Label>
-										<Input
-											type="hubraum"
-											bind:value={updateHubraum}
-											placeholder={data.fahrzeuge.Hubraum}
-											class="max-w-xs"
-										/>
-									</div>
-									<div class="flex flex-col space-y-1.5">
-										<Label for="kmstand">Kilometerstand</Label>
-										<Input
-											type="kmstand"
-											bind:value={updateKmstand}
-											placeholder={data.fahrzeuge.KMStand}
-											class="max-w-xs"
-										/>
-									</div>
-									<div class="flex flex-col space-y-1.5">
-										<Label for="kw">KW</Label>
-										<Input
-											type="kw"
-											bind:value={updateKw}
-											placeholder={data.fahrzeuge.KW}
-											class="max-w-xs"
-										/>
-									</div>
-									<div class="flex flex-col space-y-1.5">
-										<Label for="kraftstoff">Kraftstoff</Label>
-										<Input
-											type="kraftstoff"
-											bind:value={updateKraftstoff}
-											placeholder={data.fahrzeuge.Kraftstoff}
-											class="max-w-xs"
-										/>
-									</div>
-									<div class="flex flex-col space-y-1.5">
-										<Label for="motorcode">Motorcode</Label>
-										<Input
-											type="motorcode"
-											bind:value={updateMotorcode}
-											placeholder={data.fahrzeuge.Motorcode}
-											class="max-w-xs"
-										/>
-									</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="picerkl">Pickerl</Label>
+									<Input
+										type="date"
+										bind:value={updatePickerl}
+										placeholder={formatDate(data.fahrzeuge.Pickerl)}
+										class="max-w-xs"
+									/>
+								</div>
+
+								<div class="flex flex-col space-y-1.5">
+									<Label for="farbcode">Farbcode</Label>
+									<Input
+										type="farbcode"
+										bind:value={updateFarbcode}
+										placeholder={data.fahrzeuge.Farbcode}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="hubraum">Hubraum</Label>
+									<Input
+										type="hubraum"
+										bind:value={updateHubraum}
+										placeholder={data.fahrzeuge.Hubraum}
+										class="max-w-xs"
+									/>
+								</div>
+
+								<div class="flex flex-col space-y-1.5">
+									<Label for="kw">KW</Label>
+									<Input
+										type="kw"
+										bind:value={updateKw}
+										placeholder={data.fahrzeuge.KW}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="kmstand">Kilometerstand</Label>
+									<Input
+										type="kmstand"
+										bind:value={updateKmstand}
+										placeholder={data.fahrzeuge.KMStand}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="kraftstoff">Kraftstoff</Label>
+									<Input
+										type="kraftstoff"
+										bind:value={updateKraftstoff}
+										placeholder={data.fahrzeuge.Kraftstoff}
+										class="max-w-xs"
+									/>
+								</div>
+								<div class="flex flex-col space-y-1.5">
+									<Label for="motorcode">Motorcode</Label>
+									<Input
+										type="motorcode"
+										bind:value={updateMotorcode}
+										placeholder={data.fahrzeuge.Motorcode}
+										class="max-w-xs"
+									/>
 								</div>
 							</div>
 						</form>
@@ -592,7 +590,7 @@
 				class="flex items-center gap-2 leading-tight"
 			>
 				<iconify-icon icon="lucide-car" class="text-4xl"></iconify-icon>
-				{Auftrag.Arbeiten}
+				{Auftrag.Auftragnummer}
 			</a>
 		{/each}
 	{/if}

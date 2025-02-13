@@ -155,8 +155,8 @@
 	}
 
 	let geschlecht = [
-		{ id: 1, Geschlecht: 'Männlich' },
-		{ id: 2, Geschlecht: 'Weiblich' }
+		{ id: 1, Geschlecht: 'männlich' },
+		{ id: 2, Geschlecht: 'weiblich' }
 	];
 	// Variablen für die Bearbeitung eines Kunden
 	let updateKundenid = $page.params.kunde;
@@ -431,7 +431,12 @@
 								</div>
 								<div class="flex flex-col space-y-1.5">
 									<Label for="farbcode">Farbcode</Label>
-									<Input type="farbcode" bind:value={farbcode} class="max-w-xs" />
+									<Input
+										type="farbcode"
+										bind:value={farbcode}
+										placeholder="ABC123"
+										class="max-w-xs"
+									/>
 								</div>
 								<div class="flex flex-col space-y-1.5">
 									<Label for="hubraum">Hubraum</Label>
@@ -498,7 +503,6 @@
 	<!-- Kundenbearbeitungsfeld -->
 	<div>
 		{#if showEditForm}
-			<!-- Overlay -->
 			<button
 				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
 				on:click={() => (showEditForm = false)}
@@ -543,16 +547,21 @@
 										class="max-w-xs"
 									/>
 								</div>
+								<!-- Other form fields remain unchanged -->
 								<div class="flex flex-col space-y-1.5">
 									<Label for="geschlecht">Geschlecht</Label>
 									<select
 										id="geschlecht"
 										bind:value={updateGeschlecht}
-										class="flex flex-col p-2 rounded-lg"
+										class="max-w-xs p-2 rounded-lg text-base"
 									>
-										<option class="max-w-xs" value="" disabled selected>Bitte wählen</option>
+										<option class="max-w-xs text-base" value="" disabled selected>
+											Bitte wähle das Geschlecht aus
+										</option>
 										{#each geschlecht as geschlecht}
-											<option value={geschlecht.Geschlecht}>{geschlecht.Geschlecht}</option>
+											<option class="text-base" value={geschlecht.Geschlecht}
+												>{geschlecht.Geschlecht}</option
+											>
 										{/each}
 									</select>
 								</div>

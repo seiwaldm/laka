@@ -699,7 +699,7 @@
 	{/each}
 
 	<!-- Unterüberschrift 1 -->
-	<h2 class="text-lg font-bold mb-4">Ersatzteile</h2>
+	<h2 class="text-lg font-bold pt-4 mb-4">Ersatzteile</h2>
 	<button
 		class=" bg-slate-600 text-white hover:bg-slate-900 rounded-lg px-3 mb-2 py-1"
 		on:click={() => (showAddPartForm = !showAddPartForm)}
@@ -737,7 +737,7 @@
 	</button>
 	{#if data.arbeitszeit.items.length > 0}
 		{#each data.arbeitszeit.items as Arbeitszeit (Arbeitszeit.id)}
-			<span class="flex items-center ml-4 gap-2 leading-tight">
+			<span class="flex items-center ml-5 gap-2 leading-tight">
 				<iconify-icon icon="lucide-car" class="text-4xl"></iconify-icon>
 				{Arbeitszeit.expand.ArbeitswerteID.Leistungsbezeichnung}
 				{Arbeitszeit.Menge} Std. € {Arbeitszeit.Bruttosumme}
@@ -1250,27 +1250,7 @@
 									placeholder={data.auftrag.Arbeiten}
 									class="max-w-xs"
 								/>
-								<!-- <div class="flex flex-col space-y-1.5">
-							<Label for="bildSchaden">Bild vom Schaden</Label>
-							<Input id="bildSchaden" bind:value={bildSchaden} type="file" class="max-w-xs" />
-						</div>
-						<div class="flex flex-col space-y-1.5">
-							<Label for="bildFertig">Bild vom reparierten Schaden</Label>
-							<Input id="bildFertig" bind:value={bildFertig} type="file" class="max-w-xs" />
-						</div>
-						<div class="flex flex-col space-y-1.5">
-							<Label for="lieferschein">Lieferschein</Label>
-							<Input id="lieferschien" bind:value={lieferschein} type="file" class="max-w-xs" />
-						</div>
-						<div class="flex flex-col space-y-1.5">
-							<Label for="rechnung">Rechnung</Label>
-							<Input
-								type="rechnung"
-								bind:value={rechnung}
-								placeholder="Rechnung erstellen"
-								class="max-w-xs"
-							/>
-						</div> -->
+
 								<div class="flex flex-col space-y-1.5">
 									<Label for="arbeiten">Infotext</Label>
 									<Input
