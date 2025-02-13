@@ -63,7 +63,7 @@
 			<section class="mb-10">
 				<div class="flex justify-between">
 					<div class="mr-10">
-						<!-- Abstand nach rechts vergrößert -->
+						<!-- Kundendaten -->
 						<p class="text-lg text-gray-700 mt-10">
 							{getGeschlechtBezeichnung(data.Geschlecht)}
 						</p>
@@ -220,11 +220,6 @@
 							<strong>Gesamtbetrag:</strong>
 							{data.rechnung.Bruttosumme} €
 						</p>
-						<!-- <p class="text-lg text-right text-gray-800 font-bold">
-							<strong>Gesamtbetrag:</strong>
-							{zahlungsart} €
-						</p>
-					</div> -->
 					</div>
 				</div>
 			</section>
