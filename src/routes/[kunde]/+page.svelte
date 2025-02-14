@@ -244,6 +244,11 @@
 									await pb.collection('Arbeitszeit').delete(arbeitszeiten.id);
 								}
 							}
+							for (const dateien of data.datei.items) {
+								if (dateien.AuftragID === auftrag.id) {
+									await pb.collection('Datei').delete(dateien.id);
+								}
+							}
 							await pb.collection('Auftrag').delete(auftrag.id);
 						}
 					}

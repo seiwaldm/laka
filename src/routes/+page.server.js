@@ -10,11 +10,7 @@ export async function load() {
 	const auftragsliste = await pb.collection('Auftrag').getFullList({});
 	const ersatzteile = await pb.collection('Ersatzteile').getFullList({});
 	const arbeitszeit = await pb.collection('Arbeitszeit').getFullList({});
-
-	// kunden.fahrzeuge = fahrzeuge;
-	// kunden.auftrag = auftragsliste;
-	// kunden.ersatzteile = ersatzteile;
-	// kunden.arbeitszeit = arbeitszeit;
+	const datei = await pb.collection('Datei').getFullList({});
 
 	for (let kunde of kunden) {
 		kunde.fahrzeuge = fahrzeuge.filter((fahrzeug) => fahrzeug.KundenID === kunde.id);
@@ -23,6 +19,7 @@ export async function load() {
 			for (let auftrag of fahrzeug.auftrag) {
 				auftrag.ersatzteile = ersatzteile.filter((ersatzteil) => ersatzteil.AuftragID === auftrag.id);
 				auftrag.arbeitszeiten = arbeitszeit.filter((arbeitszeit) => arbeitszeit.AuftragID === auftrag.id);
+				auftrag.dateien = datei.filter((datei) => datei.AuftragID === auftrag.id);
 			}
 		}
 		

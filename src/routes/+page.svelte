@@ -71,6 +71,11 @@
 									await pb.collection('Arbeitszeit').delete(arbeitszeit.id);
 								}
 							}
+							if (auftrag.dateien?.length > 0) {
+								for (const datei of auftrag.dateien) {
+									await pb.collection('Datei').delete(datei.id);
+								}
+							}
 							// Lösche den Auftrag
 							await pb.collection('Auftrag').delete(auftrag.id);
 						}

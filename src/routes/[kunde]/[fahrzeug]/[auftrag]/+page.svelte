@@ -434,6 +434,11 @@
 					await pb.collection('Arbeitszeit').delete(arbeitszeiten.id);
 				}
 			}
+			for (const datien of data.datei.items) {
+				if (datien.AuftragID === $page.params.auftrag) {
+					await pb.collection('Datei').delete(datien.id);
+				}
+			}
 			await pb.collection('Auftrag').delete($page.params.auftrag);
 		} catch (error) {
 			// location.reload();
