@@ -60,7 +60,6 @@
 					type="button"
 					class="text-xl pl-2 pr-14 p-4 hover:bg-slate-900 cursor-pointer rounded-lg flex items-center"
 					on:click={() => (showCard = true)}
-					on:keydown={(e) => e.key === 'Enter' && (showCard = true)}
 				>
 					<iconify-icon icon="lucide:user-plus" class="mx-3 text-xl"></iconify-icon>
 					Neue Kunden

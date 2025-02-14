@@ -615,7 +615,6 @@
 			<button
 				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
 				on:click={() => (showEditForm = false)}
-				on:keydown={(e) => e.key === 'Enter' && (showEditForm = false)}
 				tabindex="0"
 			></button>
 
@@ -699,9 +698,6 @@
 					type="button"
 					class="absolute right-0 pr-10 text-black rounded-lg"
 					on:click|stopPropagation|preventDefault={() => confirmDeleteErsatzteil(Ersatzteile.id)}
-					on:keydown={(e) => {
-						if (e.key === 'Enter' || e.key === ' ') confirmDeleteErsatzteil(Ersatzteile.id);
-					}}
 				>
 					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 				</button>
@@ -923,9 +919,6 @@
 					type="button"
 					class="absolute right-0 pr-10 text-black rounded-lg"
 					on:click|stopPropagation|preventDefault={() => confirmDeleteArbeitszeit(Arbeitszeit.id)}
-					on:keydown={(e) => {
-						if (e.key === 'Enter' || e.key === ' ') confirmDeleteArbeitszeit(Arbeitszeit.id);
-					}}
 				>
 					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 				</button>

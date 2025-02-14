@@ -134,9 +134,6 @@
 					type="button"
 					class="absolute right-0 pr-10 text-black rounded-lg"
 					on:click|stopPropagation|preventDefault={() => confirmDelete(kunde.id)}
-					on:keydown={(e) => {
-						if (e.key === 'Enter' || e.key === ' ') confirmDelete(kunde.id);
-					}}
 				>
 					<iconify-icon icon="lucide:trash-2" role="img"></iconify-icon>
 				</button>

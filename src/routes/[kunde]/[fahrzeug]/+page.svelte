@@ -356,7 +356,6 @@
 			<button
 				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
 				on:click={() => (showCard = false)}
-				on:keydown={(e) => e.key === 'Enter' && (showCard = false)}
 				tabindex="0"
 			></button>
 			<div class="fixed inset-0 flex items-center justify-center z-50">
@@ -423,7 +422,6 @@
 			<button
 				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
 				on:click={() => (showEditForm = false)}
-				on:keydown={(e) => e.key === 'Enter' && (showEditForm = false)}
 				tabindex="0"
 			></button>
 

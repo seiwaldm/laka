@@ -15,7 +15,6 @@ export async function POST({ request }) {
 			if (!data.nachname) {
 				return new Response('Nachname fehlt', { status: 400 });
 			}
-
 			// sortieren nach der Kundennummer
 			const kunden = await pb.collection('Kunde').getFullList({ sort: '-Kundennr' });
 			// letzte Kundennummer wird ermittelt
@@ -40,7 +39,6 @@ export async function POST({ request }) {
 				Ort: data.ort,
 				Geschlecht: data.ausgewähltesGeschlecht
 			});
-
 			return new Response(JSON.stringify({ success: true, data: response }), { status: 200 });
 		}
 
@@ -105,9 +103,6 @@ export async function POST({ request }) {
 			const response = await pb.collection('Auftrag').create({
 				Arbeiten: data.arbeiten,
 				Infotext: data.infotext,
-				BildSchaden: data.bildSchaden,
-				BildFertig: data.bildFertig,
-				Rechnung: data.rechnung,
 				Auftragnummer: neueAuftragnummer,
 				FahrzeugID: data.fahrzeugid
 			});
