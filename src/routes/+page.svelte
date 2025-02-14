@@ -3,9 +3,6 @@
 	import { pb } from '$lib/pocketbase.js';
 	import { page } from '$app/stores';
 
-	// Zustand für die Sichbarkeit der Card definieren
-	let showCard = false;
-
 	let showDeleteConfirm = null; // Speichert die ID des Kunden, für den das Bestätigungsdialog angezeigt wird
 
 	function confirmDelete(kundeId) {
@@ -112,7 +109,7 @@
 		/>
 	</div>
 	<hr />
-
+	<!-- jeweilige Überschrift -->
 	<h1 class=" my-5 pl-2 text-2xl font-bold">
 		{#if JSON.stringify($page.url).includes('?o=last')}
 			Zuletzt geöffnete Kunden
@@ -121,7 +118,7 @@
 		{/if}
 	</h1>
 
-	<!-- Kundenliste -->
+	<!-- Kundenliste mit Papierkorb Icon -->
 	{#each filteredData as kunde (kunde.id)}
 		<a
 			href="/{kunde.id}"
@@ -147,7 +144,7 @@
 		</a>
 	{/each}
 
-	<!-- Bestätigungsdialog für Löschen -->
+	<!-- Bestätigungsfeld für Löschen -->
 	{#if showDeleteConfirm !== null}
 		<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
 			<div class="bg-white p-6 rounded-lg shadow-md">

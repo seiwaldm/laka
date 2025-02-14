@@ -292,7 +292,6 @@
 	<!-- Icon mit 3 Punkten für das Dropdown-Menü -->
 	<div class="absolute top-32 lg:top-10 right-10">
 		<DropdownMenu.Root>
-			<!-- Füge relative Positionierung hinzu -->
 			<DropdownMenu.Trigger>
 				<button class=" text-gray-600 hover:text-gray-800 text-2xl" aria-label="Options">
 					⋮
@@ -300,7 +299,6 @@
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content>
 				<DropdownMenu.Group class="mt-2 w-48 bg-white shadow-md rounded-md p-2" s>
-					<!-- Neu: Bestätigungsdialog -->
 					<DropdownMenu.Label class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2">
 						<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
 					</DropdownMenu.Label>
@@ -333,7 +331,7 @@
 					>
 						Abbrechen
 					</button>
-					<!-- svelte-ignore a11y-invalid-attribute -->
+
 					<a href="/">
 						<button
 							class="text-white bg-red-600 hover:bg-red-700 rounded-lg px-2 py-1"
@@ -348,10 +346,11 @@
 	{/if}
 
 	<div class="my-5"><hr /></div>
+
 	<!-- Fahrzeuganlegung Button -->
 	<button
 		type="button"
-		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2"
+		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 mb-2"
 		on:click={() => (showCard = true)}>Fahrzeuganlegung</button
 	>
 	<!-- Fahrzeuganlegung -->

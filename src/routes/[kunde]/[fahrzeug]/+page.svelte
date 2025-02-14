@@ -250,6 +250,7 @@
 </h1>
 <hr />
 
+<!-- Fahrzeuginformationen -->
 <div class="pl-5">
 	<h1 class="my-5 pl-2 text-2xl font-bold">Fahrzeuginformationen</h1>
 	<!-- Unterüberschrift 1 -->
@@ -268,7 +269,6 @@
 
 	<!-- Unterüberschrift 2 -->
 	<h2 class="text-lg font-bold mt-6 mb-4">Technik</h2>
-
 	{#each Object.entries(data.fahrzeuge)
 		.filter(([key]) => datenfeldtechnik.includes(key))
 		.sort((a, b) => datenfeldtechnik.indexOf(a[0]) - datenfeldtechnik.indexOf(b[0])) as [key, value]}
@@ -277,6 +277,7 @@
 			<span class="font-bold">{fahrzeugtechnikdaten[key]}:</span>
 
 			<span class="absolute left-48">
+				<!-- Rechnet in der Klammer gleich PS aus -->
 				{#if key === 'KW' && data.fahrzeuge.PS}
 					{value} ({data.fahrzeuge.PS} PS)
 				{:else}
@@ -289,7 +290,6 @@
 	<!-- Icon mit 3 Punkten für das Dropdown-Menü -->
 	<div class="absolute top-32 lg:top-10 right-10">
 		<DropdownMenu.Root>
-			<!-- Füge relative Positionierung hinzu -->
 			<DropdownMenu.Trigger>
 				<button class=" text-gray-600 hover:text-gray-800 text-2xl" aria-label="Options">
 					⋮
@@ -297,8 +297,7 @@
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content>
 				<DropdownMenu.Group class="mt-2 w-48 bg-white shadow-md rounded-md p-2" s>
-					<!-- Neu: Bestätigungsdialog -->
-					<DropdownMenu.Label class="text-black text-base hover:bg-salte-600 rounded-lg px-4 py-2">
+					<DropdownMenu.Label class="text-black text-base hover:bg-slate-600 rounded-lg px-4 py-2">
 						<button on:click={() => (showDeleteConfirm = true)}>Löschen</button>
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
@@ -347,7 +346,7 @@
 	<!-- Auftraganlegung Button -->
 	<button
 		type="button"
-		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 me-2"
+		class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 mb-2"
 		on:click={() => (showCard = true)}>Auftraganlegung</button
 	>
 	<!-- Auftraganlegung -->
@@ -562,8 +561,6 @@
 							</div>
 						</form>
 					</Card.Content>
-
-					<!-- Footer -->
 					<Card.Footer class="p-4 border-t flex justify-between">
 						<button
 							class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
