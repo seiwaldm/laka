@@ -360,8 +360,6 @@
 			<button
 				class="fixed inset-0 bg-gray-700 bg-opacity-50 z-40"
 				on:click={() => (showCard = false)}
-				on:keydown={(e) => e.key === 'Enter' && (showCard = false)}
-				tabindex="0"
 			></button>
 
 			<div class="fixed inset-0 flex items-center justify-center z-50">
@@ -546,7 +544,7 @@
 										class="max-w-xs"
 									/>
 								</div>
-								<!-- Other form fields remain unchanged -->
+
 								<div class="flex flex-col space-y-1.5">
 									<Label for="geschlecht">Geschlecht</Label>
 									<select
