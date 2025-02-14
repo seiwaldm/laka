@@ -32,12 +32,6 @@
 
 						<Input type="password" id="passwort" bind:value={password} class="max-w-xs" />
 					</div>
-				<!-- Link zu Registrierung -->
-				<p class="text-sm text-gray-600">
-					Noch kein Konto? <a href="/register" class="text-blue-500 hover:underline"
-						>Hier Registrieren</a
-					>
-				</p>
 			</div>
 		</form>
 		</Card.Content>
